@@ -1,0 +1,27 @@
+bookdown::gitbook:
+  includes:
+    in_header: ["assets/bootstrap.html",
+                "assets/ga.html",
+                "assets/popper.html"]
+    assets: ["assets/style.html","assets/open_review_block.html"]
+    #, "assets/hypothesis.html"
+    after_body: ["assets/otherJS.html",
+    "assets/bootstrap-after-body.html",
+    "assets/documentReady.html"]
+  css: "style.css"
+  config:
+    toc:
+      collapse: subsection  
+      scroll_highlight: yes
+      before: |
+        <li><a href="./">經濟資料視覺化處理</a></li>
+      after: |
+        <li><a href="https://github.com/tpemartin/110-1-Economic-Data-Visualization" target="blank">Course Github</a></li>
+        <li><a href="https://www.ntpu.edu.tw/econ" target="blank">國立臺北大學 經濟學系</a></li>
+# download: [pdf, epub]
+    # edit: https://github.com/tpemartin/110-1-Economic-Data-Visualization%s
+    sharing:
+      github: no
+      facebook: no
+      twitter: no
+    theme: united

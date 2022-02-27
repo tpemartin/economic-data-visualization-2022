@@ -1,0 +1,92 @@
+# Color
+
+```{r}
+date = lubridate::ymd(c("2020-02-01", "2020-04-01",
+  "2020-06-01", "2020-09-01"))
+data = list()
+data$Britain <- 
+  data.frame(
+    date = date,
+    y = c(0, 50, 80, 100)
+  )
+data$Spain <-
+  data.frame(
+    date = date,
+    y = c(0, 32, 53, 103)
+  )
+data$Italy <-
+  data.frame(
+    date = date,
+    y = c(0, 50, 60, 99)
+  )
+```
+
+```{r}
+dataAll <- purrr::map_dfr(
+  names(data),
+  ~{
+    cbind(data[[.x]], data.frame(country=.x))
+  }
+)
+```
+
+  * dataAll is a grouped data
+
+## Group aesthetics
+
+<div class="alert alert-info">
+When you have a grouped data frame and intend to draw by groups, you need to set the aesthetics `group` equal to the group variable in your data frame.
+</div>
+
+Without group aes:
+```{r}
+ggplot(data = dataAll) +
+  geom_line(
+    aes(
+      x = date,
+      y = y
+    )
+  )
+
+```
+
+With group aes:
+```{r}
+ggplot(data = dataAll) +
+  geom_line(
+    aes(
+      x = date,
+      y = y,
+      group = country
+    )
+  )
+
+```
+
+***
+
+Using aesthetics other than **x, y** can function as group aesthetic as well:
+
+```{r}
+ggplot(data = dataAll) +
+  geom_line(
+    aes(
+      x = date,
+      y = y,
+      linetype = country
+    )
+  )
+```
+
+```{r}
+ggplot(data = dataAll) +
+  geom_line(
+    aes(
+      x = date,
+      y = y,
+      color = country
+    )
+  )
+```
+
+

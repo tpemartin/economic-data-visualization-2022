@@ -1,0 +1,9 @@
+<!--參考答案開關--> 
+<script>
+$(document).ready(function(){
+  $('<button class="flip">More info...</button>').insertBefore(".more");
+  $(".flip").click(function(){
+    $(this).next().slideToggle();
+  });
+})
+</script>

@@ -1,0 +1,160 @@
+
+```{r}
+jsonlite::fromJSON("https://api.nlsc.gov.tw/other/MarkBufferAnlys/bus/121.3655983/24.9561655/1000") -> xx
+jsonlite::fromJSON("https://api.nlsc.gov.tw/other/MarkBufferAnlys/bus/121.6241204/25.0478384/1000") -> yy
+```
+
+```{r}
+type=c("edu","bus", "med")
+endpoint="https://api.nlsc.gov.tw/other/MarkBufferAnlys"
+file.path(endpoint, type) |>
+  purrr::map(
+    ~{
+      function(long, lat, radius){
+        jsonlite::fromJSON(
+          file.path(.x, long, lat, radius)
+        )
+      }
+    }
+  ) |>
+  setNames(type) -> econAct
+
+location <- 
+{
+  clipr::read_clip() |>
+    stringr::str_split(",") |> unlist() 
+}
+econAct |> purrr::map(
+  ~{
+      .x(location[[2]], location[[1]], radius=1000)
+  }
+) -> ea_data
+
+```
+
+```{r}
+sf1 <- sf::read_sf("/Users/martinl/Downloads/CODE1/CODE1.shp")
+sf1 |>
+  dplyr::filter(
+    COUN_NA == "臺北市"
+  ) -> sf_taipei
+
+library(econDV2)
+mp <- econDV2::Map()
+sf_taiwan$區鎮_simplified_patched |>
+    sf_taiwan$crop_mainland() |>
+    mp$sf$make_background_map(
+      color="white",
+      size=0.14
+    ) -> map0
+
+map0+geom_sf(
+  data=sf_taipei[1, ],
+  inherit.aes = F
+) -> .g1
+plotly::ggplotly(.g1)
+```
+
+## 縣市界
+
+```{r}
+econDV2::Object(taiwan)
+taiwan$shp$counties$source[[1]] <- "https://data.gov.tw/dataset/7442"
+taiwan$shp$counties$download[[1]] <- 
+  "https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0"
+
+taiwan$shp$counties$sf <- {
+  sf::read_sf("/Users/martinl/Downloads/mapdata202008310842/COUNTY_MOI_1090820.shp")
+}
+pryr::object_size(
+  taiwan$shp$counties$sf
+)
+taiwan$shp$counties$sf_simplified <- 
+  rmapshaper::ms_simplify(
+    taiwan$shp$counties$sf
+  )  |> 
+      mutate(
+        map_id=COUNTYNAME
+      ) 
+pryr::object_size(
+  taiwan$shp$counties$sf_simplified
+)
+taiwan$shp$counties$sf_simplified |>
+  ggplot() + geom_sf()
+
+
+xmin <- 119.98249
+xmax <- 122
+ymin <- 21.89687
+ymax <- 25.29948
+taiwan$shp$counties$sf_simplified |>
+  sf::st_crop(
+    c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
+  ) -> taiwan$shp$counties$sf_simplified_cropped
+
+taiwan$shp$counties$sf_simplified_cropped |>
+  ggplot()+geom_sf()
+```
+
+### 鄉鎮區
+
+```{r}
+taiwan$shp$township$source[[1]] <- "https://data.gov.tw/dataset/7441"
+taiwan$shp$township$sf <-
+  sf::read_sf("/Users/martinl/Downloads/mapdata202104280245 (1)/TOWN_MOI_1100415.shp")
+taiwan$shp$township$sf_simplified <- 
+  {
+    rmapshaper::ms_simplify(
+      taiwan$shp$township$sf
+    ) |>
+      mutate(
+        map_id=paste0(COUNTYNAME, TOWNNAME)
+      )
+  }
+
+taiwan$shp$township$sf_simplified |>
+  ggplot()+geom_sf()
+
+xmin <- 119.98249
+xmax <- 122
+ymin <- 21.89687
+ymax <- 25.29948
+taiwan$shp$township$sf_simplified |>
+  sf::st_crop(
+    c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
+  ) -> taiwan$shp$township$sf_simplified_cropped
+
+taiwan$shp$township$sf_simplified_cropped |>
+  ggplot()+geom_sf()
+```
+
+### clean up
+
+```{r}
+sf_taiwan_simplified <-list()
+
+sf_taiwan_simplified$縣市 <-
+  {
+  taiwan$shp$counties$sf_simplified |> 
+      mutate(
+        map_id=COUNTYNAME
+      ) 
+}
+  
+sf_taiwan_simplified$鄉鎮區 <-
+  {
+    taiwan$shp$township$sf |>
+      mutate(
+        map_id=paste0(COUNTYNAME, TOWNNAME)
+      )
+  }
+  
+sf_taiwan_simplified$台灣本島$縣市 <-
+  taiwan$shp$counties$sf_simplified_cropped
+sf_taiwan_simplified$台灣本島$鄉鎮區<-
+  taiwan$shp$township$sf_simplified_cropped
+
+saveRDS(sf_taiwan_simplified, "sf_taiwan_simplified.Rds")
+
+```
+

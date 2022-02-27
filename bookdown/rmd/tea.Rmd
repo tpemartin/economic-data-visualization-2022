@@ -1,0 +1,34 @@
+
+```{r}
+library(readr)
+organic <- read_csv("https://data.coa.gov.tw/OpenData/Service/OpenData/DataFileService.aspx?UnitId=377&FOTT=CSV")
+
+```
+
+```{r}
+library(readr)
+tea <- read_csv("https://data.coa.gov.tw/Service/OpenData/DataFileService.aspx?UnitId=136&FOTT=CSV")
+tea |>
+  dplyr::filter(
+    `特用作物類別` == "茶葉"
+  ) -> tea2
+
+View(tea2)
+```
+
+```{r}
+ggplot(
+  data=tea2
+)+
+  geom_line(
+    mapping=aes(
+      x=年度,
+      y=每公頃平均產量,
+      color=地區別,
+      label=地區別
+    )
+  ) -> gg0
+
+plotly::ggplotly(gg0)
+```
+

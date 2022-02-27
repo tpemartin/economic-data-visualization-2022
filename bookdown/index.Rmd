@@ -1,0 +1,96 @@
+--- 
+title: "Economic Data Visualization"
+author: "Dr. Lin, Mau-Ting"
+date: "2021"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+---
+
+
+```{r, eval=T, echo=F}
+klippy::klippy()
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+```
+
+
+# Prerequisites
+
+## Packages
+
+```{r}
+install.packages(
+  c("showtext","extrafont", "remotes")
+)
+```
+
+  * **showtext** and **extrafont** are for Chinese characters to show properly in the graph.
+
+```{r}
+remotes::install_github("tpemartin/econDV2", force=T)
+```
+
+## Start a project
+
+You should always organize documents with the same purpose inside a unified folder, which is called a **project folder**, and initiate an **R project** with it.
+
+Start a new project for your ggplot environment:
+
+**Project** > **New Project...** > **New Directory** > **New Project**
+
+<div class="alert alert-info">
+Initiate a project and setup environment:
+
+  * Addins > (under `econDV2`) Setup environment
+
+</div>
+
+## .Rprofile
+
+```{r}
+sysfonts::font_families()
+sysfonts::font_add_google('Noto Sans TC')
+sysfonts::font_families()
+```
+
+```{r}
+library(ggplot2)
+library(showtext)
+library(econDV2)
+sysfonts::font_add_google('Noto Sans TC')
+showtext_auto()
+theme_set(
+  theme(
+    text=element_text(family = "Noto Sans TC")
+  )+
+    theme_classic()
+)
+
+gg <- list(
+  dash = econDV2::ggdash,
+  geom = econDV2::ggbrowse,
+  aes = econDV2::ggaes
+)
+
+```
+
+## 其他{#otherSoftware}
+
+<div class="alert alert-info">
+  
+  * 後製軟體： Choose your own image editor, but make sure it support SVG editing. Here I use [Boxy SVG](https://boxy-svg.com/).
+  
+  * 程式排版：
+```{r}
+install.packages("styler")
+```
+  
+
+</div>
+

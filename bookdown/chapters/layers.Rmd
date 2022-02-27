@@ -1,0 +1,514 @@
+# Layers
+
+```{r , eval=T, echo=F}
+klippy::klippy()
+```
+
+```{r, eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/755/90/media-assets/image/20211002_WOC517.png", width="90%")
+```
+
+
+  * Geometries: `geom_line`
+  
+    * Aesthetics: x, y, color; size
+
+    
+```{r}
+source("support/time-trend.R")
+```
+
+
+## Time series data
+
+  * package: lubridate
+  
+Basic data types do not have `time` or `date` type. Time/Date are class that is constructed on top of character data, like 
+```{r}
+"2020-02-01"
+"2020-02-01 13:58:55"
+```
+
+  * All date/time data sources are normally input as character. It requires parsing for computer to under it is date/time.
+  
+```{r}
+lubridate::ymd("2020-02-01")
+lubridate::ymd_hms("2020-02-01 13:58:55") # UTC time zone by default
+lubridate::ymd_hms("2020-02-01 13:58:55", tz="Asia/Taipei")
+```
+
+
+```{r}
+date = lubridate::ymd(c("2020-02-01", "2020-04-01",
+  "2020-06-01", "2020-09-01"))
+data = list()
+data$Britain <- 
+  data.frame(
+    date = date,
+    y = c(0, 50, 80, 100)
+  )
+data$Spain <-
+  data.frame(
+    date = date,
+    y = c(0, 32, 53, 103)
+  )
+data$Italy <-
+  data.frame(
+    date = date,
+    y = c(0, 50, 60, 99)
+  )
+```
+
+```{r}
+ggplot(data=dataAll) +
+  geom_line(
+    aes(
+      x=date,
+      y=y
+    )
+  )
+```
+
+
+```{r}
+ggplot(data=dataAll) +
+  geom_line(
+    aes(
+      x=date,
+      y=y,
+      group=country
+    )
+  )
+```
+
+
+## Aesthetics inheritance
+
+  * In the past, we have done **data inheritance** (i.e. data in `ggplot()`) and both **data/aesthetics inheritance** (i.e, data and mapping in `ggplot()`). Actually you can do only **aesthetics inheritance** as well.
+
+```{r}
+sizeInput = 2 #input$sizeInput
+plot <- list()
+plot$p1 <- {
+  ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_line(
+    data=data$Britain,
+    color="#096fa1",
+    size = sizeInput
+  )+
+  geom_line(
+    data=data$Spain,
+    color="#ad8c97",
+    size = sizeInput
+  )+
+  geom_line(
+    data=data$Italy,
+    color = "#983d4d",
+    size = sizeInput
+  )
+}
+plot$p1
+```
+
+## Sequence of layers
+
+### Line stroke
+
+```{r}
+ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_line(
+    data=data$Britain,
+    color="#096fa1",
+    size = sizeInput
+  ) + 
+  geom_line( # the last geom will be on the top
+    data=data$Britain,
+    color="black",
+    size = sizeInput
+  )  
+```
+
+```{r}
+prop = 0.6
+
+ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_line( # the last geom will be on the top
+    data=data$Britain,
+    color="black",
+    size = sizeInput
+  ) +  
+  geom_line(
+    data=data$Britain,
+    color="#096fa1",
+    size = sizeInput*prop
+  ) 
+
+```
+
+## Create your first geom
+
+```{r}
+geom_lineWithStroke_error <- function(data, sizeInput, prop) {
+    geom_line( # the last geom will be on the top
+      data=data,
+      color="black",
+      size = sizeInput
+    ) +  
+    geom_line(
+      data=data,
+      color="#096fa1",
+      size = sizeInput*prop
+    ) 
+  }
+```
+
+<div class="alert alert-info">
+```{r}
+class(plot$p1) # ggplot class
+```
+
+  * a list of 9 that complete the definitions of a plot
+
+```{r}
+gm <- geom_line( # the last geom will be on the top
+    data=data$Britain,
+    color="black",
+    size = sizeInput
+  ) 
+class(gm) # Layer class
+```
+
+  * an environment that defines only a layer of a specific geometric structure and its aesthetics. 
+  
+  * part of a ggplot class object.
+  
+***
+
+`+` operator must have the preceding object a ggplot object.
+
+</div>
+
+```{r}
+geom_lineWithStroke_error(
+  data=data$Britain, sizeInput=2, prop=.6
+)
+```
+
+  * The error comes from the function body. It uses `+` on two layer class objects. There is no ggplot object presented.
+  
+  * `ggplot()+...` will always return a ggplot object. So all of below are ggplot objects:
+  
+    * `ggplot()`, `ggplot()+geom_point(...)`, `ggplot()+geom_point(...)+geom_line(...)`
+    
+
+### Layer adding
+
+Instead of using `+` on each layers (i.e. adding geom one after the other), you can put all geom layers as a list, and use `+` to add the list all at once.
+
+Other than the conventional adding:
+```{r}
+ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_line( 
+    data=data$Britain,
+    color="black",
+    size = sizeInput
+  ) +  
+  geom_line( # the last geom will be on the top
+    data=data$Britain,
+    color="#096fa1",
+    size = sizeInput*prop
+  ) 
+```
+
+We can:
+```{r}
+ggplot(
+  mapping=aes(
+    x=date,
+    y=y
+  )) +
+  list(
+    geom_line( 
+      data=data$Britain,
+      color="black",
+      size = sizeInput
+    ),  
+    geom_line( # the last geom will be on the top
+      data=data$Britain,
+      color="#096fa1",
+      size = sizeInput*prop
+    ) 
+  )
+
+```
+
+### New geom function
+
+<div class="alert alert-info">
+A geom function that delivers a mixture of multiple geoms must return the mixture as a list, avoiding using `+` inside the function body.
+</div>
+
+```{r}
+geom_lineWithStroke_prototype <- function(data, sizeInput, prop) {
+  list(
+    geom_line( 
+      data=data,
+      color="black",
+      size = sizeInput
+    ), 
+    geom_line( # the last geom will be on the top
+      data=data,
+      color="#096fa1",
+      size = sizeInput*prop
+    ) 
+  )
+}
+
+```
+
+```{r}
+
+{
+  ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_lineWithStroke_prototype(
+    data=data$Britain, sizeInput, prop
+  )+
+  geom_lineWithStroke_prototype(
+    data=data$Spain, sizeInput, prop
+  )+
+  geom_lineWithStroke_prototype(
+    data=data$Italy, sizeInput, prop
+  )
+}
+```
+
+### dot-dot-dot
+
+  * <https://adv-r.hadley.nz/functions.html?q=dot-#fun-dot-dot-dot>
+
+```{r}
+geom_lineWithStroke_prototype2 <- function(data, sizeInput, prop, color, stroke, size) {
+  list(
+    geom_line(
+      data=data,
+      color=stroke,
+      size = sizeInput
+    ), 
+    geom_line(  # the last geom will be on the top
+      data=data,
+      color=color,
+      size = sizeInput*prop
+    ) 
+  )
+}
+```
+
+```{r}
+{
+  ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_lineWithStroke_prototype2(
+    data=data$Britain, sizeInput=sizeInput, prop=prop,
+    color="#096fa1",
+    stroke="white"
+  )+
+  geom_lineWithStroke_prototype2(
+    data=data$Spain, sizeInput=sizeInput, prop=prop,
+    color="#ad8c97",
+    stroke="white"
+  )+
+  geom_lineWithStroke_prototype2(
+    data=data$Italy, sizeInput=sizeInput, prop=prop,
+    color="#983d4d",
+    stroke="white"
+  )
+}
+
+```
+
+***
+
+`geom_lineWithStroke` is an extension to an existing `geom_line` function. It would be better to make the input argument inline with `geom_line` so as to keep other geom_line options, such as linetype.
+
+```{r}
+help(geom_line)
+```
+
+```{r}
+geom_lineWithStroke <- function(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  na.rm = FALSE,
+  orientation = NA,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  # set up default makes your function easy to use
+  stroke = "white",
+  prop = 0.9,
+  size = 2, 
+  ...){
+  list(
+    geom_line(
+      data=data,
+      color=stroke,
+      size = size
+    ),
+    geom_line( # the last geom will be on the top
+      mapping = mapping,
+      data = data,
+      stat = stat,
+      position = position,
+      na.rm = na.rm,
+      orientation = orientation,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      size = size*prop,
+      ...)
+  )
+}
+```
+
+<div class="alert alert-info">
+`...` is a special argument for function. It means "whatever input whose input name is not specified in function arguments.
+
+  * it can be passed directly into other functions who use `...`.
+  
+  * it can be accessed via `list()`.
+
+```{r}
+mySum <- function(...){
+  browser()
+  argList <- c(...)
+  sum(argList)
+}
+mySum(2,3)
+```
+
+```{r}
+greeting <- function(name, ...){
+  browser()
+  argList <- list(...)
+  extraGreeting <- ""
+  if(length(argList)!=0){
+    extraGreeting <- paste(" Your", names(argList), " is ", argList)
+  }
+  
+  cat("Hi ", name, ". ", extraGreeting)
+  
+  return(xx)
+}
+greeting("John", age=33)
+```
+
+</div>
+
+```{r}
+
+{
+  ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_lineWithStroke(
+    data=data$Britain,
+    color="#096fa1"
+  )+
+  geom_lineWithStroke(
+    data=data$Spain,
+    color="#ad8c97"
+  )+
+  geom_lineWithStroke(
+    data=data$Italy,
+    color="#983d4d"
+  )
+}
+
+```
+
+```{r}
+{
+  ggplot(
+    mapping=aes(
+      x=date,
+      y=y
+    ))+
+  geom_lineWithStroke(
+    data=data$Britain,
+    color="#096fa1",
+    linetype=2
+  )+
+  geom_lineWithStroke(
+    data=data$Spain,
+    color="#ad8c97", 
+    linetype=3
+  )+
+  geom_lineWithStroke(
+    data=data$Italy,
+    color="#983d4d",
+    stroke="black",
+    size=5
+  )
+}
+
+```
+
+## Summary
+
+  * Layers (of geoms) can be added on top of each other through `+` operator by either:
+  
+    * **ggplot object** `+ geom1 + geom2`; or
+    
+    * **ggplote object** `+ list(geom1, geom2)`
+    
+  * When create a new geom function that consists of multiple geoms, use `list(geom1, geom2)` as function return.
+  
+  * When writing a function input argument names:
+  
+    * if in definition specifically **WITHOUT** default: it means something necessary. Users can not ignore.
+    
+    * if in definition specifically **WITH** default: it means something necessary, but there is a good choice of default that users will be happy with it most of the time.
+    
+    * `...`: a flexible argument especially when our function body has a call to some other function that has `...`
+    
+## Exercise
+
+```{r, eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/600/653/90/sites/default/files/images/2021/09/articles/body/20210925_fnc327.png", width="90%")
+```
+
+```{r, eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/755/90/sites/default/files/images/2021/03/articles/main/20210403_woc329.png", width="90%")
+```
+
+```{r, eval=T, echo=F}
+teachDS::img_centering("https://clauswilke.com/dataviz/visualizing_associations_files/figure-html/CO2-slopegraph-three-year-1.png", width="90%")
+```
+
+  * <https://clauswilke.com/dataviz/visualizing-associations.html#associations-paired-data>
+

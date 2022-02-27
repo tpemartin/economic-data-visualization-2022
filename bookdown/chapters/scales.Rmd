@@ -1,0 +1,1479 @@
+# Scale
+
+In geom, `aes(xxx=yyy)`, defines a mapping from data vector `yyy` to aesthetic vector `xxx`. To change or fine tune this mapping, you add `scale_xxx_...` to your ggplot object.
+
+In general, a mapping can be divided into two parts
+
+  * How to map?  
+    * `limits`: the range of data vector to be mapped.  
+    * `values`: the mapped values from `limits`.  
+    
+  * In the the mapping, what to show to the readers? This is about the information in **legend** (圖例說明)  
+    * `breaks`: the picked values in `limits`.  
+    * `labels`: the mapped values of `breaks`.  
+    * `name`: the title of the legend.
+
+Depending on aesthetics, not all five settings will be necessary. 
+
+## Legend
+
+```{r}
+data_cat1 <- data.frame(
+      x=c(1, 2, 3, 1, 2, 3),
+      y=c(0.2, 0.3, 0.2, 0.4, 0.4, 0.52),
+      fill=c("m", "m", "m", "f", "f", "f")
+)
+ggplot0 <- list()
+0 #input$null
+ggplot0$plot1 <- 
+  ggplot(
+    data=data_cat1
+  ) + 
+    geom_area(
+      mapping=aes(
+        x=x,
+        y=y,
+        fill=factor(fill, levels=c("m", "f"))
+      )
+    )
+ggplot0$plot1
+```
+
+
+```{r}
+ggplot0$plot1 +
+  scale_fill_discrete(
+    name="Gender",
+    breaks=c("m", "f"),
+    labels=c("Male", "Female")
+  ) -> ggplot0$plot2
+ggplot0$plot2
+```
+
+
+<div class="alert alert-info">
+On every graph, by default, there is legend and/or axis that show information of how `aes=variable` mapping is defined. However, those variable value expressions you see in the legend/axis are defined by `labels` (such as "Male", "Female"), whose corresponding variable values are defined in `breaks` (such as "m" and "f"); and `name` gives lengend/axis a title (such as "Gender").
+</div>
+
+## Time axis
+
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/748/90/sites/default/files/20190112_WOC124.png", width="80%")
+```
+
+Generate basic plot:
+```{r}
+dataSet1 <- 
+  data.frame(
+    x=1979:2018
+  )
+set.seed(2038)
+dataSet1$y <- sample(10:40, length(dataSet1$x), T)
+ggplot1 <- list()
+
+ggplot()+
+  geom_step(
+    data=dataSet1,
+    mapping=
+      aes(
+        x=x,
+        y=y
+      )
+  ) -> ggplot1$plot0
+ggplot1$plot0
+```
+
+***
+
+Define x-axis labels:
+```{r}
+breaks = c(
+  1979,
+  seq(1985, 2015, by=5),
+  2018
+)
+labels = c(
+  "1979", "85", "90", "95", "2000", "05", "10", "15", "18"
+)
+
+ggplot1$plot0 +
+  scale_x_continuous(
+    breaks=breaks,
+    labels=labels
+  ) -> ggplot1$plot1
+
+ggplot1$plot1
+```
+
+Remove scale ticks
+```{r}
+ggplot1$plot1 +
+  theme(
+    axis.ticks.length.x = unit(0,"mm")
+  ) -> ggplot1$plot1
+
+ggplot1$plot1
+```
+
+Add ticks:
+
+  - major ticks: ticks that belong to constant time span labels
+  
+  - minor ticks: ticks that are not major ticks. 
+  
+```{r}
+ticks <- list()
+ticks$major <- seq(1980, 2015, by=5)
+ticks$minor <- c(1979, 2018)
+
+majorLength = 3 #input$length
+minor_majorRatio = 0.7 #input$ratio
+
+ggplot1$plot1 +
+  geom_rug(
+    mapping=aes(
+      x=ticks$major
+      ),
+    outside=TRUE, # draw rug outside the plot panel
+    size=0.5, #input$majorsize
+    length=grid::unit(
+      majorLength, 
+      "mm"
+    )
+  ) +
+  geom_rug(
+    mapping=aes(
+      x=ticks$minor
+    ),
+    outside = TRUE,
+    size=0.5, #input$minorsize
+    length=grid::unit(
+      minor_majorRatio*majorLength,
+      "mm"
+    )
+  )+
+  coord_cartesian(clip="off") -> # allow drawing outside the plot panel 
+  ggplot1$plot2
+
+ggplot1$plot2
+```
+
+
+```{r}
+ggplot1$plot2 +
+  theme(
+    axis.text.x = element_text(
+      margin = margin(
+        12 #input$margin
+      ),
+      size=16 #input$textSize
+    ))
+```
+
+  * `margin(t=0, r=0, b=0, l=0, unit='pt')`
+
+### Custom axis function
+
+Pull out all the axis-related building blocks:
+```{r}
+{
+  # scale_x 
+    scale_x_continuous(
+      breaks=breaks,
+      labels=labels
+    ) +
+    theme(
+      axis.ticks.length.x = unit(0,"mm"),
+      axis.text.x = element_text(
+        margin = margin(
+          12 #input$margin
+        ),
+        size=16 #input$textSize
+        )
+      )+
+    geom_rug(
+      mapping=aes(
+        x=ticks$major
+        ),
+      outside=TRUE, # draw rug outside the plot panel
+      size=0.5, #input$majorsize
+      length=grid::unit(
+        majorLength, 
+        "mm"
+      )
+    ) +
+    geom_rug(
+      mapping=aes(
+        x=ticks$minor
+      ),
+      outside = TRUE,
+      size=0.5, #input$minorsize
+      length=grid::unit(
+        minor_majorRatio*majorLength,
+        "mm"
+      )
+    )+
+    coord_cartesian(clip="off")
+}
+```
+
+Build a function:
+```{r axis_x_continuouse_custom}
+axis_x_continuouse_custom <- function(
+  breaks, labels,
+  ticks_major, ticks_minor,
+  ticks_major_length = 3, 
+  minor_major_tickLength_ratio = 0.7,
+  text_size = 16,
+  text_top_margin = 12,
+  major_tick_size = 0.5,
+  minor_tick_size = 0.5
+){
+  list(
+    scale_x_continuous(
+      breaks=breaks,
+      labels=labels
+    ), 
+    theme(
+      axis.ticks.length.x = unit(0,"mm"),
+      axis.text.x = element_text(
+        margin = margin(
+          text_top_margin #input$margin
+        ),
+        size=text_size #input$textSize
+        )
+      ), 
+    geom_rug(
+      mapping=aes(
+        x=ticks_major
+        ),
+      outside=TRUE, # draw rug outside the plot panel
+      size=major_tick_size, #input$majorsize
+      length=grid::unit(
+        ticks_major_length, 
+        "mm"
+      )
+    ), 
+    geom_rug(
+      mapping=aes(
+        x=ticks_minor
+      ),
+      outside = TRUE,
+      size=minor_tick_size,
+      length=grid::unit(
+        minor_major_tickLength_ratio*ticks_major_length,
+        "mm"
+      )
+    ), 
+    coord_cartesian(clip="off")
+    )
+}
+
+```
+
+```{r}
+breaks = c(
+  1979,
+  seq(1985, 2015, by=5),
+  2018
+)
+labels = c(
+  "1979", "85", "90", "95", "2000", "05", "10", "15", "18"
+)
+ticks_major <- seq(1980, 2015, by=5)
+ticks_minor <- c(1979, 2018)
+
+ggplot1$plot0 +
+  axis_x_continuouse_custom(
+    breaks=breaks, labels=labels, 
+    ticks_major = ticks_major,
+    ticks_minor = ticks_minor
+  )
+```
+
+### Advanced function
+
+  * Other input as default: when `labels` is omitted, use `breaks` value
+  
+  * When `ticks_minor` is omitted, remove minor geom_rug.
+
+```{r}
+axis_x_continuouse_custom <- function(
+  breaks, labels = breaks,
+  ticks_major, ticks_minor=NULL,
+  ticks_major_length = 3, 
+  minor_major_tickLength_ratio = 0.7,
+  text_size = 16,
+  text_top_margin = 12,
+  major_tick_size = 0.5,
+  minor_tick_size = 0.5
+){
+  list(
+    scale_x_continuous(
+      breaks=breaks,
+      labels=labels
+    ), 
+    theme(
+      axis.ticks.length.x = unit(0,"mm"),
+      axis.text.x = element_text(
+        margin = margin(
+          text_top_margin #input$margin
+        ),
+        size=text_size #input$textSize
+        )
+      ), 
+    geom_rug(
+      data = data.frame(
+        ticks_major=ticks_major
+      ),
+      mapping=aes(
+        x=ticks_major
+        ),
+      outside=TRUE, # draw rug outside the plot panel
+      size=major_tick_size, #input$majorsize
+      length=grid::unit(
+        ticks_major_length, 
+        "mm"
+      )
+    ),
+    if(!is.null(ticks_minor)){
+      geom_rug(
+        data = data.frame(
+          ticks_minor=ticks_minor
+        ),
+        mapping=aes(
+          x=ticks_minor
+        ),
+        outside = TRUE,
+        size=minor_tick_size,
+        length=grid::unit(
+          minor_major_tickLength_ratio*ticks_major_length,
+          "mm"
+        )
+      )
+    } else {
+      NULL
+    }, 
+    coord_cartesian(clip="off")
+    )
+}
+```
+
+```{r}
+ggplot1$plot0 +
+  axis_x_continuouse_custom(
+    breaks=breaks,
+    ticks_major = ticks_major
+  )
+```
+
+***
+
+There are many possible `scale_x`. We can build a `axis_x_custom` function that can take all possible `scale_x_zzz` as input, and return `axis_x_zzz_custom` function as an output.
+
+  * Function that can take function as input is called **functional**.
+  
+  * Functionals that generate functions are called **function generators**.
+
+```{r axis_x_custom}
+axis_x_custom <- function(scale_x){
+  function(
+    breaks, labels = breaks,
+    ticks_major, ticks_minor=NULL,
+    ticks_major_length = 3, 
+    minor_major_tickLength_ratio = 0.7,
+    text_size = 16,
+    text_top_margin = 12,
+    major_tick_size = 0.5,
+    minor_tick_size = 0.5
+  ){
+    list(
+      scale_x(
+        breaks=breaks,
+        labels=labels
+      ), 
+      theme(
+        axis.ticks.length.x = unit(0,"mm"),
+        axis.text.x = element_text(
+          margin = margin(
+            text_top_margin #input$margin
+          ),
+          size=text_size #input$textSize
+          )
+        ), 
+      geom_rug(
+        data = data.frame(
+          ticks_major=ticks_major
+        ),
+        mapping=aes(
+          x=ticks_major
+          ),
+        outside=TRUE, # draw rug outside the plot panel
+        size=major_tick_size, #input$majorsize
+        length=grid::unit(
+          ticks_major_length, 
+          "mm"
+        )
+      ),
+      if(!is.null(ticks_minor)){
+        geom_rug(
+          data = data.frame(
+            ticks_minor=ticks_minor
+          ),
+          mapping=aes(
+            x=ticks_minor
+          ),
+          outside = TRUE,
+          size=minor_tick_size,
+          length=grid::unit(
+            minor_major_tickLength_ratio*ticks_major_length,
+            "mm"
+          )
+        )
+      } else {
+        NULL
+      }, 
+      coord_cartesian(clip="off")
+      )
+  }
+}
+```
+
+***
+
+```{r}
+# generate axis_x_continuous_custom
+axis_x_continuous_custom2 <-
+  axis_x_custom(scale_x_continuous)
+ggplot1$plot0 +
+  axis_x_continuous_custom2(
+    breaks=breaks,
+    ticks_major = ticks_major
+  )
+ggplot1$plot0 +
+  axis_x_continuous_custom2(
+    breaks=breaks, labels=labels,
+    ticks_major = ticks_major,
+    ticks_minor = ticks_minor
+  )
+```
+
+
+### Time period
+
+When axis x is to represent a period:
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/675/90/sites/default/files/20131221_FNC079.png")
+```
+
+Basic plot:
+```{r}
+dataSet2 <- data.frame(
+  x=seq(from=lubridate::ymd("2013-01-01"),
+    to=lubridate::ymd("2013-12-31"),
+    by="1 day")
+)
+
+dataSet2$y <- {
+  y <- c(100)
+  set.seed(2033)
+  shocks <- rnorm(length(dataSet2$x), sd=50)
+  shocks
+  for(t in 2:length(dataSet2$x)){
+    y[[t]] <- 1*t + 0.6*y[[t-1]] + shocks[[t]]
+  }
+  y
+}
+```
+
+
+7-days moving average:
+```{r}
+install.packages("zoo")
+```
+
+
+```{r}
+library(dplyr)
+dataSet2 %>%
+  mutate(
+    y_smooth=zoo::rollmean(y, 7, na.pad=TRUE, align="center")
+  ) -> dataSet2
+```
+
+  * `zoo::rollmean(y, window_width, padding_na_to_maintain_length, window_center)`
+
+
+```{r}
+ggplot2 <- list()
+ggplot2$plot1 <- {
+  ggplot()+
+    geom_line(
+      data=dataSet2,
+      mapping=aes(
+        x=x,
+        y=y_smooth
+      )
+    )
+}
+
+ggplot2$plot1
+```
+
+Add rug ticks and labels:
+```{r}
+axis_x_date_custom <- 
+  axis_x_custom(scale_x_date)
+```
+
+```{r}
+# breaks in middle of the month
+#  set 15th of every month
+breaks=seq(
+  from=lubridate::ymd("20130115"),
+  to=lubridate::ymd("20131215"),
+  by="1 month"
+)
+labels=lubridate::month(
+  breaks,
+  label=TRUE # Use month name based on OS locale
+)
+labels
+
+ticks_major=c(
+  seq(
+    from=lubridate::ymd("20130101"),
+    to=lubridate::ymd("20131231"),
+    by="1 month"
+  ),
+  lubridate::ymd("20131231"))
+```
+
+<div class="alert alert-info">
+Locales in your operating system determine how month and weekday should be expressed:  
+  * Windows: <https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c> 
+  * Mac OS/linux:
+```{r}
+locales <- system("locale -a", intern = TRUE)
+```
+
+```{r}
+lubridate::month(breaks, 
+  locale = "zh_TW", 
+  label = T # returned as month abbreviates
+  )
+lubridate::wday(breaks, 
+  locale = "zh_TW", 
+  label = T # returned as month abbreviates
+  )
+```
+
+</div>
+
+```{r}
+ggplot2$plot1 +
+  axis_x_date_custom(
+    breaks=breaks, labels=labels,
+    ticks_major=ticks_major,
+    ticks_major_length = 2, #input$tickLength
+    text_size = 14 #input$textSize
+  )
+```
+
+### dot-dot-dot
+
+  * `...` can pass any arguments not defined in function usage as one argument input that can be used in any place by calling `...` .
+
+```{r}
+axis_x_custom <- function(scale_x){
+  function(
+    breaks, labels = breaks,
+    ticks_major, ticks_minor=NULL,
+    ticks_major_length = 3, 
+    minor_major_tickLength_ratio = 0.7,
+    text_size = 16,
+    text_top_margin = 12,
+    major_tick_size = 0.5,
+    minor_tick_size = 0.5, ...
+  ){
+    list(
+      scale_x(
+        breaks=breaks,
+        labels=labels, ...
+      ), 
+      theme(
+        axis.ticks.length.x = unit(0,"mm"),
+        axis.text.x = element_text(
+          margin = margin(
+            text_top_margin #input$margin
+          ),
+          size=text_size #input$textSize
+          )
+        ), 
+      geom_rug(
+        data = data.frame(
+          ticks_major=ticks_major
+        ),
+        mapping=aes(
+          x=ticks_major
+          ),
+        outside=TRUE, # draw rug outside the plot panel
+        size=major_tick_size, #input$majorsize
+        length=grid::unit(
+          ticks_major_length, 
+          "mm"
+        )
+      ),
+      if(!is.null(ticks_minor)){
+        geom_rug(
+          data = data.frame(
+            ticks_minor=ticks_minor
+          ),
+          mapping=aes(
+            x=ticks_minor
+          ),
+          outside = TRUE,
+          size=minor_tick_size,
+          length=grid::unit(
+            minor_major_tickLength_ratio*ticks_major_length,
+            "mm"
+          )
+        )
+      } else {
+        NULL
+      }, 
+      coord_cartesian(clip="off")
+      )
+  }
+}
+
+```
+
+```{r}
+axis_x_date_custom <-
+  axis_x_custom(scale_x_date)
+
+ggplot2$plot1 +
+  axis_x_date_custom(
+    breaks=breaks, labels=labels,
+    ticks_major=ticks_major,
+    ticks_major_length = 2, #input$tickLength
+    text_size = 14, #input$textSize
+    name="2013"
+  )
+```
+
+***
+
+Multiple rug tick lengths: 
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1000/969/90/sites/default/files/images/print-edition/20140719_FNC335.png")
+```
+
+```{r}
+dataSet3 <- data.frame(
+  x=seq(from=lubridate::ymd("2011-01-01"),
+    to=lubridate::ymd("2014-06-01"),
+    by="1 month")
+)
+
+dataSet3$y <- {
+  y <- c(100)
+  set.seed(2033)
+  shocks <- rnorm(length(dataSet3$x), sd=50)
+  shocks
+  for(t in 2:length(dataSet3$x)){
+    y[[t]] <- 1*t + 0.6*y[[t-1]] + shocks[[t]]
+  }
+  y
+}
+
+dataSet3 %>%
+  mutate(
+    y_smooth = zoo::rollmean(y, 5, na.pad=TRUE, align="center")
+  ) -> dataSet3 
+```
+
+```{r}
+ggplot3 <- list()
+ggplot()+
+  geom_line(
+    data=dataSet3,
+    mapping=aes(
+      x=x,
+      y=y_smooth
+    )
+  ) -> ggplot3$plot1
+ggplot3$plot1
+```
+
+```{r}
+# breaks in middle of years, set at June, except 2014, set at March
+breaks = c(
+  seq(
+    from=lubridate::ymd("20110601"),
+    to=lubridate::ymd("20130601"),
+    by="1 year"
+  ),
+  lubridate::ymd("20140301")
+)
+labels = c("2011", "12", "13", "14")
+ticks_major=seq(
+    from=lubridate::ymd("20110101"),
+    to=lubridate::ymd("20140101"),
+    by="1 year"
+  )
+ticks_minor=seq(
+    from=lubridate::ymd("20110101"),
+    to=lubridate::ymd("20140601"),
+    by="1 month"
+  )
+```
+
+```{r}
+ggplot3$plot1 +
+  axis_x_date_custom(
+    breaks=breaks,
+    labels=labels,
+    ticks_major = ticks_major,
+    ticks_minor = ticks_minor
+  )
+```
+
+<div class="exercise">
+How do you put ticks inside?
+</div>
+
+
+<div class="alert alert-info">
+For date/time axis:  
+  * always assign ticks to the beginning and the end of the sample period.  
+  * when too many ticks are there,  
+    * try to label few of them, like labeling every 5 years, every 6 months, etc. Or  
+    * use period marking.  
+  * when use period marking, put labels in the middle of the period.  
+</div>
+
+## XY axis
+
+### Expansion and out-of-bound
+
+Among `scale_x_...` and `scale_y_...`, there are two arguments that might be handy:
+
+  * **expand**: define the padding around the limits of the plot. (圖形與xy軸的留白空間)
+  
+  * **oob** (out of bound): define what to do when observations are out of limits bound. (超出作圖範圍的資料點要怎麼處置)
+
+```{r}
+dataSet <- data.frame(
+  x=rep(c("Jan", "Feb", "Mar"),2),
+  y=c(10, 20, 30, 10, 25, 33),
+  group=c(rep("Art", 3), rep("General", 3))
+)
+ggplot()+
+  geom_col(
+    data=dataSet,
+    mapping=
+      aes(
+        x=x, y=y,
+        fill=group
+      ),
+    position="dodge",
+    width=0.8
+  )+
+  scale_y_continuous(
+    expand = 
+      expansion(0, #input$multiply
+        0 #input$add 
+        )
+    )
+```
+
+  * `expand = c(lowerBoundStretch, upperBoundStretch)`:  
+    * `lowerBoundStretch=c(a,b)`: `lowerBound - a*range -b`  
+    * `upperBoundStretch=c(c,d)`: `upperBound + c*range +d`  
+    
+    * `expansion(m, n)` will set a=c=m, b=d=n.
+
+### Secondary axis
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1000/969/90/sites/default/files/images/print-edition/20140719_FNC335.png")
+```
+
+  1. Rescale right series to left series range.
+  
+  2. Map LHS breaks to RHS
+
+```{r, echo=FALSE}
+eu2 <- eu
+econDV2::Object(eu)
+eurostat::check_access_to_data()
+toc <- eurostat::get_eurostat_toc()
+eu$search <- eu2$search# list()
+eu$search[[1]] <- eurostat::search_eurostat("unemployment")
+eu$search[[2]] <- eurostat::search_eurostat("Production in industry")
+eu$search[[2]] |> View()
+eu$data <- eu2$data
+eu$data$unemployment_rate <- eurostat::get_eurostat(
+  id="ei_lmhr_m", filters = list("geo"="EU27_2020")
+)
+eu$data$industrial_production <- eurostat::get_eurostat(
+  id="ei_isin_m"
+)
+
+eu$data$unemployment_rate |> names()
+eu$data$industrial_production |> View() 
+
+eu$data$unemployment_rate <- 
+{
+  eu$data$unemployment_rate |>
+    dplyr::filter(
+      indic=="LM-UN-T-GT25",
+      s_adj=="SA",
+      !is.na(values)
+    ) #|> View()
+}
+
+eu$data$industrial_production <- 
+{
+  eu$data$industrial_production |> 
+    filter(
+      indic=="IS-IP",
+      geo=="EU27_2020",
+      nace_r2=="B",
+      s_adj=="SCA"
+    ) 
+} 
+eu$data$industrial_production |> View()
+attach(eu$data)
+
+unemployment_rate %T>% View() %>%
+  rename(
+    "unemploymentRate"="values"
+  ) -> unemployment_rate
+industrial_production %T>% View() |>
+  rename(
+    "ind_procution"="values"
+  ) -> industrial_production
+
+library(magrittr)
+unemployment_rate |> select(geo, time, unemploymentRate) %T>% View() -> .df1
+industrial_production |> select(geo, time, ind_procution) %T>% View() -> .df2
+inner_join(
+  .df1, .df2,
+  by=c("geo", "time")
+) -> eu$data2
+detach(eu$data)
+
+View(eu$data2)
+
+eu$source[[1]] <- "https://ec.europa.eu/eurostat/web/main/data/database"
+eu$save()
+```
+
+#### Preliminary analytics
+
+The relationship between two series.
+
+```{r}
+eu=readRDS("data/eu.Rds")
+
+ggplot4 <- econDV2::Object(ggplot4)
+ggplot4$data = eu$data2 |> dplyr::filter(
+      time >= "2011-01-01"
+    )
+ggplot4$summary$industrialProductionChange$range <- {
+  ggplot4$data$ind_procution_change |> range(na.rm = T)
+}
+ggplot4$summary$unemploymentRate$range <- {
+  ggplot4$data$unemploymentRate |> range(na.rm=T)
+}
+
+ggplot4$scatter_path <- function(plotly=F, timeEnd="2014-06-01"){
+  ggplot(
+    data=ggplot4$data |> subset(
+  time <= timeEnd),
+    mapping=aes(
+        x=ind_procution_change,
+        y=unemploymentRate,
+      label=time
+      )
+    )+
+  geom_point()+geom_path() -> gg
+  if(plotly){plotly::ggplotly(gg)} else {gg}
+}
+
+ggplot4$scatter_path(T)
+```
+
+  * Observe negative correlation between year-to-year change of industrial production and unemployment rate.
+  
+#### Graphic design
+
+  * A graph that shows negative correlated movements.
+
+```{r}
+ggplot4$ggplot <- function(){
+  ggplot(
+    data= ggplot4$data |>
+      subset(time <= "2014-06-01"),
+    mapping=aes(x=time)
+  )
+}
+ggplot4$industrialProduction <- function(){
+  geom_col(
+    mapping=aes(
+      y=ind_procution_change
+    ),
+    fill="#04a2d0"
+  )
+}
+ggplot4$unemployment <- function(){
+  geom_line(
+    aes(
+      y=unemploymentRate
+    ),
+    color="#77230f"
+  )
+}
+ggplot4$scale_y_ind_production <- function(...){
+  scale_y_continuous(
+    name="Industrial production",
+    limits = c(-10, 11),
+    breaks = seq(-10, 10, by=5),
+    labels = seq(-10, 10, by=5),
+    ...
+  )
+}
+ggplot4$scale_y_unemployment <- function(...){
+  scale_y_continuous(
+    name="Unemployment",
+    limits = c(3, 13),
+    breaks = seq(4,12, by=2),
+    ...
+  )
+}
+
+ggplot4$just$industrialProduction <- function(){
+  ggplot4$ggplot()+
+    ggplot4$industrialProduction()+
+    ggplot4$scale_y_ind_production()
+}
+ggplot4$just$unemployment <- function(){
+  ggplot4$ggplot()+
+    ggplot4$unemployment()+
+    ggplot4$scale_y_unemployment()
+}
+
+ggplot4$twoSeries <- function(...){
+  ggplot4$ggplot()+
+    ggplot4$industrialProduction()+
+    ggplot4$unemployment()+
+    ggplot4$scale_y_ind_production(...)
+}
+ggplot4$twoSeries()
+```
+
+#### Secondary axis
+
+```{r}
+ggplot4$sec_y_unemployment <- function(){
+  
+  # mapping left breaks to unemployment range
+  # ggplot4$scale_y_ind_production() -> left_y
+  # left_y$breaks |> range()
+  
+  transfer_leftBreaks = function(breaks){
+      scales::rescale(breaks, 
+        from=c(-10,10), to=c(4, 12))
+    }
+    
+  # left_y$breaks |> transfer_leftBreaks()
+  sec_axis(
+    name="Unemployment",
+    trans=transfer_leftBreaks,
+    breaks=seq(4, 12, by=2)
+  )
+}
+
+ggplot4$twoSeries(
+  sec.axis=ggplot4$sec_y_unemployment()
+    )
+
+```
+
+
+#### Rescale right series
+
+  * Unemployment is drawn based on left y scale, not based on the secondary (right) y scale. 
+  
+  * One plot can only have one y scale to define y coordinate (which will be the left y).
+  
+    * Unemployment rate of 10 will be placed at the height of 10 as left y would show, but
+    
+    * Right y 10 is actually in line with left -5; So
+    
+    * We need to map unemployment rate of 10 to -5, which is an inverse transfer function of `transfer_leftBreaks`.
+    
+```{r}
+
+ggplot4$scaled_unemployment <- function(){
+  
+  transferInv_leftBreaks <- function(breaks){
+      scales::rescale(breaks, 
+        to=c(-10,10), from=c(4, 12))
+    }
+
+  geom_line(
+    aes(
+      y=transferInv_leftBreaks(unemploymentRate)
+    ),
+    color="#77230f"
+  )
+}
+
+ggplot4$twoSeries_recaled <- function(){
+  ggplot4$ggplot() +
+    ggplot4$industrialProduction() + 
+    ggplot4$scaled_unemployment() + 
+    ggplot4$scale_y_ind_production(
+      sec.axis=ggplot4$sec_y_unemployment(),
+      expand=expansion(0,add=c(0,1))
+    )
+}
+ggplot4$twoSeries_recaled()
+```
+
+#### Time axis
+
+```{r}
+ggplot4$scale_x <- function(){
+  scale_x_custom <- econDV2::axis_x_custom(scale_x_date)
+  scale_x_custom(
+    breaks = lubridate::ymd(c(paste(2011:2013,"06","01"), "2014-03-01")),
+    labels = c("2011", "12", "13", "14"),
+    ticks_major = lubridate::ymd(
+      paste(2011:2014, "1", "1")
+    ),
+    ticks_minor = seq(
+      from=lubridate::ymd("2011-01-01"),
+      to=lubridate::ymd("2014-06-01"),
+      by="1 month"
+    )
+  )
+}
+```
+
+#### gg$dash
+
+```{r}
+size=8 #input$size_title
+size_text=8 #input$size_text
+vjust=1 #input$vjust
+angle=0 #input$angel
+margin_l=-50 #input$margin_l
+margin_r=-50 #input$margin_r
+ggplot4$twoSeries_recaled() +
+  ggplot4$scale_x() +
+  theme(
+    axis.title.x = element_blank(),
+    axis.line.y=element_blank(),
+    axis.ticks.y=element_blank(),
+    panel.grid.major.y=
+      element_line(color="#ececec"),
+    axis.text.y.left=
+      element_text(color="#04a2d0",
+        size=size_text
+      ),
+    axis.text.y.right=
+      element_text(color="#77230f",
+        size=size_text
+      ),
+    axis.title.y.left = 
+      element_text(
+        color="#04a2d0", 
+        size=size,
+        vjust=vjust, 
+        angle=angle, 
+        margin=margin(
+          r=margin_l
+          )
+        ),
+    axis.title.y.right = 
+      element_text(
+        color="#77230f", 
+        size=size,
+        vjust=vjust, 
+        angle=angle, 
+        margin=margin(
+          l=margin_r
+          )
+        ),
+    axis.ticks.length.y=unit(0,"mm")
+  )
+```
+
+#### final plot
+
+```{r, eval=T, echo=F}
+teachDS::img_centering("img/sec_axis.png", "90%")
+```
+
+
+```{r}
+ggplot4$finalPlot <- function(){
+  size <- 15
+  size_text <- 19
+  vjust <- 1
+  angle <- 0
+  margin_l <- -103
+  margin_r <- -84
+  ggplot4$twoSeries_recaled() +
+    ggplot4$scale_x() +
+    theme(
+      axis.title.x = element_blank(),
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      panel.grid.major.y =
+        element_line(color = "#ececec"),
+      axis.text.y.left =
+        element_text(
+          color = "#04a2d0",
+          size = size_text
+        ),
+      axis.text.y.right =
+        element_text(
+          color = "#77230f",
+          size = size_text
+        ),
+      axis.title.y.left =
+        element_text(
+          color = "#04a2d0",
+          size = size,
+          vjust = vjust,
+          angle = angle,
+          margin = margin(
+            r = margin_l
+          )
+        ),
+      axis.title.y.right =
+        element_text(
+          color = "#77230f",
+          size = size,
+          vjust = vjust,
+          angle = angle,
+          margin = margin(
+            l = margin_r
+          )
+        ),
+      axis.ticks.length.y = unit(0, "mm")
+    )
+}
+ggplot4$finalPlot()
+```
+
+<!--
+
+<div class="alert alert-info">
+`econDV2::geom_sec_axis` function turns any `geom` function into a secondary `geom` layer with equipped secondary y-axis on the right:
+```{r}
+# generate the geom for right y-axis
+geom_line_right <- econDV2::geom_sec_axis(
+  geom_line
+)
+
+
+ggplot4$y.axis$breaks_left = seq(-10, 10, by=5)
+ggplot4$y.axis$breaks_right=9:13
+ggplot4$y.axis$name_left = "Industrial production"
+ggplot4$y.axis$name_right= "Unemployment"
+ggplot4$y.axis$labels_right=c("//", as.character(10:13))
+
+ggplot4$geom_line_right <- function(...){
+    geom_line_right(
+      mapping=aes(
+        y=unemployment
+      ),
+      color="#77230f",
+      breaks_left=ggplot4$y.axis$breaks_left,
+      breaks_right=ggplot4$y.axis$breaks_right,
+      name_left=ggplot4$y.axis$name_left, 
+      name_right=ggplot4$y.axis$name_right,
+      labels_right=ggplot4$y.axis$labels_right, ...
+    )
+}
+ggplot4$plot1 +
+  ggplot4$geom_line_right() -> ggplot4$plot3
+
+ggplot4$plot3
+```
+
+Style axis-x:
+```{r}
+dataSet4$x |> class()
+axis_x_date <- econDV2::axis_x_custom(scale_x_date)
+
+axis_x_date |> args()
+
+ggplot4$x.axis$breaks = seq(
+  from=lubridate::ymd("20110601"),
+  to=lubridate::ymd("20130601"),
+  by="1 year"
+)
+ggplot4$x.axis$breaks = c(ggplot4$x.axis$breaks, lubridate::ymd("20140301"))
+ggplot4$x.axis$labels = c("2011", "12", "13", "14")
+ggplot4$x.axis$ticks_major= seq(
+  from=lubridate::ymd("20110101"),
+  to=lubridate::ymd("20140101"),
+  by="1 year"
+)
+ggplot4$x.axis$ticks_minor=seq(
+  from=lubridate::ymd("20110101"),
+  to=lubridate::ymd("20140601"),
+  by="1 month"
+)
+
+ggplot4$axis_x_date <- function(...){
+  axis_x_date(
+    breaks=ggplot4$x.axis$breaks,
+    labels=ggplot4$x.axis$labels, 
+    ticks_major = ggplot4$x.axis$ticks_major,
+    ticks_minor=ggplot4$x.axis$ticks_minor,
+    ...
+  )
+}
+
+ggplot4$plot3 +
+   ggplot4$axis_x_date() -> ggplot4$plot4
+
+ggplot4$plot4
+```
+
+
+</div>
+
+```{r}
+size=8 #input$size_title
+size_text=8 #input$size_text
+vjust=1 #input$vjust
+angle=0 #input$angel
+margin_l=-50 #input$margin_l
+margin_r=-50 #input$margin_r
+ggplot4$plot1 +
+  ggplot4$axis_x_date()+
+  ggplot4$geom_line_right(
+    expand=c(0,0,0, 
+      0 #input$yupper
+      )
+  )+
+  theme(
+    axis.text.y.left=element_text(color="#04a2d0",
+      size=size_text
+      ),
+    axis.text.y.right=element_text(color="#77230f",
+      size=size_text
+      ),
+    axis.title.y.left = 
+      element_text(
+        color="#04a2d0", 
+        size=size,
+        vjust=vjust, 
+        angle=angle, 
+        margin=margin(
+          r=margin_l
+          )
+        ),
+    axis.title.y.right = 
+      element_text(
+        color="#77230f", 
+        size=size,
+        vjust=vjust, 
+        angle=angle, 
+        margin=margin(
+          l=margin_r
+          )
+        ),
+    axis.ticks.length.y=unit(0,"mm"),
+    axis.line.y=element_blank(),
+    panel.grid.major.y=element_line(color="#ececec")
+  )
+```
+
+-->
+
+## Color/Fill
+
+### Discrete
+
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/755/90/sites/default/files/20200815_WOC191.png", width="80%")
+```
+
+
+Set up simulated data:
+```{r}
+dataSet3 <- data.frame(
+  x=seq(
+    from=lubridate::ymd("2020-01-03"),
+    to=lubridate::ymd("2020-08-12"),
+    by="1 day"
+  )
+)
+countries <- c("Britain","France","Germany","Italy","Spain")
+slopes <- c(0.1, 0.2, 0.3, 0.4, 0.5)
+for(i in seq_along(slopes)){
+  dataSet3[[countries[[i]]]] <-
+    0 + slopes[[i]]*as.integer(dataSet3$x-dataSet3$x[[1]])
+}
+dataSet3 |>
+  tidyr::pivot_longer(
+    cols="Britain":"Spain",
+    names_to = "country",
+    values_to = "y"
+  ) -> dataSet3
+```
+
+Initiate a base plot:
+```{r}
+ggplot3 <- list()
+ggplot3$data <- dataSet3
+ggplot3$plot1 <- function(){
+  ggplot()+
+    geom_line(
+      data=ggplot3$data,
+      mapping=aes(
+        x=x,
+        y=y,
+        group=country,
+        color=country
+      )
+    )
+}
+
+ggplot3$plot1()
+```
+
+<div class="alert alert-info">
+Formulate the plotting process as a function has an advantage of data set substitutability. We can substitute `ggplot3$data` by:
+
+```{r}
+ggplot3$data <- new_data
+ggplot3$plot1()
+```
+
+  * This is because function is lazily evaluated which will look for `ggplot3$data` when it is called.
+  
+  * The birth place of `ggplot3$plot1` function is global environment. Therefore, any update of `ggplot3$data` in global environment before a call of `ggplot3$plot1` will always be based on the updated value.
+
+</div>
+
+***
+
+Prepare color scale:
+```{r}
+ggplot3$color$limits <- c("Britain", "France", "Germany", "Italy", "Spain")
+ggplot3$color$values <- c("#984152", "#1e80ab", "#2ec1d2", "#af959f", "#e5b865")
+ggplot3$color$labels <- c("英", "法", "德", "義", "西")
+```
+
+Formulate the `scale_color_manual` call as a function
+```{r}
+ggplot3$scale_color_manual <- function()
+{
+  limits = ggplot3$color$limits
+  values = ggplot3$color$values
+  
+  # a call to scale_color_manual
+  scale_color_manual(
+    limits = limits,
+    values = values,
+    breaks = limits,
+    labels = ggplot3$color$labels
+  )
+}
+```
+
+
+```{r}
+ggplot3$plot1() +
+  ggplot3$scale_color_manual()
+```
+
+<div class="alert alert-info">
+`{...}` returns the visible value of the last executed line. 
+</div>
+
+```{r}
+ggplot3$axis_x_date_monthlyPeriod <- function()
+{
+  dd <- data.frame(
+    x = ggplot3$data$x
+  )
+  require(dplyr)
+  dd %>%
+    arrange(x) %>%
+    mutate(
+      year=lubridate::year(x),
+      month=lubridate::month(x)
+    ) %>%
+    group_by(year,month) %>%
+    distinct() %>%
+    summarise(
+      day1 = min(x),
+      midlength = round(length(x)/2,0),
+      breaks = day1 + lubridate::days(midlength),
+      labels = lubridate::month(breaks, label=T)
+    ) %>% ungroup() -> dx
+  xrange <- range(dd$x)
+  rug_x <- {
+    c(xrange, dx$day1) |>
+      unique() |>
+      sort() 
+  }
+  
+  list(
+    geom_rug(
+      mapping=aes(
+        x=rug_x
+      ),
+      outside = T
+    ),
+    coord_cartesian(clip="off"),
+    scale_x_date(
+      breaks=dx$breaks,
+      labels = dx$labels
+    ),
+    theme(
+      axis.ticks.length.x = grid::unit(0,"mm")
+    )
+  )
+}
+```
+
+
+```{r}
+ggplot3$plot1() +
+  ggplot3$scale_color_manual() +
+  ggplot3$axis_x_date_monthlyPeriod()
+```
+
+### Continuous
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/755/90/sites/default/files/20201031_WOC015.png", width="85%")
+```
+
+## Exercise
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1000/2072/90/sites/default/files/images/print-edition/20211009_SRC217.png", width="80%")
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1000/1153/90/sites/default/files/images/print-edition/20211030_FNC803.png", width="80%")
+```

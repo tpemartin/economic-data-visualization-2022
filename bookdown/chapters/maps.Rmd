@@ -1,0 +1,1802 @@
+# Map
+
+```{r eval=T, echo=FALSE}
+klippy::klippy()
+```
+
+```{r}
+mp <- econDV2::Map()
+```
+
+## Geographic geoms
+
+### Point, Line and Polygon
+ggplot2 is equipped with geoms that can draw all kinds of geographic structure.
+
+```{r}
+fourPoints <- data.frame(
+    x=c(2, 3, 5, 3),
+    y=c(-1, 0, 6, 6)
+)
+geometry <- list()
+geometry$ggplot <- function(){
+  ggplot(
+    data=fourPoints,
+    mapping=aes(
+      x=x, y=y
+    )
+  )
+}
+```
+
+
+Points:
+```{r}
+geometry$points <- geometry$ggplot() + geom_point()
+geometry$points 
+```
+
+Path:
+```{r}
+geometry$path <- geometry$ggplot() + geom_path()
+geometry$path
+```
+
+Polygon
+```{r}
+geometry$polygon <- geometry$ggplot() + geom_polygon()
+geometry$polygon
+```
+
+***
+
+### Multipolygons
+
+  * A school consists of many buildings
+
+```{r}
+bigArea <- data.frame(
+  order=1:7,
+  x=c(1, 5.5, 5.5, 1,
+    7, 8, 9),
+  y=c(-2, -2, 7, 7,
+    8, 8 , 2),
+  building=c(rep("building1", 4), rep("building2", 3)), # same school
+  contour=c(rep("outer",4), rep("outer",3)) # two different buildings
+)
+
+# draw each building separately
+ggplot()+geom_polygon(
+  data=bigArea, 
+  mapping=aes(x=x, y=y, group=building)
+  )
+```
+
+  * `geom_polygon` can draw a polygon with hole(s) by using `group` and `subgroup` aesthetics, with hole(s) as a polygon inside another. 
+  
+    * A building with a courtyard has two contours (one for the outer contour, the other for the courtyard contour). Both contours are polygons belong to the same group, but different subgroups. 
+  
+```{r}
+fourPoints$building="building1"
+fourPoints$contour="courtyard"
+fourPoints$order=8:11
+bigArea |> names()
+bigAreaWithHoles <-
+  dplyr::bind_rows(
+    bigArea,
+    fourPoints
+  ) |> arrange(building, order)
+
+View(bigAreaWithHoles)
+
+ggplot(
+  data=bigAreaWithHoles
+) + 
+  geom_polygon(
+    aes(
+      x=x, y=y, 
+      group=building, 
+      subgroup=contour
+    )
+  )
+```
+
+### Fill polygons
+
+  * You can give different polygons different fills. 
+
+```{r}
+ggplot(
+  data=bigAreaWithHoles
+) + 
+  geom_polygon(
+    aes(
+      x=x, y=y, 
+      group=building, 
+      subgroup=contour,
+      fill=building
+    )
+  )
+
+```
+
+
+### Application to world map
+
+We apply those `geoms` to draw some maps.
+
+```{r}
+world = ggplot2::map_data("world")
+```
+
+  * `group` column is for `group` aesthetics for polygon.
+
+```{r world0}
+world0 <- function(color="black", fill="white", size=0.35) {
+  ggplot() + geom_polygon(
+    data=world,
+    aes(
+      x=long, y=lat,
+      group=group
+    ),
+  color=color, fill=fill, size=size
+  )
+}
+```
+
+
+```{r}
+# Cartesian crs
+world0()
+# Cartesian with fixed aspect ratio
+world0() + coord_fixed()
+# Mercator projection: fixed asp, correct direction
+world0() + coord_map()
+# Mercator projection: fixed asp, correct direction, expand xlim
+world0() + coord_map(xlim = c(-180,180))
+```
+
+## Choropleth map
+
+  * A map with different **fill**s to show certain social-economic data variation. 
+
+### Backgroup fill and borders
+
+Though ggplot2 has geom function to work on Choropleth graph directly, I recommend to lay out a background map first.
+
+Map data
+```{r}
+world = ggplot2::map_data("world")
+```
+
+Backgroup map base on Economist style:
+```{r}
+world0_background <- function(){
+  world0(
+    color="white", 
+    fill="#c8c5be", 
+    size=0.15)
+}
+```
+
+```{r}
+world0_background()
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/world0_background.png", "100%")
+```
+
+### Choropleth layer: value layer
+
+Another layer of `geom_polygon`s but with different fills setup based on social-economic data. Instead of using `geom_polygon` as the background layer does, `geom_map` is an easier to use geom for Choropleth graph. 
+
+  * `geom_map` is a wrapper of `geom_polygon` but with a much easier setup for Choropleth map purpose.
+
+  * use `geom_map()+expand_limits()`
+
+```{r}
+geom_map(
+  data=`social-economic data`,
+  mapping = aes(
+    map_id = ...,
+    fill = ...
+  ),
+  map =`map data`
+)+
+expand_limits(
+  x=`map data`$long, y=`map data`$lat
+)
+```
+
+  * `map data` from  `ggplot2::map_data` (can be filtered if needed)
+  
+  * `social-economic data`: a data frame with a column for `map_id` and a column for `fill`.
+  
+    * `map_id` column must consist of the levels of `map data`'s region column.
+    
+    * `fill` column: the social-economic data to show.
+    
+  * `expand_limits` to ensure that no boundary points are right on the border of the plot.
+
+#### WDI example
+
+
+Social-economic data
+```{r se_data}
+se_data <- jsonlite::fromJSON(
+  "https://www.dropbox.com/s/78jr6g6xtjz453b/women_in_parliament.json?dl=1"
+)
+# View(se_data)
+```
+
+```{r}
+ggplot()+geom_map(
+    data=se_data,
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )+
+  expand_limits(x=world$long, y=world$lat)
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/only_geom_map.png", "80%")
+```
+
+***
+
+```{r}
+# geom_map only plot those in the social-economic data
+ggplot()+geom_map(
+    data=se_data[1:30,],
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )+
+  expand_limits(x=world$long, y=world$lat)
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/only_geom_map2.png", "80%")
+```
+
+***
+
+World background ensure every country is on the map. 
+
+```{r}
+world0_background() +
+  geom_map(
+    data=se_data[1:30, ],
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )+
+  expand_limits(x=world$long, y=world$lat)
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/geom_map_with_worldbackground.png", "100%")
+```
+
+***
+
+Fixed country name inconsistency between `se_data` and `world` data.
+
+```{r}
+se_data |> 
+  mp$choropleth$rename_valueData_countryname(
+  countryColumnName = "country",
+  pattern = c(
+    "Russia"="Russian Federation",
+    "USA"="United States",
+    "Iran"="Iran, Islamic Rep.",
+    "Egypt"="Egypt, Arab Rep.",
+    "Syria"="Syrian Arab Republic",
+    "Yemen"="Yemen, Rep.",
+    "UK"="United Kingdom",
+    "Democratic Republic of the Congo"="Congo, Dem. Rep.",
+    "Republic of Congo"="Congo, Rep.",
+    "Ivory Coast"="Cote d'Ivoire",
+    "Venezuela"="Venezuela, RB"
+    )
+  ) -> se_data
+
+world0_background() +
+  geom_map(
+    data=se_data,
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )+
+  expand_limits(x=world$long, y=world$lat)
+```
+
+```{r}
+choropleth0 <- function(){
+  world0_background() +
+  geom_map(
+    data=se_data,
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )+
+  expand_limits(x=world$long, y=world$lat)
+}
+choropleth0() + 
+  theme_void() +
+  labs(
+    title="2020各國國會女性席次佔比(%)"
+  ) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  guides(
+    fill=guide_colorbar(
+        title=NULL,
+        barwidth = 4, #input$barwidth
+        barheight = 0.35, #input$barheight
+      )
+    )
+
+# can also
+choropleth0() +
+  scale_fill_gradient(
+    guide = guide_colorbar(...)
+  )
+
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/womanInParliament.png", "80%")
+```
+
+### Fill colors
+
+#### scale_fill and palette function
+
+```{r}
+scale_fill_continuous(...)
+```
+
+by default is based on:
+
+```{r}
+scale_fill_gradient(...) # 
+```
+
+which is based on the palette function `palette_continuous` generated by `scales::seq_gradient_pal`
+
+```{r}
+palette_continuous <- scales::seq_gradient_pal(
+  low = "#132B43", high = "#56B1F7"
+)
+```
+
+  * two pigments "#132B43", "#56B1F7"
+
+```{r}
+palette_continuous(seq(0, 1, by=0.2)) |> 
+  scales::show_col()
+```
+
+<div class="alert alert-info">
+`aes(fill=z)` will rescale `z` according to
+```{r}
+# for sequential
+scales::rescale(z, from=range(z), to=c(0,1))
+# for divergin
+scales::rescale(z, from=mid.point.value_stretching, to=c(-1,1))
+```
+</div>
+
+***
+
+
+```{r}
+scale_fill_discrete(...)
+```
+
+by default is based on:
+
+```{r}
+scale_fill_hue(...) # 
+```
+
+which is based on the palette function `palette_discrete` generated by `scales::hue_pal`
+
+```{r}
+palette_discrete <- 
+  scales::hue_pal(h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1)
+```
+
+  * pigments: a hue (色像環)
+
+```{r}
+palette_discrete(3) |> scales::show_col()
+palette_discrete(6) |> scales::show_col()
+```
+
+
+```{r}
+DiagrammeR::mermaid("
+graph LR
+  A[continuous palette function]-->B[continuous scales_fill]
+  C[discrete palette function]-->D[discrete scales_fill]
+")
+```
+
+#### colorspace
+
+Construct your palette function
+```{r}
+pal <- colorspace::choose_palette(gui="shiny")
+```
+
+Register
+```{r}
+colorspace::sequential_hcl(n = 7, h = 135, c = c(45, NA, NA), l = c(35, 95), power = 1.3, register = "my_pal")
+```
+
+```{r}
+colorspace::scale_fill_continuous_sequential(palette="my_pal")
+```
+
+
+
+
+#### application
+
+  * Color is to signal one direction strength. 
+  
+  * Gradient: Good for spot the highest and the lowest. Not easy to compare neighbors
+
+Adjust fill limits-values mapping:
+```{r}
+# reverse fill high-low value
+choropleth0() +
+  scale_fill_gradient(
+    high = "#132B43",
+    low = "#56B1F7",
+    na.value="#919191"
+  )
+```
+
+```{r}
+choropleth0() +
+  colorspace::scale_fill_continuous_sequential(palette="my_pal", na.value="#919191")
+```
+
+
+```{r}
+# use binned fill
+choropleth0() +
+  scale_fill_binned(
+    high = "#003870",
+    low = "#d3e3f3",
+    na.value="#919191",
+    guide=guide_colorbar(
+      reverse = FALSE,
+      label.vjust = 0.5
+    )
+  )
+```
+
+```{r}
+choropleth0() +
+  colorspace::scale_fill_binned_sequential(
+    palette="my_pal", na.value="#919191"
+  )
+```
+
+#### Cut your color
+
+  * Continuous color change is easy to spot those outliers, but not easy to compare non-outliers across borders.
+  
+  * Discretize your continuous various and use `scale_fill_manual` to apply your sequential palette.
+
+Discretize continuous variable using `cut`:
+```{r se_data2}
+se_data2 <- se_data
+# cut into 4 ordered levels
+se_data2$women_in_parliament |>
+  cut(c(0, 10, 20, 40, 50, 70), ordered_result = T) -> .fct
+.fct |> class()
+# rename levels for legend labels
+levels(.fct) <- c("0-10%","10-20%","20-40%","40-50%", "50-70%")
+.fct -> se_data2$women_in_parliament
+```
+
+***
+
+
+
+
+
+```{r}
+choropleth1 <- function(){
+  world0_background() +
+  geom_map(
+    data=se_data2,
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )
+}
+```
+
+
+```{r}
+choropleth1() +
+  scale_fill_brewer(type="seq", na.value="#919191")
+```
+
+```{r}
+choropleth1() +
+  colorspace::scale_fill_discrete_sequential(
+    palette="my_pal",
+    na.value="#919191"
+  )
+```
+
+
+#### Diverging color
+
+```{r}
+se_data3 <- se_data
+se_data3$women_in_parliament |>
+  scales::rescale(
+    from=c(0, 100), 
+    to=c(-1, 1)
+  ) -> se_data3$women_in_parliament
+```
+
+```{r}
+choropleth3 <- function(){
+  world0_background() +
+  geom_map(
+    data=se_data3,
+    mapping=aes(
+      map_id=country,
+      fill=women_in_parliament
+    ),
+    map=world
+  )
+}
+```
+
+
+colorspace package:
+```{r}
+## Register custom color palette
+colorspace::diverging_hcl(n = 7, h = c(255, 12), c = c(50, 80), l = c(20, 97), power = c(1, 1.3),  register = "man_woman")
+
+choropleth3() +
+colorspace::scale_fill_binned_diverging(
+  labels = function(x) (x+1)*50,
+  palette="man_woman"
+)
+```
+
+```{r}
+choropleth0() +
+colorspace::scale_fill_binned_diverging(
+  mid=50,
+  palette="man_woman"
+)
+```
+
+
+## Map tile
+
+### ggmap
+
+Two steps:
+
+  1. `get_xxxmap` to obtain raster map image.
+  
+  2. `ggmap` to produce a gg(plot) object as a background layer.
+
+### get_googlemap
+
+```{r}
+taipei_google <- 
+  ggmap::get_googlemap(
+    center = c(long=121.4336018, lat=25.0341671),
+  zoom = 10,
+    scale=2
+  )
+taipei0 <- function(){
+  ggmap(taipei_google)
+}
+```
+
+
+### get_stamenmap
+
+```{r}
+taipei_stamen <- ggmap::get_stamenmap(
+  bbox = c(left = 121.0316, bottom = 24.7384, right = 122.1096, top = 25.3114),
+  zoom=9,
+  maptype = "toner-lite"
+)
+taipei1 <- function(){
+  ggmap(taipei_stamen)
+}
+
+```
+
+
+<div class="alert alert-info">
+You can copy map info from Google map link `https://www.google.com/maps/@24.9475275,121.3795888,15z` then:
+```{r}
+# mp <- econDV2::Map()
+mp$extract$googleMapLocation()
+# then paste to get_googlemap
+```
+
+Copy map info from OSM map bbox
+
+```{r eval=T, echo=F}
+teachDS::img_centering("img/osmbbox.png")
+```
+
+then:
+```{r}
+mp$extract$osmBBox()
+# then paste to get_stamenmap
+```
+
+
+</div>
+
+## Simple feature
+
+```{r}
+install.packages("sf")
+```
+
+  * <https://r-spatial.github.io/sf/>
+
+Another type of geographic data structure. 
+
+  * a new class. Each value in a simple feature vector represents a form of geometry (called **feature**) and its geographic notation (i.e. latitude and longitude); and could carry its coordinate reference system.
+  
+  * Each value is a parsing result from `sf::st_xxx` functions where `xxx` can be `point` (台北大學的一個地標，如[YouBike站](https://www.google.com.tw/maps/place/YouBike+1.0/@24.9425965,121.3700117,18z/data=!4m5!3m4!1s0x34681b7d1f8d8569:0x5d135a3058409b3e!8m2!3d24.94317!4d121.36952)), `multipoint` (台北大學所有地標), `linestring`(台北大學的一條路徑), `polygon`(台北大學的一棟建築), `multilinestring`(台北大學的所有路徑), `multipolygon`(台北大學的所有建築), or `geometrycollection`(整個台北大學)
+
+```{r, echo=F}
+source("support/maps.R")
+```
+
+### Define simple features
+
+A simple feature is composed of numeric vector, matrix, or list. No data frame is used. 
+
+
+```{r}
+geoValues <- list()
+geoValues$simple_feature$point <-
+  sf::st_point(
+    c(24.9433123, 121.3699526)
+  )
+geoValues$simple_feature$multipoint <-
+  sf::st_multipoint(
+    rbind( # will form a matrix
+      c(24.9443019, 121.3714944), # 1st point
+      c(24.9440709, 121.3728518) # 2nd point
+    )
+  )
+geoValues$simple_feature$linestring <-
+  sf::st_linestring(
+    rbind(
+      c(24.9423755, 121.3679438), # 1st trace point
+      c(24.9429941, 121.3679432), # 2nd trace point
+      c(24.9432087, 121.3686713) # 3rd trace point
+    )
+  )
+geoValues$simple_feature$polygon <-
+  sf::st_polygon(
+    list(
+      # 1st closed trace
+      rbind(
+        c(24.9441895, 121.3695181),
+        c(24.9442244, 121.3692544),
+        c(24.9437158, 121.3694094),
+        c(24.9438647, 121.3696271),
+        c(24.9441895, 121.3695181) # close the polygon
+      )
+    )
+  )
+# polygon: a list consists of matrices.
+```
+
+```{r}
+class(geoValues$simple_feature$point)
+class(geoValues$simple_feature$linestring)
+class(geoValues$simple_feature$polygon)
+# all have sfg class
+```
+
+Simple feature value can be graphed directly via `geom_sf()`
+```{r}
+geoValues$simple_feature$polygon |> ggplot()+geom_sf()
+```
+
+### Form simple feature column
+
+A collection column of multiple simple features.
+
+```{r}
+sf::st_sfc(geoValues$simple_feature) -> geoValues$simple_feature_column
+
+class(geoValues$simple_feature_column) # "sfc_GEOMETRY" "sfc" 
+# has class sfc
+```
+
+```{r}
+geoValues$simple_feature_column |> 
+  ggplot()+geom_sf()
+```
+
+
+### Form simple feature data frame
+
+  * A simple feature data frame is basically a data frame with a column named **geometry** which is a list of each obervation's simple feature value.
+
+```{r}
+# initiate a data frame
+df_sf <- data.frame(
+  name=c("landmark 1", "must-see landmarks", "path 1", "building 1")
+)
+
+# add simple feature column
+df_sf |> sf::st_set_geometry(geoValues$simple_feature_column) ->
+  geoValues$simple_feature_df
+
+class(df_sf) # only "data frame"
+df_sf |>
+  dplyr::mutate(
+    geometry=geoValues$simple_feature_column
+  ) -> df_sf2
+class(df_sf2) # still a "data frame"
+# Must go through sf::st_set_geometry to get sf class
+class(geoValues$simple_feature_df) # "sf" "data.frame"
+
+geoValues$simple_feature_df |> ggplot()+geom_sf()
+```
+
+## Import Simple Feature Data
+
+### From SHP file
+
+  * <https://tpemartin.github.io/economic-data-visualization/zh-tw/annotation-and-maps.html#%E8%AE%80%E5%85%A5shp%E6%AA%94>
+  
+台灣的sf data太細，以平常輸出並不需要這麼細，可以進行簡化。使用：
+```{r}
+sf_data |> mp$sf$simplify() -> sf_simplified_data
+```
+
+
+### From OSM
+
+  * Define bounding box
+  
+  * Find feature key and value
+  
+  * Make open pass query to get sf data.
+
+```{r}
+bbox = c(left = 121.0316, bottom = 24.7384, right = 122.1096, top = 25.3114) |>
+  osmdata::opq() |>
+  osmdata::add_osm_feature(key="admin_level", value="4") |>
+  osmdata::osmdata_sf() -> taipei_osm
+```
+
+  * If you have multiple features to request, chain `add_osm_feature`s one after the other.
+
+OR
+
+```{r}
+bbox = c(left = 121.0316, bottom = 24.7384, right = 122.1096, top = 25.3114)
+features = c("admin_level"="4")
+mp$osm$request_data(
+  bbox, features = features
+) -> taipei_osm
+```
+
+  * features is a named character vector, with keys be element names and values be element values. 
+
+```{r}
+taipei_osm$osm_multipolygons |> 
+  dplyr::filter(name != "臺灣省") -> sf_northTaipei 
+
+sf_northTaipei |>
+  ggplot()+geom_sf()
+
+sf_northTaipei |>
+  ggplot()+geom_sf(aes(fill=name))
+```
+
+### sf overlay ggmap
+
+#### Taipei MRT{-}
+
+```{r}
+bbox = c(left = 121.0316, bottom = 24.7384, right = 122.1096, top = 25.3114)
+features = c("railway"=	"subway")
+mp$osm$request_data(
+  bbox, features
+) -> taipei_mrt
+```
+
+```{r}
+taipei_mrt$osm_lines |> 
+  ggplot()+geom_sf()
+```
+
+
+```{r}
+# Error, since ggmap has some aes setting at the ggplot() stage which will be inherited by all the following geoms
+taipei1()+
+  geom_sf(
+    data=taipei_mrt$osm_lines,
+    color="dodgerblue"
+  )
+```
+
+```{r}
+taipei1()+
+  geom_sf(
+    data=taipei_mrt$osm_lines,
+    color="dodgerblue",
+    inherit.aes = FALSE
+  )
+```
+
+<div class="alert alert-warning">
+sf overlay google map from ggmap might have problem. If it does, try the following tip:
+
+  * <https://github.com/dkahle/ggmap/issues/160#issuecomment-966812818>
+  
+</div>
+
+### data frame overlay ggmap
+
+```{r}
+taipei_mrt$osm_lines |> sf::st_coordinates() -> coordinates
+coordinates |> class()
+
+taipei1() +
+  geom_path(
+    data=coordinates |> as.data.frame(),
+    mapping=aes(
+      x=X, y=Y, group=L1
+    ),
+    inherit.aes = FALSE
+  )
+```
+
+## Taiwan drug problem
+
+```{r}
+sf_taiwan_simplified <- econDV2::sf_taiwan_simplified
+
+sf_taiwan_simplified$台灣本島$縣市 |> 
+  ggplot()+geom_sf()
+sf_taiwan_simplified$台灣本島$鄉鎮區 |>
+  ggplot()+geom_sf()
+```
+
+<div class="alert alert-warning">
+Cast the **geometry** column to have uniform feature if your want to use `plotly::ggplotly` later:
+```{r}
+# Originally polygons mixed with multipolygons
+sf_taiwan_simplified$台灣本島$鄉鎮區 |> sf::st_geometry()
+
+# re-cast to uniform multipolygon
+sf_taiwan_simplified$台灣本島$鄉鎮區 |>
+  sf::st_cast("MULTIPOLYGON") -> 
+  sf_taiwan_simplified$台灣本島$鄉鎮區
+```
+
+</div>
+
+```{r}
+mp <- econDV2::Map()
+```
+
+  * `mp$sf$make_background_map` 底圖製作
+  
+### 縣市底圖
+
+```{r}
+econDV2::Object(background)
+```
+
+
+```{r}
+sf_taiwan_simplified$台灣本島$縣市 |>
+  mp$sf$make_background_map()
+
+background$台灣本島$縣市 <- function(){
+  sf_taiwan_simplified$台灣本島$縣市 |>
+  mp$sf$make_background_map(
+      color="white",
+      size=0.14
+  )
+}
+
+background$台灣本島$縣市()
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/gg_taiwan1.png", "100%")
+```
+
+
+
+<div class="alert alert-info">
+If you don't know how much to crop and want to explore different possibilities, you can:
+```{r}
+sf_taiwan_simplified$縣市 |> 
+  mp$sf$gg_crop()
+```
+
+</div>
+
+### 各鄉/鎮/區底圖
+
+
+```{r}
+background$台灣本島$鄉鎮區 <- function(){
+  sf_taiwan_simplified$台灣本島$鄉鎮區 |>
+    sf::st_cast("MULTIPOLYGON") |>
+    mp$sf$make_background_map(
+      color="white",
+      size=0.14
+    )
+}
+
+background$台灣本島$鄉鎮()
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/gg_taiwan2.png", "100%")
+```
+
+### stamenmap底圖
+
+```{r}
+bbox <- c(left=119.99690,
+bottom=21.89988,
+right=122.00000,
+top=25.29999)
+```
+
+
+```{r}
+econDV2::Object(taiwan_stamen)
+# toner-lite
+taiwan_stamen$tonerlite <- 
+  ggmap::get_stamenmap(bbox, maptype="toner-lite", zoom=9) 
+
+background$台灣本島$tonerlite <- 
+  function(){
+    ggmap::ggmap(taiwan_stamen$tonerlite)
+  }
+
+background$`台灣本島`$tonerlite()
+
+# terrain
+taiwan_stamen$terrain <- 
+  ggmap::get_stamenmap(bbox, maptype="terrain", zoom=9)
+background$台灣本島$terrain <- function(){
+  ggmap::ggmap(taiwan_stamen$terrain,
+    darken=c("0.3", "white"))
+}
+
+background$台灣本島$terrain()
+```
+
+
+### 毒品破獲
+
+  1. 創立帶有geometry column的sf毒品資料
+  
+  2. 繪製面量圖
+
+```{r}
+econDV2::Object(drug)
+drug$data <- jsonlite::fromJSON("https://www.dropbox.com/s/dry3nvahkmcmqoi/drug.json?dl=1")
+drug$data <- drug$data |>
+  dplyr::filter(發生西元年=="2018")
+```
+
+```{r}
+# 計算不同發生地點的案件破獲次數 
+library(dplyr)
+drug$data |>
+  group_by(發生地點) |>
+  summarise(
+    案件次數=n(),
+    案件次數2=cut(案件次數, c(0, 10, 20, 30))
+  ) -> drug$data_frequency
+```
+
+
+#### create sf econ-social data
+
+
+```{r}
+left_data <-
+  sf_taiwan_simplified$`台灣本島`$鄉鎮區
+
+library(sf) # You need this for dplyr join functions to work with sf class data frame
+
+right_data <- 
+  drug$data_frequency |>
+  mutate(
+    發生地點=
+    stringr::str_replace(發生地點, '台', "臺"))
+
+## left_join
+drug$join$left <- {
+  left_data |> 
+    dplyr::left_join(
+      right_data, by=c("map_id"="發生地點")
+    )
+}
+## right_join
+drug$join$right <- {
+  left_data |> 
+    dplyr::right_join(
+      right_data, by=c("map_id"="發生地點")
+    )
+}## inner_join
+drug$join$inner <- {
+  left_data |> 
+    dplyr::inner_join(
+      right_data, by=c("map_id"="發生地點")
+    )
+}
+
+```
+
+
+```{r}
+drug$join$left |> ggplot()+geom_sf()
+# right covers some small island data whose geometry is empty
+drug$join$right |> ggplot() + geom_sf()
+# inner like right but no small island data
+drug$join$inner |> ggplot() + geom_sf()
+
+drug$sf <- drug$join$inner
+
+```
+
+
+#### overlay sf background
+
+```{r}
+drug$map$choropleth0 <- function(){
+  background$`台灣本島`$鄉鎮區() +
+    geom_sf(
+      data=drug$sf,
+      mapping=aes(
+        fill=案件次數
+      ),
+      color="white",
+      size=0.15
+    ) 
+}
+
+drug$map$choropleth0()
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/drug_choropleth0.png", "100%")
+```
+
+```{r}
+# mp$choose_palette()
+drug$register_palette <- function(){
+  colorspace::sequential_hcl(n = 3, h = c(-83, 20), c = c(65, NA, 18), l = c(32, 90), power = c(0.5, 1), rev = TRUE, register = "drug")
+}
+
+drug$register_palette()
+```
+
+
+```{r}
+drug$map$choropleth0() +
+  colorspace::scale_fill_continuous_sequential(
+    palette="drug", 
+    na.value="#dbd7a8"
+  )
+```
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("img/drug_choropleth0_b.png", "100%")
+```
+
+
+```{r}
+drug$map$choropleth1 <- function(){
+  background$`台灣本島`$鄉鎮區() +
+    geom_sf(
+      data=drug$sf,
+      mapping=aes(
+        fill=案件次數2,
+        label=map_id
+      ),
+      color="white",
+      size=0.15
+    ) 
+}
+```
+
+```{r}
+drug$map$choropleth1() +
+  colorspace::scale_fill_discrete_sequential(
+    palette="drug", 
+    na.value="#dbd7a8"
+  ) + 
+  theme_void() -> drug$map$choropleth_final
+
+drug$map$choropleth_final
+```
+
+```{r , eval=T, echo=F}
+tags$a(
+  href="https://tpemartin.github.io/economic-data-visualization-2021/img/plotly_drug.html",
+  target="_blank",
+  teachDS::img_centering("img/drug_choropleth_final.png","100%")
+)
+
+```
+
+
+```{r}
+plotly::ggplotly(
+  drug$map$choropleth_final
+)
+```
+
+<div class="alert alert-info">
+If you want to make the entire Taiwan island's choropleth map down to "縣市" or "鄉鎮區", you can also use:
+
+  * `econDV2::geom_sf_taiwan` which only need social-econ data with map_id. It will create sf social-econ data in the background for you.
+  
+  * `econDV2::geom_sf_taiwan` default at `cast2multipolygon=T` to ensure `plotly::ggplotly` work. 
+
+```{r}
+ggplot()+  
+  econDV2::geom_sf_taiwan(
+    data=drug$data_frequency,
+    mapping=aes(
+      fill=案件次數
+    ),
+    map_id = "發生地點",
+    type="鄉鎮區"
+  )
+
+last_plot() +
+  colorspace::scale_fill_continuous_sequential(
+    palette="drug", 
+    na.value="#dbd7a8"
+  )
+
+plotly::ggplotly(last_plot())
+```
+
+  * background map design change is also possible. 
+
+```{r}
+ggplot()+
+  econDV2::geom_sf_taiwan(
+    data=drug$data_frequency,
+    mapping=aes(
+      fill=案件次數2
+    ),
+    color="white",
+    size=0.15,
+    map_id = "發生地點",
+    type="鄉鎮區",
+    background.fill = "#ebffd9",
+    background.color = "#d9d9d9",
+    background.size = 0.1
+  )
+
+last_plot() +
+  colorspace::scale_fill_discrete_sequential(
+    palette="drug", 
+    na.value="#dbd7a8"
+  ) + 
+  theme_void()
+
+plotly::ggplotly(last_plot())
+```
+
+```{r, eval=TRUE, echo=FALSE}
+teachDS::img_centering("img/drugecondv2.png", width="70%")
+```
+
+
+</div>
+
+#### overlay stamenmap background
+
+```{r}
+drug$map$overstamen_tonerlite <- 
+  background$`台灣本島`$tonerlite() +
+    geom_sf(
+      data=drug$sf,
+      mapping=aes(
+        fill=案件次數2,
+        label=map_id
+      ),
+      color="white",
+      size=0.15,
+      alpha=0.3,
+      inherit.aes = F
+    ) +
+  colorspace::scale_fill_discrete_sequential(
+    palette="drug", 
+    na.value=ggplot2::alpha("#dbd7a8", 0.1)
+  )
+
+drug$map$overstamen_tonerlite
+```
+
+```{r}
+plotly::ggplotly(drug$map$overstamen_tonerlite)
+```
+
+  * The overlay is slightly off due to some bug in ggmap. To fix it, you can use `econDV2::ggmap2() + econDV2::geom_sf_overggmap()`
+
+```{r fix}
+drug$map$overstamen_tonerlite_fixed <- 
+  econDV2::ggmap2(taiwan_stamen$tonerlite)+
+    econDV2::geom_sf_overggmap(
+        data=drug$sf,
+        mapping=aes(
+          fill=案件次數2,
+          label=map_id
+        ),
+        color="white",
+        size=0.15,
+        alpha=0.7,
+        inherit.aes = F
+      ) +
+    colorspace::scale_fill_discrete_sequential(
+      palette="drug", 
+      na.value=ggplot2::alpha("#dbd7a8", 0.1)
+    )+theme_void()
+
+drug$map$overstamen_tonerlite_fixed
+
+plotly::ggplotly(drug$map$overstamen_tonerlite_fixed)
+```
+
+```{r , eval=T, echo=F}
+tags$a(
+  href="taiwan_drug2018_stamen1.html",
+  target="_blank",
+  teachDS::img_centering("img/drug_map_overstament_tonerlite_fixed.png", "85%")
+)
+```
+
+  * There is still some unfit due to the fact that sf geometry is simplified. 
+
+***
+
+Terrain
+```{r}
+drug$map$overstamen_terrain <- 
+  background$`台灣本島`$terrain() +
+    geom_sf(
+      data=drug$sf,
+      mapping=aes(
+        fill=案件次數2,
+        label=map_id
+      ),
+      color="white",
+      size=0.15,
+      alpha=0.7,
+      inherit.aes = F
+    ) +
+  colorspace::scale_fill_discrete_sequential(
+    palette="drug", 
+    na.value=ggplot2::alpha("#dbd7a8", 0.1)
+  )
+
+drug$map$overstamen_terrain
+```
+
+```{r}
+drug$map$overstamen_terrain_fixed <- 
+  econDV2::ggmap2(taiwan_stamen$terrain) +
+    econDV2::geom_sf_overggmap(
+      data=drug$sf,
+      mapping=aes(
+        fill=案件次數2,
+        label=map_id
+      ),
+      color="white",
+      size=0.15,
+      alpha=0.5,
+      inherit.aes = F
+    ) +
+  colorspace::scale_fill_discrete_sequential(
+    palette="drug", 
+    na.value=ggplot2::alpha("#dbd7a8", 0.1)
+  )+theme_void()
+
+drug$map$overstamen_terrain_fixed
+```
+
+```{r , eval=T, echo=F}
+tags$a(
+  href="taiwan_drug2018_stamen2.html", 
+  target="_blank",
+  teachDS::img_centering("img/drug_map_overstament_terrain_fixed.png", "85%")
+)
+
+```
+
+
+```{r}
+plotly::ggplotly(drug$map$overstamen_terrain_fixed)
+```
+
+
+
+<!--
+## Spatial computation
+
+  * <https://cran.r-project.org/web/packages/sf/vignettes/sf1.html>
+
+## Projection
+
+#### Mercator projection
+
+Standard longitude and latitude system when laid out on the Cartesian plane will be a standard Mercator tanget projection with no rotation with center point the mean of data longitudes and latitudes (roughly `(0,0)`). 
+
+<figure>
+```{r, echo=F, eval=TRUE}
+teachDS::img_centering(
+  "https://upload.wikimedia.org/wikipedia/commons/b/b5/Comparison_of_Mercator_projections.svg"
+)
+```
+<figcaption>Mercator projection</figcaption>
+</figure>
+
+To gain more control on projection result, use `coord_map()`:
+```{r}
+world0() + coord_map()
+```
+
+<div class="alert alert-warning">
+By default, `coord_map()` take `xlim=range(world$long)`, range has some round off effect which cuts the true range short, creating the erraneous connection problem. To avoid that, set `xlim=c(-180, 180)` (a little wider than the range rendered).
+```{r}
+world0() + coord_map(xlim=c(-180, 180))
+```
+
+</div>
+
+Set orientation vector:  
+> A vector c(latitude,longitude,rotation) which describes where the "North Pole" should be when computing the projection.
+
+```{r}
+center_longitude = 90 #input$center_longitude
+rotation = 0 #input$rotation
+mapproj::mapproject(
+  world$long,
+  world$lat,
+  projection="mercator",
+  orientation = c(90, center_longitude, rotation)
+) -> longlat_new
+world_new <- data.frame(
+  longlat_new[c("x","y")]
+)
+world_new$group <- world$group
+```
+
+```{r}
+world <- world |> dplyr::filter(region !="Antarctica", is.na(subregion))
+```
+
+```{r}
+center_longitude = 0 #input$center_longitude
+rotation = 0 #input$rotation
+```
+
+
+```{r}
+world = ggplot2::map_data("world")
+world0()+coord_map(
+  # xlim=c(-180, 180),
+  orientation = c(90, 0, rotation),
+  clip="off"
+)+
+  expand_limits(x=range(world$long), y=range(world$lat))
+```
+
+```{r}
+world |> group_by(region) |> 
+  slice(1) -> world_value
+ggplot()+
+  geom_map(
+    data=world_value,
+    aes(map_id=region),
+    fill="white", color="black",
+    map=world
+  ) 
+```
+
+
+```{r}
+gg0+coord_map(
+  clip="off"
+)
+gg0+coord_map(
+  xlim= c(-190, 190)
+)
+(gg0 + coord_map()) |>
+  plotly::ggplotly()
+gg0 + coord_quickmap()
+mean(range(world$long))
+o1 = 90 #input$o1
+o2 = 0 #input$o2
+o3 = 5.1354 #input$o3
+gg0+coord_map(
+  orientation=c(o1, o2, o3)
+)
+gg0 + coord_quickmap(
+  orientation=c(o1, o2, o3)
+)
+last_plot() + coord_map(projection = "sinusoidal")
+last_plot() + coord_map(
+  orientation = 
+)
+```
+
+### Various projection
+
+![cylindrical projection](https://support.esri.com/~/media/Support/GISDictionary/cylindrical-projection.jpg)
+Types of cylindrical map projections you may know include the popular Mercator projection, Cassini, Gauss-Kruger, Miller, Behrmann, Hobo-Dyer, and Gall-Peters.
+
+
+
+
+
+![planar projection](https://support.esri.com/~/media/Support/GISDictionary/planar-projection.jpg)
+
+
+***
+
+You can pull out certain country data via filter on `region`.
+
+  * A country can have many polygons defined by `subregion`, like Taiwan.
+
+```{r}
+world |> 
+  dplyr::filter(
+    stringr::str_detect(region, "Taiwan")
+  ) ->
+  taiwan
+
+taiwan |> 
+  ggplot() + geom_polygon(
+    mapping=aes(
+      x=long, y=lat, group=group
+    )
+  )
+
+last_plot() + coord_map()
+```
+
+  * By default, all geom (except geom_sf) is graphed based on Cartesian coordinate system. You need to `+coord_map()` to do map projection.
+  
+```{r}
+# the default of coord_map
+coord_map(
+  projection = "mercator",
+  ...,
+  parameters = NULL,
+  orientation = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  clip = "on"
+)
+```
+  
+
+  * If multiple coordinate systems are detected, the last coordinate system will be used.
+
+
+## Rotate the projection 
+
+
+
+## Map overlay
+
+
+```{r}
+xfun::download_file("https://www.dropbox.com/s/kvjpd1idvsln41k/20-Mar-2021-sanxiaBikeRoute.gpx?dl=1")
+econDV2::Object(bikeRoute)
+bikeRoute$data$raw <- 
+  plotKML::readGPX(
+    gpx.file="20-Mar-2021-sanxiaBikeRoute.gpx")
+bikeRoute$data$track <-
+  bikeRoute$data$raw$tracks[[1]][[1]]
+```
+
+```{r}
+ggplot() +
+  geom_path(
+    data=bikeRoute$data$track,
+    mapping=
+      aes(
+        x=lon,
+        y=lat
+      )
+  ) + coord_map()
+```
+
+### Raster image
+
+```{r}
+mp$browse$openstreetmap()
+```
+
+
+```{r}
+mp$copy_paste$osm_bbox()
+```
+left=121.3512,
+bottom=24.9435,
+right=121.3849,
+top=24.9615
+
+
+```{r}
+img <- list()
+xfun::download_file("https://www.dropbox.com/s/e2kct9xropvg1h5/map_sanxia.png?dl=1")
+magick::image_read("map_sanxia.png") -> img$raw
+magick::image_resize(
+  img$raw,
+  geometry = magick::geometry_size_percent(width = 50, height = NULL)
+) -> img$resize
+
+magick::image_flatten(
+  img$raw
+) -> img$flatten
+
+magick::image_write(
+  img$resize, path="map_resize.png"
+)
+```
+
+```{r}
+check_size <- function(x){
+  x |> magick::image_raster() |>
+    pryr::object_size()
+}
+```
+
+```{r}
+raster_0 <- magick::image_raster(
+  img$raw
+)
+pryr::object_size(raster_0)
+
+raster_map <- magick::image_raster(img$resize)
+pryr::object_size(raster_map)
+raster_flatmap <- 
+  magick::image_raster(img$flatten)
+pryr::object_size(raster_flatmap)
+
+
+img$raw |> check_size()
+
+img$raw |>
+  magick::image_quantize(colorspace="gray") |> 
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |> #print()
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |>
+  magick::image_resize(
+    geometry = magick::geometry_size_percent(80)
+  ) |> #print()
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |>
+  magick::image_resize(
+    geometry = magick::geometry_size_percent(80)
+  ) |>
+  magick::image_raster() -> img$resize_gray
+```
+
+```{r}
+img$resize_gray$col |> unique() -> colorlimit
+ggplot()+
+  geom_raster(
+    data=img$resize_gray,
+    mapping=aes(
+      x=x, y=y, fill=col
+    )
+  )+
+  scale_fill_manual(
+    limits = colorlimit,
+    values = colorlimit
+  )+
+  theme(
+    legend.position = "none"
+  )-> gg1
+
+gg1
+```
+
+
+```{r}
+econDV2::Object(overlay)
+overlay$raster$google <- {
+  ggmap::get_map(
+  c(lon=121.3684249, lat=24.9521791),
+  zoom=15)
+}
+overlay$raster$statmen <- {
+  
+}
+overlay$raster$osm <- {
+  ggmap::get_map(
+    c(left=121.34759,
+bottom=24.94224,
+right=121.38503,
+top=24.96071),
+    source="osm"
+  )
+}
+```
+
+
+```{r}
+attach(bikeRoute$data)
+{
+  track[c("lon", "lat")] |> as.matrix() |> sf::st_linestring() -> track_linestring
+  
+  track_linestring |> sf::st_crs()
+  
+  ggplot()+geom_sf(data=track_linestring, crs=NULL)
+  
+  ggmap::get_map(
+c(lon=121.3684249, lat=24.9521791),
+zoom=15  ) -> raster_ntpu
+  
+  
+  ggmap(raster_ntpu) -> gg_ntpu
+  
+  gg_ntpu |> sf::st_crs()
+  raster_ntpu |> sf::st_crs()
+  track_linestring |> sf::st_crs()
+  
+  gg_ntpu + geom_sf(
+    data=track_linestring,
+    inherit.aes = F
+  )+theme_void()
+
+  # gg_ntpu and geom_sf are two different coordinate systems by concepts. Here both has no crs setting. So the warning is wrong.
+}
+detach(bikeRoute$data)
+```
+
+```{r}
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") |> ggmap() 
+```
+
+
+## Raster map 
+
+```{r}
+
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+bbox_ntpu <- 
+  c(top=24.94709,
+right=121.37619,
+bottom=24.93842,
+left=121.36230)
+ggmap::get_map(
+  location= c(lon=121.37015,lat=24.94311),
+  source="osm"
+)
+ggmap::get_openstreetmap(
+  bbox=bbox_ntpu
+) -> map_ntpu 
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap()  -> gg0
+```
+
+
+24.94709 (top)
+121.37619 (right)
+24.93842
+121.36230
+
+
+
+```{r}
+magick::image_read("/Users/martinl/Downloads/map_ntpu.png") -> map_ntpu
+magick::image_raster(map_ntpu) -> raster_ntpu
+pryr::object_size(raster_ntpu) # extremely big
+```
+
+  * **Raster** is not an efficient way to store image information. 
+  
+```{r}
+newTaipeiBBox <- c(xmin=121.28263, ymin=24.67316, xmax=122.00640, ymax=25.29974)
+```
+
+
+## open street map (OSM)
+
+  * <https://openstreetmap.org>
+
+```{r}
+browseURL("https://openstreetmap.org")
+```
+
+## ggmap
+
+```{r}
+ggmap::get_openstreetmap(
+  
+)
+```
+
+
+```{r}
+library("ggmap")
+#  Loading required package: ggplot2
+#  Registered S3 methods overwritten by 'ggplot2':
+#    method         from 
+#    [.quosures     rlang
+#    c.quosures     rlang
+#    print.quosures rlang
+#  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+#  Please cite ggmap if you use it! See citation("ggmap") for details.
+
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap()  -> gg0
+gg0 |> class()
+gg0$data
+ggmap |> body() |> clipr::write_clip()
+```
+
+
+
+-->

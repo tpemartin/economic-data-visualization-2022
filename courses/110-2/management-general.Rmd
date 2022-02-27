@@ -1,0 +1,31 @@
+
+## Vimeo
+
+```{r}
+# econDV2::Object(classinfo)
+vimeo::vimeo_auth()
+vimeo::vimeoService_create() -> vimeo
+vimeo$getMyShowcases() -> showcases
+showcases$data |> View()
+classinfo$vimeo$info <- showcases$data[3,]
+classinfo$vimeo$info |> View()
+classinfo$vimeo$info$uri
+library(dplyr)
+vimeo$get_showcaseVideos(
+  uri=classinfo$vimeo$info$uri[[1]]
+) -> videos
+vimeo$get_showcaseVideos(
+  uri=videos[["paging"]][["next"]]
+) -> videos_next
+dplyr::bind_rows(
+  videos$data,
+  videos_next$data
+) -> classinfo$vimeo$videos
+classinfo$save()
+```
+
+```{r}
+classinfo = readRDS("data/classinfo.Rds")
+classinfo$vimeo$videos |> View()
+```
+

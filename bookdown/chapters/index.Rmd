@@ -1,0 +1,117 @@
+--- 
+title: "Economic Data Visualization"
+author: "Dr. Lin, Mau-Ting"
+date: "2021"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+---
+
+
+```{r, eval=T, echo=F}
+klippy::klippy()
+```
+
+
+# Prerequisites
+
+## Packages
+
+```{r}
+install.packages(
+  c("showtext","extrafont", "remotes")
+)
+```
+
+```{r}
+remotes::install_github("tpemartin/econDV2", force=T)
+```
+
+
+
+## Setup environment
+
+## Start a project
+
+Start a new project for your ggplot environment:
+
+**Project** > **New Project...** > **New Directory** > **New Project**
+
+## 中文
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+```
+
+
+
+```{r}
+sysfonts::font_families()
+sysfonts::font_add_google('Noto Sans TC')
+sysfonts::font_families()
+```
+
+```{r}
+library(ggplot2)
+library(showtext)
+showtext_auto()
+theme_set(
+  theme(
+    text=element_text(family = "Noto Sans TC")
+  ) 
+)
+```
+
+<div class="alert alert-info">
+你也可以在你的`.Rprofile`裡加上:
+```{r}
+library(ggplot2)
+library(showtext)
+sysfonts::font_add_google('Noto Sans TC')
+showtext_auto()
+theme_set(
+  theme(
+    text=element_text(family = "Noto Sans TC")
+  ) 
+)
+```
+</div>
+
+## econDV2
+
+```{r}
+devtools::install_github("tpemartin/econDV2")
+```
+
+
+## .Rprofile
+
+```{r}
+library(ggplot2)
+library(showtext)
+sysfonts::font_add_google('Noto Sans TC')
+showtext_auto()
+theme_set(
+  theme(
+    text=element_text(family = "Noto Sans TC")
+  )+
+    theme_classic()
+)
+library(econDV2)
+gg <- list(
+  dash = econDV2::ggdash,
+  geom = econDV2::ggbrowse,
+  aes = econDV2::ggaes
+)
+
+```
+

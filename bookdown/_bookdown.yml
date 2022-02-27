@@ -1,0 +1,20 @@
+book_filename: "economic-data-visualization-2021"
+clean: [packages.bib, bookdown.bbl]
+language:
+  label:
+    fig: "圖 "
+    tab: "表"
+  ui:
+    edit: "編輯"
+    chapter_name: ["第 ", " 章"]
+delete_merged_file: TRUE
+output_dir: "/Users/martinl/Github/economic-data-visualization-2022/docs"
+rmd_files: [
+  "index.Rmd",
+  "chapters/geometries-and-aesthetics.Rmd",
+  "chapters/layers.Rmd",
+  "chapters/categorical-data.Rmd",
+  "chapters/scales.Rmd",
+  "chapters/maps.Rmd",
+  "chapters/color.Rmd"
+]
