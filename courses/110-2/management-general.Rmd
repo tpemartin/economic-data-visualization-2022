@@ -26,6 +26,9 @@ classinfo$save()
 
 ```{r}
 classinfo = readRDS("data/classinfo.Rds")
-classinfo$vimeo$videos |> View()
+classinfo$vimeo$videos |> 
+  dplyr::arrange(created_time) -> 
+  df_videos
+df_videos$name |> clipr::write_clip()
 ```
 
