@@ -3,11 +3,9 @@ bookdown::gitbook:
     in_header: ["assets/bootstrap.html",
                 "assets/ga.html",
                 "assets/popper.html"]
-    assets: ["assets/style.html","assets/open_review_block.html"]
-    #, "assets/hypothesis.html"
-    after_body: ["assets/otherJS.html",
-    "assets/bootstrap-after-body.html",
-    "assets/documentReady.html"]
+    after_body: ["assets/style.html","assets/open_review_block.html",
+    "assets/otherJS.html",
+    "assets/bootstrap-after-body.html"]
   css: "style.css"
   config:
     toc:
