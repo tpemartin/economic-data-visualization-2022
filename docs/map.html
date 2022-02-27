@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 6 章 Map | Economic Data Visualization</title>
+  <meta name="description" content="第 6 章 Map | Economic Data Visualization" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 6 章 Map | Economic Data Visualization" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 6 章 Map | Economic Data Visualization" />
+  
+  
+  
+
+<meta name="author" content="Dr. Lin, Mau-Ting" />
+
+
+<meta name="date" content="2021-01-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="scale.html"/>
+<link rel="next" href="color.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104915016-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-104915016-7');
+
+  // ga('set', 'userId', 'USER_ID'); // Set the user ID using signed-in user_id.
+</script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">經濟資料視覺化處理</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.1</b> Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#start-a-project"><i class="fa fa-check"></i><b>1.2</b> Start a project</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#rprofile"><i class="fa fa-check"></i><b>1.3</b> .Rprofile</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#otherSoftware"><i class="fa fa-check"></i><b>1.4</b> 其他</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html"><i class="fa fa-check"></i><b>2</b> Geometries and Aesthetics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#an-example"><i class="fa fa-check"></i><b>2.1</b> An Example</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#econdv2ggdash"><i class="fa fa-check"></i><b>2.1.1</b> econDV2::ggdash</a></li>
+<li class="chapter" data-level="2.1.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#script-saving"><i class="fa fa-check"></i><b>2.1.2</b> Script saving</a></li>
+<li class="chapter" data-level="2.1.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#graph-output"><i class="fa fa-check"></i><b>2.1.3</b> Graph output</a></li>
+<li class="chapter" data-level="2.1.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#ggdash-more"><i class="fa fa-check"></i><b>2.1.4</b> ggdash more</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#inheritance"><i class="fa fa-check"></i><b>2.2</b> Inheritance</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#data"><i class="fa fa-check"></i><b>2.2.1</b> Data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#aesthetics"><i class="fa fa-check"></i><b>2.2.2</b> Aesthetics</a></li>
+<li class="chapter" data-level="2.2.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#stop-data-inheritance"><i class="fa fa-check"></i><b>2.2.3</b> Stop data inheritance</a></li>
+<li class="chapter" data-level="2.2.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#finish-panel"><i class="fa fa-check"></i><b>2.2.4</b> Finish panel</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#graph-export"><i class="fa fa-check"></i><b>2.3</b> Graph export</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="layers.html"><a href="layers.html"><i class="fa fa-check"></i><b>3</b> Layers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="layers.html"><a href="layers.html#time-series-data"><i class="fa fa-check"></i><b>3.1</b> Time series data</a></li>
+<li class="chapter" data-level="3.2" data-path="layers.html"><a href="layers.html#aesthetics-inheritance"><i class="fa fa-check"></i><b>3.2</b> Aesthetics inheritance</a></li>
+<li class="chapter" data-level="3.3" data-path="layers.html"><a href="layers.html#sequence-of-layers"><i class="fa fa-check"></i><b>3.3</b> Sequence of layers</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="layers.html"><a href="layers.html#line-stroke"><i class="fa fa-check"></i><b>3.3.1</b> Line stroke</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="layers.html"><a href="layers.html#create-your-first-geom"><i class="fa fa-check"></i><b>3.4</b> Create your first geom</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="layers.html"><a href="layers.html#layer-adding"><i class="fa fa-check"></i><b>3.4.1</b> Layer adding</a></li>
+<li class="chapter" data-level="3.4.2" data-path="layers.html"><a href="layers.html#new-geom-function"><i class="fa fa-check"></i><b>3.4.2</b> New geom function</a></li>
+<li class="chapter" data-level="3.4.3" data-path="layers.html"><a href="layers.html#dot-dot-dot"><i class="fa fa-check"></i><b>3.4.3</b> dot-dot-dot</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="layers.html"><a href="layers.html#summary"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+<li class="chapter" data-level="3.6" data-path="layers.html"><a href="layers.html#exercise"><i class="fa fa-check"></i><b>3.6</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="categorical-data.html"><a href="categorical-data.html"><i class="fa fa-check"></i><b>4</b> Categorical data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="categorical-data.html"><a href="categorical-data.html#aesthetics-group"><i class="fa fa-check"></i><b>4.1</b> Aesthetics: group</a></li>
+<li class="chapter" data-level="4.2" data-path="categorical-data.html"><a href="categorical-data.html#geom-overlapping"><i class="fa fa-check"></i><b>4.2</b> Geom overlapping</a></li>
+<li class="chapter" data-level="4.3" data-path="categorical-data.html"><a href="categorical-data.html#position-stack"><i class="fa fa-check"></i><b>4.3</b> Position: stack</a></li>
+<li class="chapter" data-level="4.4" data-path="categorical-data.html"><a href="categorical-data.html#factor"><i class="fa fa-check"></i><b>4.4</b> Factor</a></li>
+<li class="chapter" data-level="4.5" data-path="categorical-data.html"><a href="categorical-data.html#proportional-data"><i class="fa fa-check"></i><b>4.5</b> Proportional data</a></li>
+<li class="chapter" data-level="4.6" data-path="categorical-data.html"><a href="categorical-data.html#adding-text"><i class="fa fa-check"></i><b>4.6</b> Adding text</a></li>
+<li class="chapter" data-level="4.7" data-path="categorical-data.html"><a href="categorical-data.html#more-on-position"><i class="fa fa-check"></i><b>4.7</b> More on position</a></li>
+<li class="chapter" data-level="4.8" data-path="categorical-data.html"><a href="categorical-data.html#coordination-flip"><i class="fa fa-check"></i><b>4.8</b> Coordination flip</a></li>
+<li class="chapter" data-level="4.9" data-path="categorical-data.html"><a href="categorical-data.html#summary-1"><i class="fa fa-check"></i><b>4.9</b> Summary</a></li>
+<li class="chapter" data-level="4.10" data-path="categorical-data.html"><a href="categorical-data.html#exercise-1"><i class="fa fa-check"></i><b>4.10</b> Exercise</a>
+<ul>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section"><i class="fa fa-check"></i>1</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-1"><i class="fa fa-check"></i>2</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-2"><i class="fa fa-check"></i>3</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-3"><i class="fa fa-check"></i>4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="scale.html"><a href="scale.html"><i class="fa fa-check"></i><b>5</b> Scale</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="scale.html"><a href="scale.html#legend"><i class="fa fa-check"></i><b>5.1</b> Legend</a></li>
+<li class="chapter" data-level="5.2" data-path="scale.html"><a href="scale.html#time-axis"><i class="fa fa-check"></i><b>5.2</b> Time axis</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="scale.html"><a href="scale.html#custom-axis-function"><i class="fa fa-check"></i><b>5.2.1</b> Custom axis function</a></li>
+<li class="chapter" data-level="5.2.2" data-path="scale.html"><a href="scale.html#advanced-function"><i class="fa fa-check"></i><b>5.2.2</b> Advanced function</a></li>
+<li class="chapter" data-level="5.2.3" data-path="scale.html"><a href="scale.html#time-period"><i class="fa fa-check"></i><b>5.2.3</b> Time period</a></li>
+<li class="chapter" data-level="5.2.4" data-path="scale.html"><a href="scale.html#dot-dot-dot-1"><i class="fa fa-check"></i><b>5.2.4</b> dot-dot-dot</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="scale.html"><a href="scale.html#xy-axis"><i class="fa fa-check"></i><b>5.3</b> XY axis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="scale.html"><a href="scale.html#expansion-and-out-of-bound"><i class="fa fa-check"></i><b>5.3.1</b> Expansion and out-of-bound</a></li>
+<li class="chapter" data-level="5.3.2" data-path="scale.html"><a href="scale.html#secondary-axis"><i class="fa fa-check"></i><b>5.3.2</b> Secondary axis</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="scale.html"><a href="scale.html#colorfill"><i class="fa fa-check"></i><b>5.4</b> Color/Fill</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="scale.html"><a href="scale.html#discrete"><i class="fa fa-check"></i><b>5.4.1</b> Discrete</a></li>
+<li class="chapter" data-level="5.4.2" data-path="scale.html"><a href="scale.html#continuous"><i class="fa fa-check"></i><b>5.4.2</b> Continuous</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="scale.html"><a href="scale.html#exercise-2"><i class="fa fa-check"></i><b>5.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>6</b> Map</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="map.html"><a href="map.html#geographic-geoms"><i class="fa fa-check"></i><b>6.1</b> Geographic geoms</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="map.html"><a href="map.html#point-line-and-polygon"><i class="fa fa-check"></i><b>6.1.1</b> Point, Line and Polygon</a></li>
+<li class="chapter" data-level="6.1.2" data-path="map.html"><a href="map.html#multipolygons"><i class="fa fa-check"></i><b>6.1.2</b> Multipolygons</a></li>
+<li class="chapter" data-level="6.1.3" data-path="map.html"><a href="map.html#fill-polygons"><i class="fa fa-check"></i><b>6.1.3</b> Fill polygons</a></li>
+<li class="chapter" data-level="6.1.4" data-path="map.html"><a href="map.html#application-to-world-map"><i class="fa fa-check"></i><b>6.1.4</b> Application to world map</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>6.2</b> Choropleth map</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="map.html"><a href="map.html#backgroup-fill-and-borders"><i class="fa fa-check"></i><b>6.2.1</b> Backgroup fill and borders</a></li>
+<li class="chapter" data-level="6.2.2" data-path="map.html"><a href="map.html#choropleth-layer-value-layer"><i class="fa fa-check"></i><b>6.2.2</b> Choropleth layer: value layer</a></li>
+<li class="chapter" data-level="6.2.3" data-path="map.html"><a href="map.html#fill-colors"><i class="fa fa-check"></i><b>6.2.3</b> Fill colors</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="map.html"><a href="map.html#map-tile"><i class="fa fa-check"></i><b>6.3</b> Map tile</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="map.html"><a href="map.html#ggmap"><i class="fa fa-check"></i><b>6.3.1</b> ggmap</a></li>
+<li class="chapter" data-level="6.3.2" data-path="map.html"><a href="map.html#get_googlemap"><i class="fa fa-check"></i><b>6.3.2</b> get_googlemap</a></li>
+<li class="chapter" data-level="6.3.3" data-path="map.html"><a href="map.html#get_stamenmap"><i class="fa fa-check"></i><b>6.3.3</b> get_stamenmap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="map.html"><a href="map.html#simple-feature"><i class="fa fa-check"></i><b>6.4</b> Simple feature</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="map.html"><a href="map.html#define-simple-features"><i class="fa fa-check"></i><b>6.4.1</b> Define simple features</a></li>
+<li class="chapter" data-level="6.4.2" data-path="map.html"><a href="map.html#form-simple-feature-column"><i class="fa fa-check"></i><b>6.4.2</b> Form simple feature column</a></li>
+<li class="chapter" data-level="6.4.3" data-path="map.html"><a href="map.html#form-simple-feature-data-frame"><i class="fa fa-check"></i><b>6.4.3</b> Form simple feature data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="map.html"><a href="map.html#import-simple-feature-data"><i class="fa fa-check"></i><b>6.5</b> Import Simple Feature Data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="map.html"><a href="map.html#from-shp-file"><i class="fa fa-check"></i><b>6.5.1</b> From SHP file</a></li>
+<li class="chapter" data-level="6.5.2" data-path="map.html"><a href="map.html#from-osm"><i class="fa fa-check"></i><b>6.5.2</b> From OSM</a></li>
+<li class="chapter" data-level="6.5.3" data-path="map.html"><a href="map.html#sf-overlay-ggmap"><i class="fa fa-check"></i><b>6.5.3</b> sf overlay ggmap</a></li>
+<li class="chapter" data-level="6.5.4" data-path="map.html"><a href="map.html#data-frame-overlay-ggmap"><i class="fa fa-check"></i><b>6.5.4</b> data frame overlay ggmap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="map.html"><a href="map.html#taiwan-drug-problem"><i class="fa fa-check"></i><b>6.6</b> Taiwan drug problem</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="map.html"><a href="map.html#縣市底圖"><i class="fa fa-check"></i><b>6.6.1</b> 縣市底圖</a></li>
+<li class="chapter" data-level="6.6.2" data-path="map.html"><a href="map.html#各鄉鎮區底圖"><i class="fa fa-check"></i><b>6.6.2</b> 各鄉/鎮/區底圖</a></li>
+<li class="chapter" data-level="6.6.3" data-path="map.html"><a href="map.html#stamenmap底圖"><i class="fa fa-check"></i><b>6.6.3</b> stamenmap底圖</a></li>
+<li class="chapter" data-level="6.6.4" data-path="map.html"><a href="map.html#毒品破獲"><i class="fa fa-check"></i><b>6.6.4</b> 毒品破獲</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="color.html"><a href="color.html"><i class="fa fa-check"></i><b>7</b> Color</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="color.html"><a href="color.html#group-aesthetics"><i class="fa fa-check"></i><b>7.1</b> Group aesthetics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/tpemartin/110-2-Economic-Data-Visualization" target="blank">Course Github</a></li>
+<li><a href="https://www.ntpu.edu.tw/econ" target="blank">國立臺北大學 經濟學系</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Economic Data Visualization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="map" class="section level1" number="6">
+<h1><span class="header-section-number">第 6 章</span> Map</h1>
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('left', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="map.html#cb119-1" aria-hidden="true" tabindex="-1"></a>mp <span class="ot">&lt;-</span> econDV2<span class="sc">::</span><span class="fu">Map</span>()</span></code></pre></div>
+<div id="geographic-geoms" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Geographic geoms</h2>
+<div id="point-line-and-polygon" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Point, Line and Polygon</h3>
+<p>ggplot2 is equipped with geoms that can draw all kinds of geographic structure.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="map.html#cb120-1" aria-hidden="true" tabindex="-1"></a>fourPoints <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb120-2"><a href="map.html#cb120-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">3</span>),</span>
+<span id="cb120-3"><a href="map.html#cb120-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb120-4"><a href="map.html#cb120-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb120-5"><a href="map.html#cb120-5" aria-hidden="true" tabindex="-1"></a>geometry <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb120-6"><a href="map.html#cb120-6" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>ggplot <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb120-7"><a href="map.html#cb120-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb120-8"><a href="map.html#cb120-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>fourPoints,</span>
+<span id="cb120-9"><a href="map.html#cb120-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb120-10"><a href="map.html#cb120-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>x, <span class="at">y=</span>y</span>
+<span id="cb120-11"><a href="map.html#cb120-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb120-12"><a href="map.html#cb120-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb120-13"><a href="map.html#cb120-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Points:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="map.html#cb121-1" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>points <span class="ot">&lt;-</span> geometry<span class="sc">$</span><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb121-2"><a href="map.html#cb121-2" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>points </span></code></pre></div>
+<p>Path:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="map.html#cb122-1" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>path <span class="ot">&lt;-</span> geometry<span class="sc">$</span><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_path</span>()</span>
+<span id="cb122-2"><a href="map.html#cb122-2" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>path</span></code></pre></div>
+<p>Polygon</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="map.html#cb123-1" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>polygon <span class="ot">&lt;-</span> geometry<span class="sc">$</span><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_polygon</span>()</span>
+<span id="cb123-2"><a href="map.html#cb123-2" aria-hidden="true" tabindex="-1"></a>geometry<span class="sc">$</span>polygon</span></code></pre></div>
+<hr />
+</div>
+<div id="multipolygons" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Multipolygons</h3>
+<ul>
+<li>A school consists of many buildings</li>
+</ul>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="map.html#cb124-1" aria-hidden="true" tabindex="-1"></a>bigArea <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb124-2"><a href="map.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">order=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,</span>
+<span id="cb124-3"><a href="map.html#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="dv">1</span>,</span>
+<span id="cb124-4"><a href="map.html#cb124-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>),</span>
+<span id="cb124-5"><a href="map.html#cb124-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">7</span>,</span>
+<span id="cb124-6"><a href="map.html#cb124-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">8</span>, <span class="dv">8</span> , <span class="dv">2</span>),</span>
+<span id="cb124-7"><a href="map.html#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">building=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;building1&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;building2&quot;</span>, <span class="dv">3</span>)), <span class="co"># same school</span></span>
+<span id="cb124-8"><a href="map.html#cb124-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">contour=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;outer&quot;</span>,<span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;outer&quot;</span>,<span class="dv">3</span>)) <span class="co"># two different buildings</span></span>
+<span id="cb124-9"><a href="map.html#cb124-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb124-10"><a href="map.html#cb124-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-11"><a href="map.html#cb124-11" aria-hidden="true" tabindex="-1"></a><span class="co"># draw each building separately</span></span>
+<span id="cb124-12"><a href="map.html#cb124-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_polygon</span>(</span>
+<span id="cb124-13"><a href="map.html#cb124-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>bigArea, </span>
+<span id="cb124-14"><a href="map.html#cb124-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">group=</span>building)</span>
+<span id="cb124-15"><a href="map.html#cb124-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<ul>
+<li><p><code>geom_polygon</code> can draw a polygon with hole(s) by using <code>group</code> and <code>subgroup</code> aesthetics, with hole(s) as a polygon inside another.</p>
+<ul>
+<li>A building with a courtyard has two contours (one for the outer contour, the other for the courtyard contour). Both contours are polygons belong to the same group, but different subgroups.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="map.html#cb125-1" aria-hidden="true" tabindex="-1"></a>fourPoints<span class="sc">$</span>building<span class="ot">=</span><span class="st">&quot;building1&quot;</span></span>
+<span id="cb125-2"><a href="map.html#cb125-2" aria-hidden="true" tabindex="-1"></a>fourPoints<span class="sc">$</span>contour<span class="ot">=</span><span class="st">&quot;courtyard&quot;</span></span>
+<span id="cb125-3"><a href="map.html#cb125-3" aria-hidden="true" tabindex="-1"></a>fourPoints<span class="sc">$</span>order<span class="ot">=</span><span class="dv">8</span><span class="sc">:</span><span class="dv">11</span></span>
+<span id="cb125-4"><a href="map.html#cb125-4" aria-hidden="true" tabindex="-1"></a>bigArea <span class="sc">|&gt;</span> <span class="fu">names</span>()</span>
+<span id="cb125-5"><a href="map.html#cb125-5" aria-hidden="true" tabindex="-1"></a>bigAreaWithHoles <span class="ot">&lt;-</span></span>
+<span id="cb125-6"><a href="map.html#cb125-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb125-7"><a href="map.html#cb125-7" aria-hidden="true" tabindex="-1"></a>    bigArea,</span>
+<span id="cb125-8"><a href="map.html#cb125-8" aria-hidden="true" tabindex="-1"></a>    fourPoints</span>
+<span id="cb125-9"><a href="map.html#cb125-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(building, order)</span>
+<span id="cb125-10"><a href="map.html#cb125-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-11"><a href="map.html#cb125-11" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(bigAreaWithHoles)</span>
+<span id="cb125-12"><a href="map.html#cb125-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-13"><a href="map.html#cb125-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb125-14"><a href="map.html#cb125-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>bigAreaWithHoles</span>
+<span id="cb125-15"><a href="map.html#cb125-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb125-16"><a href="map.html#cb125-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(</span>
+<span id="cb125-17"><a href="map.html#cb125-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb125-18"><a href="map.html#cb125-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>x, <span class="at">y=</span>y, </span>
+<span id="cb125-19"><a href="map.html#cb125-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">group=</span>building, </span>
+<span id="cb125-20"><a href="map.html#cb125-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">subgroup=</span>contour</span>
+<span id="cb125-21"><a href="map.html#cb125-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb125-22"><a href="map.html#cb125-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="fill-polygons" class="section level3" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Fill polygons</h3>
+<ul>
+<li>You can give different polygons different fills.</li>
+</ul>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="map.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb126-2"><a href="map.html#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>bigAreaWithHoles</span>
+<span id="cb126-3"><a href="map.html#cb126-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb126-4"><a href="map.html#cb126-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(</span>
+<span id="cb126-5"><a href="map.html#cb126-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb126-6"><a href="map.html#cb126-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>x, <span class="at">y=</span>y, </span>
+<span id="cb126-7"><a href="map.html#cb126-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">group=</span>building, </span>
+<span id="cb126-8"><a href="map.html#cb126-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">subgroup=</span>contour,</span>
+<span id="cb126-9"><a href="map.html#cb126-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>building</span>
+<span id="cb126-10"><a href="map.html#cb126-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb126-11"><a href="map.html#cb126-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="application-to-world-map" class="section level3" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Application to world map</h3>
+<p>We apply those <code>geoms</code> to draw some maps.</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="map.html#cb127-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">=</span> ggplot2<span class="sc">::</span><span class="fu">map_data</span>(<span class="st">&quot;world&quot;</span>)</span></code></pre></div>
+<ul>
+<li><code>group</code> column is for <code>group</code> aesthetics for polygon.</li>
+</ul>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="map.html#cb128-1" aria-hidden="true" tabindex="-1"></a>world0 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>, <span class="at">size=</span><span class="fl">0.35</span>) {</span>
+<span id="cb128-2"><a href="map.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_polygon</span>(</span>
+<span id="cb128-3"><a href="map.html#cb128-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>world,</span>
+<span id="cb128-4"><a href="map.html#cb128-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb128-5"><a href="map.html#cb128-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>long, <span class="at">y=</span>lat,</span>
+<span id="cb128-6"><a href="map.html#cb128-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">group=</span>group</span>
+<span id="cb128-7"><a href="map.html#cb128-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb128-8"><a href="map.html#cb128-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">color=</span>color, <span class="at">fill=</span>fill, <span class="at">size=</span>size</span>
+<span id="cb128-9"><a href="map.html#cb128-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb128-10"><a href="map.html#cb128-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="map.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cartesian crs</span></span>
+<span id="cb129-2"><a href="map.html#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">world0</span>()</span>
+<span id="cb129-3"><a href="map.html#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cartesian with fixed aspect ratio</span></span>
+<span id="cb129-4"><a href="map.html#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="fu">world0</span>() <span class="sc">+</span> <span class="fu">coord_fixed</span>()</span>
+<span id="cb129-5"><a href="map.html#cb129-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Mercator projection: fixed asp, correct direction</span></span>
+<span id="cb129-6"><a href="map.html#cb129-6" aria-hidden="true" tabindex="-1"></a><span class="fu">world0</span>() <span class="sc">+</span> <span class="fu">coord_map</span>()</span>
+<span id="cb129-7"><a href="map.html#cb129-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mercator projection: fixed asp, correct direction, expand xlim</span></span>
+<span id="cb129-8"><a href="map.html#cb129-8" aria-hidden="true" tabindex="-1"></a><span class="fu">world0</span>() <span class="sc">+</span> <span class="fu">coord_map</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>,<span class="dv">180</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="choropleth-map" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Choropleth map</h2>
+<ul>
+<li>A map with different <strong>fill</strong>s to show certain social-economic data variation.</li>
+</ul>
+<div id="backgroup-fill-and-borders" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Backgroup fill and borders</h3>
+<p>Though ggplot2 has geom function to work on Choropleth graph directly, I recommend to lay out a background map first.</p>
+<p>Map data</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="map.html#cb130-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">=</span> ggplot2<span class="sc">::</span><span class="fu">map_data</span>(<span class="st">&quot;world&quot;</span>)</span></code></pre></div>
+<p>Backgroup map base on Economist style:</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="map.html#cb131-1" aria-hidden="true" tabindex="-1"></a>world0_background <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb131-2"><a href="map.html#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">world0</span>(</span>
+<span id="cb131-3"><a href="map.html#cb131-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;white&quot;</span>, </span>
+<span id="cb131-4"><a href="map.html#cb131-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill=</span><span class="st">&quot;#c8c5be&quot;</span>, </span>
+<span id="cb131-5"><a href="map.html#cb131-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span><span class="fl">0.15</span>)</span>
+<span id="cb131-6"><a href="map.html#cb131-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="map.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">world0_background</span>()</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/world0_background.png" style="width: 100%"/>
+</div>
+</div>
+<div id="choropleth-layer-value-layer" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Choropleth layer: value layer</h3>
+<p>Another layer of <code>geom_polygon</code>s but with different fills setup based on social-economic data. Instead of using <code>geom_polygon</code> as the background layer does, <code>geom_map</code> is an easier to use geom for Choropleth graph.</p>
+<ul>
+<li><p><code>geom_map</code> is a wrapper of <code>geom_polygon</code> but with a much easier setup for Choropleth map purpose.</p></li>
+<li><p>use <code>geom_map()+expand_limits()</code></p></li>
+</ul>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="map.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_map</span>(</span>
+<span id="cb133-2"><a href="map.html#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span><span class="st">`</span><span class="at">social-economic data</span><span class="st">`</span>,</span>
+<span id="cb133-3"><a href="map.html#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb133-4"><a href="map.html#cb133-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">map_id =</span> ...,</span>
+<span id="cb133-5"><a href="map.html#cb133-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> ...</span>
+<span id="cb133-6"><a href="map.html#cb133-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb133-7"><a href="map.html#cb133-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">map =</span><span class="st">`</span><span class="at">map data</span><span class="st">`</span></span>
+<span id="cb133-8"><a href="map.html#cb133-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
+<span id="cb133-9"><a href="map.html#cb133-9" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_limits</span>(</span>
+<span id="cb133-10"><a href="map.html#cb133-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="st">`</span><span class="at">map data</span><span class="st">`</span><span class="sc">$</span>long, <span class="at">y=</span><span class="st">`</span><span class="at">map data</span><span class="st">`</span><span class="sc">$</span>lat</span>
+<span id="cb133-11"><a href="map.html#cb133-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<ul>
+<li><p><code>map data</code> from <code>ggplot2::map_data</code> (can be filtered if needed)</p></li>
+<li><p><code>social-economic data</code>: a data frame with a column for <code>map_id</code> and a column for <code>fill</code>.</p>
+<ul>
+<li><p><code>map_id</code> column must consist of the levels of <code>map data</code>’s region column.</p></li>
+<li><p><code>fill</code> column: the social-economic data to show.</p></li>
+</ul></li>
+<li><p><code>expand_limits</code> to ensure that no boundary points are right on the border of the plot.</p></li>
+</ul>
+<div id="wdi-example" class="section level4" number="6.2.2.1">
+<h4><span class="header-section-number">6.2.2.1</span> WDI example</h4>
+<p>Social-economic data</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="map.html#cb134-1" aria-hidden="true" tabindex="-1"></a>se_data <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(</span>
+<span id="cb134-2"><a href="map.html#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://www.dropbox.com/s/78jr6g6xtjz453b/women_in_parliament.json?dl=1&quot;</span></span>
+<span id="cb134-3"><a href="map.html#cb134-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb134-4"><a href="map.html#cb134-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View(se_data)</span></span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="map.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_map</span>(</span>
+<span id="cb135-2"><a href="map.html#cb135-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data,</span>
+<span id="cb135-3"><a href="map.html#cb135-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb135-4"><a href="map.html#cb135-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb135-5"><a href="map.html#cb135-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb135-6"><a href="map.html#cb135-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb135-7"><a href="map.html#cb135-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb135-8"><a href="map.html#cb135-8" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb135-9"><a href="map.html#cb135-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span>world<span class="sc">$</span>long, <span class="at">y=</span>world<span class="sc">$</span>lat)</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/only_geom_map.png" style="width: 80%"/>
+</div>
+<hr />
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="map.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co"># geom_map only plot those in the social-economic data</span></span>
+<span id="cb136-2"><a href="map.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_map</span>(</span>
+<span id="cb136-3"><a href="map.html#cb136-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,],</span>
+<span id="cb136-4"><a href="map.html#cb136-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb136-5"><a href="map.html#cb136-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb136-6"><a href="map.html#cb136-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb136-7"><a href="map.html#cb136-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb136-8"><a href="map.html#cb136-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb136-9"><a href="map.html#cb136-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb136-10"><a href="map.html#cb136-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span>world<span class="sc">$</span>long, <span class="at">y=</span>world<span class="sc">$</span>lat)</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/only_geom_map2.png" style="width: 80%"/>
+</div>
+<hr />
+<p>World background ensure every country is on the map.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="map.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">world0_background</span>() <span class="sc">+</span></span>
+<span id="cb137-2"><a href="map.html#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(</span>
+<span id="cb137-3"><a href="map.html#cb137-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>, ],</span>
+<span id="cb137-4"><a href="map.html#cb137-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb137-5"><a href="map.html#cb137-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb137-6"><a href="map.html#cb137-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb137-7"><a href="map.html#cb137-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb137-8"><a href="map.html#cb137-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb137-9"><a href="map.html#cb137-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb137-10"><a href="map.html#cb137-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span>world<span class="sc">$</span>long, <span class="at">y=</span>world<span class="sc">$</span>lat)</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/geom_map_with_worldbackground.png" style="width: 100%"/>
+</div>
+<hr />
+<p>Fixed country name inconsistency between <code>se_data</code> and <code>world</code> data.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="map.html#cb138-1" aria-hidden="true" tabindex="-1"></a>se_data <span class="sc">|&gt;</span> </span>
+<span id="cb138-2"><a href="map.html#cb138-2" aria-hidden="true" tabindex="-1"></a>  mp<span class="sc">$</span>choropleth<span class="sc">$</span><span class="fu">rename_valueData_countryname</span>(</span>
+<span id="cb138-3"><a href="map.html#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">countryColumnName =</span> <span class="st">&quot;country&quot;</span>,</span>
+<span id="cb138-4"><a href="map.html#cb138-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="fu">c</span>(</span>
+<span id="cb138-5"><a href="map.html#cb138-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Russia&quot;</span><span class="ot">=</span><span class="st">&quot;Russian Federation&quot;</span>,</span>
+<span id="cb138-6"><a href="map.html#cb138-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;USA&quot;</span><span class="ot">=</span><span class="st">&quot;United States&quot;</span>,</span>
+<span id="cb138-7"><a href="map.html#cb138-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Iran&quot;</span><span class="ot">=</span><span class="st">&quot;Iran, Islamic Rep.&quot;</span>,</span>
+<span id="cb138-8"><a href="map.html#cb138-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Egypt&quot;</span><span class="ot">=</span><span class="st">&quot;Egypt, Arab Rep.&quot;</span>,</span>
+<span id="cb138-9"><a href="map.html#cb138-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Syria&quot;</span><span class="ot">=</span><span class="st">&quot;Syrian Arab Republic&quot;</span>,</span>
+<span id="cb138-10"><a href="map.html#cb138-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Yemen&quot;</span><span class="ot">=</span><span class="st">&quot;Yemen, Rep.&quot;</span>,</span>
+<span id="cb138-11"><a href="map.html#cb138-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;UK&quot;</span><span class="ot">=</span><span class="st">&quot;United Kingdom&quot;</span>,</span>
+<span id="cb138-12"><a href="map.html#cb138-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Democratic Republic of the Congo&quot;</span><span class="ot">=</span><span class="st">&quot;Congo, Dem. Rep.&quot;</span>,</span>
+<span id="cb138-13"><a href="map.html#cb138-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Republic of Congo&quot;</span><span class="ot">=</span><span class="st">&quot;Congo, Rep.&quot;</span>,</span>
+<span id="cb138-14"><a href="map.html#cb138-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Ivory Coast&quot;</span><span class="ot">=</span><span class="st">&quot;Cote d&#39;Ivoire&quot;</span>,</span>
+<span id="cb138-15"><a href="map.html#cb138-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Venezuela&quot;</span><span class="ot">=</span><span class="st">&quot;Venezuela, RB&quot;</span></span>
+<span id="cb138-16"><a href="map.html#cb138-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb138-17"><a href="map.html#cb138-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="ot">-&gt;</span> se_data</span>
+<span id="cb138-18"><a href="map.html#cb138-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-19"><a href="map.html#cb138-19" aria-hidden="true" tabindex="-1"></a><span class="fu">world0_background</span>() <span class="sc">+</span></span>
+<span id="cb138-20"><a href="map.html#cb138-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(</span>
+<span id="cb138-21"><a href="map.html#cb138-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data,</span>
+<span id="cb138-22"><a href="map.html#cb138-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb138-23"><a href="map.html#cb138-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb138-24"><a href="map.html#cb138-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb138-25"><a href="map.html#cb138-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb138-26"><a href="map.html#cb138-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb138-27"><a href="map.html#cb138-27" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb138-28"><a href="map.html#cb138-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span>world<span class="sc">$</span>long, <span class="at">y=</span>world<span class="sc">$</span>lat)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="map.html#cb139-1" aria-hidden="true" tabindex="-1"></a>choropleth0 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb139-2"><a href="map.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">world0_background</span>() <span class="sc">+</span></span>
+<span id="cb139-3"><a href="map.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(</span>
+<span id="cb139-4"><a href="map.html#cb139-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data,</span>
+<span id="cb139-5"><a href="map.html#cb139-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb139-6"><a href="map.html#cb139-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb139-7"><a href="map.html#cb139-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb139-8"><a href="map.html#cb139-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb139-9"><a href="map.html#cb139-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb139-10"><a href="map.html#cb139-10" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb139-11"><a href="map.html#cb139-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span>world<span class="sc">$</span>long, <span class="at">y=</span>world<span class="sc">$</span>lat)</span>
+<span id="cb139-12"><a href="map.html#cb139-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb139-13"><a href="map.html#cb139-13" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span> </span>
+<span id="cb139-14"><a href="map.html#cb139-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb139-15"><a href="map.html#cb139-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb139-16"><a href="map.html#cb139-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;2020各國國會女性席次佔比(%)&quot;</span></span>
+<span id="cb139-17"><a href="map.html#cb139-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb139-18"><a href="map.html#cb139-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb139-19"><a href="map.html#cb139-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb139-20"><a href="map.html#cb139-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb139-21"><a href="map.html#cb139-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb139-22"><a href="map.html#cb139-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill=</span><span class="fu">guide_colorbar</span>(</span>
+<span id="cb139-23"><a href="map.html#cb139-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">title=</span><span class="cn">NULL</span>,</span>
+<span id="cb139-24"><a href="map.html#cb139-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">barwidth =</span> <span class="dv">4</span>, <span class="co">#input$barwidth</span></span>
+<span id="cb139-25"><a href="map.html#cb139-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">barheight =</span> <span class="fl">0.35</span>, <span class="co">#input$barheight</span></span>
+<span id="cb139-26"><a href="map.html#cb139-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb139-27"><a href="map.html#cb139-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb139-28"><a href="map.html#cb139-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-29"><a href="map.html#cb139-29" aria-hidden="true" tabindex="-1"></a><span class="co"># can also</span></span>
+<span id="cb139-30"><a href="map.html#cb139-30" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb139-31"><a href="map.html#cb139-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(</span>
+<span id="cb139-32"><a href="map.html#cb139-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">guide =</span> <span class="fu">guide_colorbar</span>(...)</span>
+<span id="cb139-33"><a href="map.html#cb139-33" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/womanInParliament.png" style="width: 80%"/>
+</div>
+</div>
+</div>
+<div id="fill-colors" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Fill colors</h3>
+<div id="scale_fill-and-palette-function" class="section level4" number="6.2.3.1">
+<h4><span class="header-section-number">6.2.3.1</span> scale_fill and palette function</h4>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="map.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_continuous</span>(...)</span></code></pre></div>
+<p>by default is based on:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="map.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_gradient</span>(...) <span class="co"># </span></span></code></pre></div>
+<p>which is based on the palette function <code>palette_continuous</code> generated by <code>scales::seq_gradient_pal</code></p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="map.html#cb142-1" aria-hidden="true" tabindex="-1"></a>palette_continuous <span class="ot">&lt;-</span> scales<span class="sc">::</span><span class="fu">seq_gradient_pal</span>(</span>
+<span id="cb142-2"><a href="map.html#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">low =</span> <span class="st">&quot;#132B43&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#56B1F7&quot;</span></span>
+<span id="cb142-3"><a href="map.html#cb142-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<ul>
+<li>two pigments “#132B43,” “#56B1F7”</li>
+</ul>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="map.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">palette_continuous</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by=</span><span class="fl">0.2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb143-2"><a href="map.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">show_col</span>()</span></code></pre></div>
+<div class="alert alert-info">
+<p><code>aes(fill=z)</code> will rescale <code>z</code> according to</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="map.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for sequential</span></span>
+<span id="cb144-2"><a href="map.html#cb144-2" aria-hidden="true" tabindex="-1"></a>scales<span class="sc">::</span><span class="fu">rescale</span>(z, <span class="at">from=</span><span class="fu">range</span>(z), <span class="at">to=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb144-3"><a href="map.html#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for divergin</span></span>
+<span id="cb144-4"><a href="map.html#cb144-4" aria-hidden="true" tabindex="-1"></a>scales<span class="sc">::</span><span class="fu">rescale</span>(z, <span class="at">from=</span>mid.point.value_stretching, <span class="at">to=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+</div>
+<hr />
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="map.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_discrete</span>(...)</span></code></pre></div>
+<p>by default is based on:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="map.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_hue</span>(...) <span class="co"># </span></span></code></pre></div>
+<p>which is based on the palette function <code>palette_discrete</code> generated by <code>scales::hue_pal</code></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="map.html#cb147-1" aria-hidden="true" tabindex="-1"></a>palette_discrete <span class="ot">&lt;-</span> </span>
+<span id="cb147-2"><a href="map.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">hue_pal</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">360</span>) <span class="sc">+</span> <span class="dv">15</span>, <span class="at">c =</span> <span class="dv">100</span>, <span class="at">l =</span> <span class="dv">65</span>, <span class="at">h.start =</span> <span class="dv">0</span>, <span class="at">direction =</span> <span class="dv">1</span>)</span></code></pre></div>
+<ul>
+<li>pigments: a hue (色像環)</li>
+</ul>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="map.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">palette_discrete</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> scales<span class="sc">::</span><span class="fu">show_col</span>()</span>
+<span id="cb148-2"><a href="map.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">palette_discrete</span>(<span class="dv">6</span>) <span class="sc">|&gt;</span> scales<span class="sc">::</span><span class="fu">show_col</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="map.html#cb149-1" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">mermaid</span>(<span class="st">&quot;</span></span>
+<span id="cb149-2"><a href="map.html#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="st">graph LR</span></span>
+<span id="cb149-3"><a href="map.html#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="st">  A[continuous palette function]--&gt;B[continuous scales_fill]</span></span>
+<span id="cb149-4"><a href="map.html#cb149-4" aria-hidden="true" tabindex="-1"></a><span class="st">  C[discrete palette function]--&gt;D[discrete scales_fill]</span></span>
+<span id="cb149-5"><a href="map.html#cb149-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+</div>
+<div id="colorspace" class="section level4" number="6.2.3.2">
+<h4><span class="header-section-number">6.2.3.2</span> colorspace</h4>
+<p>Construct your palette function</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="map.html#cb150-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> colorspace<span class="sc">::</span><span class="fu">choose_palette</span>(<span class="at">gui=</span><span class="st">&quot;shiny&quot;</span>)</span></code></pre></div>
+<p>Register</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="map.html#cb151-1" aria-hidden="true" tabindex="-1"></a>colorspace<span class="sc">::</span><span class="fu">sequential_hcl</span>(<span class="at">n =</span> <span class="dv">7</span>, <span class="at">h =</span> <span class="dv">135</span>, <span class="at">c =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="cn">NA</span>, <span class="cn">NA</span>), <span class="at">l =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">95</span>), <span class="at">power =</span> <span class="fl">1.3</span>, <span class="at">register =</span> <span class="st">&quot;my_pal&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="map.html#cb152-1" aria-hidden="true" tabindex="-1"></a>colorspace<span class="sc">::</span><span class="fu">scale_fill_continuous_sequential</span>(<span class="at">palette=</span><span class="st">&quot;my_pal&quot;</span>)</span></code></pre></div>
+</div>
+<div id="application" class="section level4" number="6.2.3.3">
+<h4><span class="header-section-number">6.2.3.3</span> application</h4>
+<ul>
+<li><p>Color is to signal one direction strength.</p></li>
+<li><p>Gradient: Good for spot the highest and the lowest. Not easy to compare neighbors</p></li>
+</ul>
+<p>Adjust fill limits-values mapping:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="map.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reverse fill high-low value</span></span>
+<span id="cb153-2"><a href="map.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb153-3"><a href="map.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(</span>
+<span id="cb153-4"><a href="map.html#cb153-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;#132B43&quot;</span>,</span>
+<span id="cb153-5"><a href="map.html#cb153-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;#56B1F7&quot;</span>,</span>
+<span id="cb153-6"><a href="map.html#cb153-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span></span>
+<span id="cb153-7"><a href="map.html#cb153-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="map.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb154-2"><a href="map.html#cb154-2" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_continuous_sequential</span>(<span class="at">palette=</span><span class="st">&quot;my_pal&quot;</span>, <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="map.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use binned fill</span></span>
+<span id="cb155-2"><a href="map.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb155-3"><a href="map.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_binned</span>(</span>
+<span id="cb155-4"><a href="map.html#cb155-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;#003870&quot;</span>,</span>
+<span id="cb155-5"><a href="map.html#cb155-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;#d3e3f3&quot;</span>,</span>
+<span id="cb155-6"><a href="map.html#cb155-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span>,</span>
+<span id="cb155-7"><a href="map.html#cb155-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">guide=</span><span class="fu">guide_colorbar</span>(</span>
+<span id="cb155-8"><a href="map.html#cb155-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">reverse =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb155-9"><a href="map.html#cb155-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">label.vjust =</span> <span class="fl">0.5</span></span>
+<span id="cb155-10"><a href="map.html#cb155-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb155-11"><a href="map.html#cb155-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="map.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb156-2"><a href="map.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_binned_sequential</span>(</span>
+<span id="cb156-3"><a href="map.html#cb156-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;my_pal&quot;</span>, <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span></span>
+<span id="cb156-4"><a href="map.html#cb156-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="cut-your-color" class="section level4" number="6.2.3.4">
+<h4><span class="header-section-number">6.2.3.4</span> Cut your color</h4>
+<ul>
+<li><p>Continuous color change is easy to spot those outliers, but not easy to compare non-outliers across borders.</p></li>
+<li><p>Discretize your continuous various and use <code>scale_fill_manual</code> to apply your sequential palette.</p></li>
+</ul>
+<p>Discretize continuous variable using <code>cut</code>:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="map.html#cb157-1" aria-hidden="true" tabindex="-1"></a>se_data2 <span class="ot">&lt;-</span> se_data</span>
+<span id="cb157-2"><a href="map.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cut into 4 ordered levels</span></span>
+<span id="cb157-3"><a href="map.html#cb157-3" aria-hidden="true" tabindex="-1"></a>se_data2<span class="sc">$</span>women_in_parliament <span class="sc">|&gt;</span></span>
+<span id="cb157-4"><a href="map.html#cb157-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cut</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">70</span>), <span class="at">ordered_result =</span> T) <span class="ot">-&gt;</span> .fct</span>
+<span id="cb157-5"><a href="map.html#cb157-5" aria-hidden="true" tabindex="-1"></a>.fct <span class="sc">|&gt;</span> <span class="fu">class</span>()</span>
+<span id="cb157-6"><a href="map.html#cb157-6" aria-hidden="true" tabindex="-1"></a><span class="co"># rename levels for legend labels</span></span>
+<span id="cb157-7"><a href="map.html#cb157-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(.fct) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;0-10%&quot;</span>,<span class="st">&quot;10-20%&quot;</span>,<span class="st">&quot;20-40%&quot;</span>,<span class="st">&quot;40-50%&quot;</span>, <span class="st">&quot;50-70%&quot;</span>)</span>
+<span id="cb157-8"><a href="map.html#cb157-8" aria-hidden="true" tabindex="-1"></a>.fct <span class="ot">-&gt;</span> se_data2<span class="sc">$</span>women_in_parliament</span></code></pre></div>
+<hr />
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="map.html#cb158-1" aria-hidden="true" tabindex="-1"></a>choropleth1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb158-2"><a href="map.html#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">world0_background</span>() <span class="sc">+</span></span>
+<span id="cb158-3"><a href="map.html#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(</span>
+<span id="cb158-4"><a href="map.html#cb158-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data2,</span>
+<span id="cb158-5"><a href="map.html#cb158-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb158-6"><a href="map.html#cb158-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb158-7"><a href="map.html#cb158-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb158-8"><a href="map.html#cb158-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb158-9"><a href="map.html#cb158-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb158-10"><a href="map.html#cb158-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb158-11"><a href="map.html#cb158-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="map.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth1</span>() <span class="sc">+</span></span>
+<span id="cb159-2"><a href="map.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type=</span><span class="st">&quot;seq&quot;</span>, <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="map.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth1</span>() <span class="sc">+</span></span>
+<span id="cb160-2"><a href="map.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb160-3"><a href="map.html#cb160-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;my_pal&quot;</span>,</span>
+<span id="cb160-4"><a href="map.html#cb160-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#919191&quot;</span></span>
+<span id="cb160-5"><a href="map.html#cb160-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="diverging-color" class="section level4" number="6.2.3.5">
+<h4><span class="header-section-number">6.2.3.5</span> Diverging color</h4>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="map.html#cb161-1" aria-hidden="true" tabindex="-1"></a>se_data3 <span class="ot">&lt;-</span> se_data</span>
+<span id="cb161-2"><a href="map.html#cb161-2" aria-hidden="true" tabindex="-1"></a>se_data3<span class="sc">$</span>women_in_parliament <span class="sc">|&gt;</span></span>
+<span id="cb161-3"><a href="map.html#cb161-3" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">rescale</span>(</span>
+<span id="cb161-4"><a href="map.html#cb161-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), </span>
+<span id="cb161-5"><a href="map.html#cb161-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">to=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb161-6"><a href="map.html#cb161-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="ot">-&gt;</span> se_data3<span class="sc">$</span>women_in_parliament</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="map.html#cb162-1" aria-hidden="true" tabindex="-1"></a>choropleth3 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb162-2"><a href="map.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">world0_background</span>() <span class="sc">+</span></span>
+<span id="cb162-3"><a href="map.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(</span>
+<span id="cb162-4"><a href="map.html#cb162-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>se_data3,</span>
+<span id="cb162-5"><a href="map.html#cb162-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb162-6"><a href="map.html#cb162-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_id=</span>country,</span>
+<span id="cb162-7"><a href="map.html#cb162-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>women_in_parliament</span>
+<span id="cb162-8"><a href="map.html#cb162-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb162-9"><a href="map.html#cb162-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">map=</span>world</span>
+<span id="cb162-10"><a href="map.html#cb162-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb162-11"><a href="map.html#cb162-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>colorspace package:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="map.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Register custom color palette</span></span>
+<span id="cb163-2"><a href="map.html#cb163-2" aria-hidden="true" tabindex="-1"></a>colorspace<span class="sc">::</span><span class="fu">diverging_hcl</span>(<span class="at">n =</span> <span class="dv">7</span>, <span class="at">h =</span> <span class="fu">c</span>(<span class="dv">255</span>, <span class="dv">12</span>), <span class="at">c =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">80</span>), <span class="at">l =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">97</span>), <span class="at">power =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.3</span>),  <span class="at">register =</span> <span class="st">&quot;man_woman&quot;</span>)</span>
+<span id="cb163-3"><a href="map.html#cb163-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-4"><a href="map.html#cb163-4" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth3</span>() <span class="sc">+</span></span>
+<span id="cb163-5"><a href="map.html#cb163-5" aria-hidden="true" tabindex="-1"></a>colorspace<span class="sc">::</span><span class="fu">scale_fill_binned_diverging</span>(</span>
+<span id="cb163-6"><a href="map.html#cb163-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="cf">function</span>(x) (x<span class="sc">+</span><span class="dv">1</span>)<span class="sc">*</span><span class="dv">50</span>,</span>
+<span id="cb163-7"><a href="map.html#cb163-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette=</span><span class="st">&quot;man_woman&quot;</span></span>
+<span id="cb163-8"><a href="map.html#cb163-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="map.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb164-2"><a href="map.html#cb164-2" aria-hidden="true" tabindex="-1"></a>colorspace<span class="sc">::</span><span class="fu">scale_fill_binned_diverging</span>(</span>
+<span id="cb164-3"><a href="map.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mid=</span><span class="dv">50</span>,</span>
+<span id="cb164-4"><a href="map.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette=</span><span class="st">&quot;man_woman&quot;</span></span>
+<span id="cb164-5"><a href="map.html#cb164-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="map-tile" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Map tile</h2>
+<div id="ggmap" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> ggmap</h3>
+<p>Two steps:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>get_xxxmap</code> to obtain raster map image.</p></li>
+<li><p><code>ggmap</code> to produce a gg(plot) object as a background layer.</p></li>
+</ol>
+</div>
+<div id="get_googlemap" class="section level3" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> get_googlemap</h3>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="map.html#cb165-1" aria-hidden="true" tabindex="-1"></a>taipei_google <span class="ot">&lt;-</span> </span>
+<span id="cb165-2"><a href="map.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  ggmap<span class="sc">::</span><span class="fu">get_googlemap</span>(</span>
+<span id="cb165-3"><a href="map.html#cb165-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">center =</span> <span class="fu">c</span>(<span class="at">long=</span><span class="fl">121.4336018</span>, <span class="at">lat=</span><span class="fl">25.0341671</span>),</span>
+<span id="cb165-4"><a href="map.html#cb165-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">zoom =</span> <span class="dv">10</span>,</span>
+<span id="cb165-5"><a href="map.html#cb165-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale=</span><span class="dv">2</span></span>
+<span id="cb165-6"><a href="map.html#cb165-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb165-7"><a href="map.html#cb165-7" aria-hidden="true" tabindex="-1"></a>taipei0 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb165-8"><a href="map.html#cb165-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggmap</span>(taipei_google)</span>
+<span id="cb165-9"><a href="map.html#cb165-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="get_stamenmap" class="section level3" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> get_stamenmap</h3>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="map.html#cb166-1" aria-hidden="true" tabindex="-1"></a>taipei_stamen <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">get_stamenmap</span>(</span>
+<span id="cb166-2"><a href="map.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bbox =</span> <span class="fu">c</span>(<span class="at">left =</span> <span class="fl">121.0316</span>, <span class="at">bottom =</span> <span class="fl">24.7384</span>, <span class="at">right =</span> <span class="fl">122.1096</span>, <span class="at">top =</span> <span class="fl">25.3114</span>),</span>
+<span id="cb166-3"><a href="map.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">zoom=</span><span class="dv">9</span>,</span>
+<span id="cb166-4"><a href="map.html#cb166-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">maptype =</span> <span class="st">&quot;toner-lite&quot;</span></span>
+<span id="cb166-5"><a href="map.html#cb166-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb166-6"><a href="map.html#cb166-6" aria-hidden="true" tabindex="-1"></a>taipei1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb166-7"><a href="map.html#cb166-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggmap</span>(taipei_stamen)</span>
+<span id="cb166-8"><a href="map.html#cb166-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="alert alert-info">
+<p>You can copy map info from Google map link <code>https://www.google.com/maps/@24.9475275,121.3795888,15z</code> then:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="map.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mp &lt;- econDV2::Map()</span></span>
+<span id="cb167-2"><a href="map.html#cb167-2" aria-hidden="true" tabindex="-1"></a>mp<span class="sc">$</span>extract<span class="sc">$</span><span class="fu">googleMapLocation</span>()</span>
+<span id="cb167-3"><a href="map.html#cb167-3" aria-hidden="true" tabindex="-1"></a><span class="co"># then paste to get_googlemap</span></span></code></pre></div>
+<p>Copy map info from OSM map bbox</p>
+<div style="text-align: center;">
+<img src="img/osmbbox.png" style="width: 50%"/>
+</div>
+<p>then:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="map.html#cb168-1" aria-hidden="true" tabindex="-1"></a>mp<span class="sc">$</span>extract<span class="sc">$</span><span class="fu">osmBBox</span>()</span>
+<span id="cb168-2"><a href="map.html#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="co"># then paste to get_stamenmap</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="simple-feature" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Simple feature</h2>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="map.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
+<ul>
+<li><a href="https://r-spatial.github.io/sf/" class="uri">https://r-spatial.github.io/sf/</a></li>
+</ul>
+<p>Another type of geographic data structure.</p>
+<ul>
+<li><p>a new class. Each value in a simple feature vector represents a form of geometry (called <strong>feature</strong>) and its geographic notation (i.e. latitude and longitude); and could carry its coordinate reference system.</p></li>
+<li><p>Each value is a parsing result from <code>sf::st_xxx</code> functions where <code>xxx</code> can be <code>point</code> (台北大學的一個地標，如<a href="https://www.google.com.tw/maps/place/YouBike+1.0/@24.9425965,121.3700117,18z/data=!4m5!3m4!1s0x34681b7d1f8d8569:0x5d135a3058409b3e!8m2!3d24.94317!4d121.36952">YouBike站</a>), <code>multipoint</code> (台北大學所有地標), <code>linestring</code>(台北大學的一條路徑), <code>polygon</code>(台北大學的一棟建築), <code>multilinestring</code>(台北大學的所有路徑), <code>multipolygon</code>(台北大學的所有建築), or <code>geometrycollection</code>(整個台北大學)</p></li>
+</ul>
+<div id="define-simple-features" class="section level3" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Define simple features</h3>
+<p>A simple feature is composed of numeric vector, matrix, or list. No data frame is used.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="map.html#cb170-1" aria-hidden="true" tabindex="-1"></a>geoValues <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb170-2"><a href="map.html#cb170-2" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>point <span class="ot">&lt;-</span></span>
+<span id="cb170-3"><a href="map.html#cb170-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(</span>
+<span id="cb170-4"><a href="map.html#cb170-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="fl">24.9433123</span>, <span class="fl">121.3699526</span>)</span>
+<span id="cb170-5"><a href="map.html#cb170-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb170-6"><a href="map.html#cb170-6" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>multipoint <span class="ot">&lt;-</span></span>
+<span id="cb170-7"><a href="map.html#cb170-7" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_multipoint</span>(</span>
+<span id="cb170-8"><a href="map.html#cb170-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>( <span class="co"># will form a matrix</span></span>
+<span id="cb170-9"><a href="map.html#cb170-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="fl">24.9443019</span>, <span class="fl">121.3714944</span>), <span class="co"># 1st point</span></span>
+<span id="cb170-10"><a href="map.html#cb170-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="fl">24.9440709</span>, <span class="fl">121.3728518</span>) <span class="co"># 2nd point</span></span>
+<span id="cb170-11"><a href="map.html#cb170-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb170-12"><a href="map.html#cb170-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb170-13"><a href="map.html#cb170-13" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>linestring <span class="ot">&lt;-</span></span>
+<span id="cb170-14"><a href="map.html#cb170-14" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_linestring</span>(</span>
+<span id="cb170-15"><a href="map.html#cb170-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(</span>
+<span id="cb170-16"><a href="map.html#cb170-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="fl">24.9423755</span>, <span class="fl">121.3679438</span>), <span class="co"># 1st trace point</span></span>
+<span id="cb170-17"><a href="map.html#cb170-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="fl">24.9429941</span>, <span class="fl">121.3679432</span>), <span class="co"># 2nd trace point</span></span>
+<span id="cb170-18"><a href="map.html#cb170-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="fl">24.9432087</span>, <span class="fl">121.3686713</span>) <span class="co"># 3rd trace point</span></span>
+<span id="cb170-19"><a href="map.html#cb170-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb170-20"><a href="map.html#cb170-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb170-21"><a href="map.html#cb170-21" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>polygon <span class="ot">&lt;-</span></span>
+<span id="cb170-22"><a href="map.html#cb170-22" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_polygon</span>(</span>
+<span id="cb170-23"><a href="map.html#cb170-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb170-24"><a href="map.html#cb170-24" aria-hidden="true" tabindex="-1"></a>      <span class="co"># 1st closed trace</span></span>
+<span id="cb170-25"><a href="map.html#cb170-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rbind</span>(</span>
+<span id="cb170-26"><a href="map.html#cb170-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fl">24.9441895</span>, <span class="fl">121.3695181</span>),</span>
+<span id="cb170-27"><a href="map.html#cb170-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fl">24.9442244</span>, <span class="fl">121.3692544</span>),</span>
+<span id="cb170-28"><a href="map.html#cb170-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fl">24.9437158</span>, <span class="fl">121.3694094</span>),</span>
+<span id="cb170-29"><a href="map.html#cb170-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fl">24.9438647</span>, <span class="fl">121.3696271</span>),</span>
+<span id="cb170-30"><a href="map.html#cb170-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fl">24.9441895</span>, <span class="fl">121.3695181</span>) <span class="co"># close the polygon</span></span>
+<span id="cb170-31"><a href="map.html#cb170-31" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb170-32"><a href="map.html#cb170-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb170-33"><a href="map.html#cb170-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb170-34"><a href="map.html#cb170-34" aria-hidden="true" tabindex="-1"></a><span class="co"># polygon: a list consists of matrices.</span></span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="map.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>point)</span>
+<span id="cb171-2"><a href="map.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>linestring)</span>
+<span id="cb171-3"><a href="map.html#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>polygon)</span>
+<span id="cb171-4"><a href="map.html#cb171-4" aria-hidden="true" tabindex="-1"></a><span class="co"># all have sfg class</span></span></code></pre></div>
+<p>Simple feature value can be graphed directly via <code>geom_sf()</code></p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="map.html#cb172-1" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature<span class="sc">$</span>polygon <span class="sc">|&gt;</span> <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span></code></pre></div>
+</div>
+<div id="form-simple-feature-column" class="section level3" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Form simple feature column</h3>
+<p>A collection column of multiple simple features.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="map.html#cb173-1" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">st_sfc</span>(geoValues<span class="sc">$</span>simple_feature) <span class="ot">-&gt;</span> geoValues<span class="sc">$</span>simple_feature_column</span>
+<span id="cb173-2"><a href="map.html#cb173-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-3"><a href="map.html#cb173-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(geoValues<span class="sc">$</span>simple_feature_column) <span class="co"># &quot;sfc_GEOMETRY&quot; &quot;sfc&quot; </span></span>
+<span id="cb173-4"><a href="map.html#cb173-4" aria-hidden="true" tabindex="-1"></a><span class="co"># has class sfc</span></span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="map.html#cb174-1" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature_column <span class="sc">|&gt;</span> </span>
+<span id="cb174-2"><a href="map.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span></code></pre></div>
+</div>
+<div id="form-simple-feature-data-frame" class="section level3" number="6.4.3">
+<h3><span class="header-section-number">6.4.3</span> Form simple feature data frame</h3>
+<ul>
+<li>A simple feature data frame is basically a data frame with a column named <strong>geometry</strong> which is a list of each obervation’s simple feature value.</li>
+</ul>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="map.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initiate a data frame</span></span>
+<span id="cb175-2"><a href="map.html#cb175-2" aria-hidden="true" tabindex="-1"></a>df_sf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb175-3"><a href="map.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name=</span><span class="fu">c</span>(<span class="st">&quot;landmark 1&quot;</span>, <span class="st">&quot;must-see landmarks&quot;</span>, <span class="st">&quot;path 1&quot;</span>, <span class="st">&quot;building 1&quot;</span>)</span>
+<span id="cb175-4"><a href="map.html#cb175-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb175-5"><a href="map.html#cb175-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-6"><a href="map.html#cb175-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add simple feature column</span></span>
+<span id="cb175-7"><a href="map.html#cb175-7" aria-hidden="true" tabindex="-1"></a>df_sf <span class="sc">|&gt;</span> sf<span class="sc">::</span><span class="fu">st_set_geometry</span>(geoValues<span class="sc">$</span>simple_feature_column) <span class="ot">-&gt;</span></span>
+<span id="cb175-8"><a href="map.html#cb175-8" aria-hidden="true" tabindex="-1"></a>  geoValues<span class="sc">$</span>simple_feature_df</span>
+<span id="cb175-9"><a href="map.html#cb175-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-10"><a href="map.html#cb175-10" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df_sf) <span class="co"># only &quot;data frame&quot;</span></span>
+<span id="cb175-11"><a href="map.html#cb175-11" aria-hidden="true" tabindex="-1"></a>df_sf <span class="sc">|&gt;</span></span>
+<span id="cb175-12"><a href="map.html#cb175-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb175-13"><a href="map.html#cb175-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">geometry=</span>geoValues<span class="sc">$</span>simple_feature_column</span>
+<span id="cb175-14"><a href="map.html#cb175-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="ot">-&gt;</span> df_sf2</span>
+<span id="cb175-15"><a href="map.html#cb175-15" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df_sf2) <span class="co"># still a &quot;data frame&quot;</span></span>
+<span id="cb175-16"><a href="map.html#cb175-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Must go through sf::st_set_geometry to get sf class</span></span>
+<span id="cb175-17"><a href="map.html#cb175-17" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(geoValues<span class="sc">$</span>simple_feature_df) <span class="co"># &quot;sf&quot; &quot;data.frame&quot;</span></span>
+<span id="cb175-18"><a href="map.html#cb175-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-19"><a href="map.html#cb175-19" aria-hidden="true" tabindex="-1"></a>geoValues<span class="sc">$</span>simple_feature_df <span class="sc">|&gt;</span> <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span></code></pre></div>
+</div>
+</div>
+<div id="import-simple-feature-data" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Import Simple Feature Data</h2>
+<div id="from-shp-file" class="section level3" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> From SHP file</h3>
+<ul>
+<li><a href="https://tpemartin.github.io/economic-data-visualization/zh-tw/annotation-and-maps.html#%E8%AE%80%E5%85%A5shp%E6%AA%94" class="uri">https://tpemartin.github.io/economic-data-visualization/zh-tw/annotation-and-maps.html#%E8%AE%80%E5%85%A5shp%E6%AA%94</a></li>
+</ul>
+<p>台灣的sf data太細，以平常輸出並不需要這麼細，可以進行簡化。使用：</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="map.html#cb176-1" aria-hidden="true" tabindex="-1"></a>sf_data <span class="sc">|&gt;</span> mp<span class="sc">$</span>sf<span class="sc">$</span><span class="fu">simplify</span>() <span class="ot">-&gt;</span> sf_simplified_data</span></code></pre></div>
+</div>
+<div id="from-osm" class="section level3" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> From OSM</h3>
+<ul>
+<li><p>Define bounding box</p></li>
+<li><p>Find feature key and value</p></li>
+<li><p>Make open pass query to get sf data.</p></li>
+</ul>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="map.html#cb177-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">=</span> <span class="fu">c</span>(<span class="at">left =</span> <span class="fl">121.0316</span>, <span class="at">bottom =</span> <span class="fl">24.7384</span>, <span class="at">right =</span> <span class="fl">122.1096</span>, <span class="at">top =</span> <span class="fl">25.3114</span>) <span class="sc">|&gt;</span></span>
+<span id="cb177-2"><a href="map.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  osmdata<span class="sc">::</span><span class="fu">opq</span>() <span class="sc">|&gt;</span></span>
+<span id="cb177-3"><a href="map.html#cb177-3" aria-hidden="true" tabindex="-1"></a>  osmdata<span class="sc">::</span><span class="fu">add_osm_feature</span>(<span class="at">key=</span><span class="st">&quot;admin_level&quot;</span>, <span class="at">value=</span><span class="st">&quot;4&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb177-4"><a href="map.html#cb177-4" aria-hidden="true" tabindex="-1"></a>  osmdata<span class="sc">::</span><span class="fu">osmdata_sf</span>() <span class="ot">-&gt;</span> taipei_osm</span></code></pre></div>
+<ul>
+<li>If you have multiple features to request, chain <code>add_osm_feature</code>s one after the other.</li>
+</ul>
+<p>OR</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="map.html#cb178-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">=</span> <span class="fu">c</span>(<span class="at">left =</span> <span class="fl">121.0316</span>, <span class="at">bottom =</span> <span class="fl">24.7384</span>, <span class="at">right =</span> <span class="fl">122.1096</span>, <span class="at">top =</span> <span class="fl">25.3114</span>)</span>
+<span id="cb178-2"><a href="map.html#cb178-2" aria-hidden="true" tabindex="-1"></a>features <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;admin_level&quot;</span><span class="ot">=</span><span class="st">&quot;4&quot;</span>)</span>
+<span id="cb178-3"><a href="map.html#cb178-3" aria-hidden="true" tabindex="-1"></a>mp<span class="sc">$</span>osm<span class="sc">$</span><span class="fu">request_data</span>(</span>
+<span id="cb178-4"><a href="map.html#cb178-4" aria-hidden="true" tabindex="-1"></a>  bbox, <span class="at">features =</span> features</span>
+<span id="cb178-5"><a href="map.html#cb178-5" aria-hidden="true" tabindex="-1"></a>) <span class="ot">-&gt;</span> taipei_osm</span></code></pre></div>
+<ul>
+<li>features is a named character vector, with keys be element names and values be element values.</li>
+</ul>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="map.html#cb179-1" aria-hidden="true" tabindex="-1"></a>taipei_osm<span class="sc">$</span>osm_multipolygons <span class="sc">|&gt;</span> </span>
+<span id="cb179-2"><a href="map.html#cb179-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(name <span class="sc">!=</span> <span class="st">&quot;臺灣省&quot;</span>) <span class="ot">-&gt;</span> sf_northTaipei </span>
+<span id="cb179-3"><a href="map.html#cb179-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-4"><a href="map.html#cb179-4" aria-hidden="true" tabindex="-1"></a>sf_northTaipei <span class="sc">|&gt;</span></span>
+<span id="cb179-5"><a href="map.html#cb179-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span>
+<span id="cb179-6"><a href="map.html#cb179-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-7"><a href="map.html#cb179-7" aria-hidden="true" tabindex="-1"></a>sf_northTaipei <span class="sc">|&gt;</span></span>
+<span id="cb179-8"><a href="map.html#cb179-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill=</span>name))</span></code></pre></div>
+</div>
+<div id="sf-overlay-ggmap" class="section level3" number="6.5.3">
+<h3><span class="header-section-number">6.5.3</span> sf overlay ggmap</h3>
+<div id="taipei-mrt" class="section level4 unnumbered">
+<h4>Taipei MRT</h4>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="map.html#cb180-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">=</span> <span class="fu">c</span>(<span class="at">left =</span> <span class="fl">121.0316</span>, <span class="at">bottom =</span> <span class="fl">24.7384</span>, <span class="at">right =</span> <span class="fl">122.1096</span>, <span class="at">top =</span> <span class="fl">25.3114</span>)</span>
+<span id="cb180-2"><a href="map.html#cb180-2" aria-hidden="true" tabindex="-1"></a>features <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;railway&quot;</span><span class="ot">=</span> <span class="st">&quot;subway&quot;</span>)</span>
+<span id="cb180-3"><a href="map.html#cb180-3" aria-hidden="true" tabindex="-1"></a>mp<span class="sc">$</span>osm<span class="sc">$</span><span class="fu">request_data</span>(</span>
+<span id="cb180-4"><a href="map.html#cb180-4" aria-hidden="true" tabindex="-1"></a>  bbox, features</span>
+<span id="cb180-5"><a href="map.html#cb180-5" aria-hidden="true" tabindex="-1"></a>) <span class="ot">-&gt;</span> taipei_mrt</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="map.html#cb181-1" aria-hidden="true" tabindex="-1"></a>taipei_mrt<span class="sc">$</span>osm_lines <span class="sc">|&gt;</span> </span>
+<span id="cb181-2"><a href="map.html#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="map.html#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error, since ggmap has some aes setting at the ggplot() stage which will be inherited by all the following geoms</span></span>
+<span id="cb182-2"><a href="map.html#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="fu">taipei1</span>()<span class="sc">+</span></span>
+<span id="cb182-3"><a href="map.html#cb182-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb182-4"><a href="map.html#cb182-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>taipei_mrt<span class="sc">$</span>osm_lines,</span>
+<span id="cb182-5"><a href="map.html#cb182-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;dodgerblue&quot;</span></span>
+<span id="cb182-6"><a href="map.html#cb182-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="map.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">taipei1</span>()<span class="sc">+</span></span>
+<span id="cb183-2"><a href="map.html#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb183-3"><a href="map.html#cb183-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>taipei_mrt<span class="sc">$</span>osm_lines,</span>
+<span id="cb183-4"><a href="map.html#cb183-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;dodgerblue&quot;</span>,</span>
+<span id="cb183-5"><a href="map.html#cb183-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb183-6"><a href="map.html#cb183-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="alert alert-warning">
+<p>sf overlay google map from ggmap might have problem. If it does, try the following tip:</p>
+<ul>
+<li><a href="https://github.com/dkahle/ggmap/issues/160#issuecomment-966812818" class="uri">https://github.com/dkahle/ggmap/issues/160#issuecomment-966812818</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="data-frame-overlay-ggmap" class="section level3" number="6.5.4">
+<h3><span class="header-section-number">6.5.4</span> data frame overlay ggmap</h3>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="map.html#cb184-1" aria-hidden="true" tabindex="-1"></a>taipei_mrt<span class="sc">$</span>osm_lines <span class="sc">|&gt;</span> sf<span class="sc">::</span><span class="fu">st_coordinates</span>() <span class="ot">-&gt;</span> coordinates</span>
+<span id="cb184-2"><a href="map.html#cb184-2" aria-hidden="true" tabindex="-1"></a>coordinates <span class="sc">|&gt;</span> <span class="fu">class</span>()</span>
+<span id="cb184-3"><a href="map.html#cb184-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-4"><a href="map.html#cb184-4" aria-hidden="true" tabindex="-1"></a><span class="fu">taipei1</span>() <span class="sc">+</span></span>
+<span id="cb184-5"><a href="map.html#cb184-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(</span>
+<span id="cb184-6"><a href="map.html#cb184-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>coordinates <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>(),</span>
+<span id="cb184-7"><a href="map.html#cb184-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb184-8"><a href="map.html#cb184-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>X, <span class="at">y=</span>Y, <span class="at">group=</span>L1</span>
+<span id="cb184-9"><a href="map.html#cb184-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb184-10"><a href="map.html#cb184-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
+<span id="cb184-11"><a href="map.html#cb184-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="taiwan-drug-problem" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Taiwan drug problem</h2>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="map.html#cb185-1" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified <span class="ot">&lt;-</span> econDV2<span class="sc">::</span>sf_taiwan_simplified</span>
+<span id="cb185-2"><a href="map.html#cb185-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="map.html#cb185-3" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>縣市 <span class="sc">|&gt;</span> </span>
+<span id="cb185-4"><a href="map.html#cb185-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span>
+<span id="cb185-5"><a href="map.html#cb185-5" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區 <span class="sc">|&gt;</span></span>
+<span id="cb185-6"><a href="map.html#cb185-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span></code></pre></div>
+<div class="alert alert-warning">
+<p>Cast the <strong>geometry</strong> column to have uniform feature if your want to use <code>plotly::ggplotly</code> later:</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="map.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Originally polygons mixed with multipolygons</span></span>
+<span id="cb186-2"><a href="map.html#cb186-2" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區 <span class="sc">|&gt;</span> sf<span class="sc">::</span><span class="fu">st_geometry</span>()</span>
+<span id="cb186-3"><a href="map.html#cb186-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-4"><a href="map.html#cb186-4" aria-hidden="true" tabindex="-1"></a><span class="co"># re-cast to uniform multipolygon</span></span>
+<span id="cb186-5"><a href="map.html#cb186-5" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區 <span class="sc">|&gt;</span></span>
+<span id="cb186-6"><a href="map.html#cb186-6" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_cast</span>(<span class="st">&quot;MULTIPOLYGON&quot;</span>) <span class="ot">-&gt;</span> </span>
+<span id="cb186-7"><a href="map.html#cb186-7" aria-hidden="true" tabindex="-1"></a>  sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區</span></code></pre></div>
+</div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="map.html#cb187-1" aria-hidden="true" tabindex="-1"></a>mp <span class="ot">&lt;-</span> econDV2<span class="sc">::</span><span class="fu">Map</span>()</span></code></pre></div>
+<ul>
+<li><code>mp$sf$make_background_map</code> 底圖製作</li>
+</ul>
+<div id="縣市底圖" class="section level3" number="6.6.1">
+<h3><span class="header-section-number">6.6.1</span> 縣市底圖</h3>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="map.html#cb188-1" aria-hidden="true" tabindex="-1"></a>econDV2<span class="sc">::</span><span class="fu">Object</span>(background)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="map.html#cb189-1" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>縣市 <span class="sc">|&gt;</span></span>
+<span id="cb189-2"><a href="map.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  mp<span class="sc">$</span>sf<span class="sc">$</span><span class="fu">make_background_map</span>()</span>
+<span id="cb189-3"><a href="map.html#cb189-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-4"><a href="map.html#cb189-4" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>縣市 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb189-5"><a href="map.html#cb189-5" aria-hidden="true" tabindex="-1"></a>  sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>縣市 <span class="sc">|&gt;</span></span>
+<span id="cb189-6"><a href="map.html#cb189-6" aria-hidden="true" tabindex="-1"></a>  mp<span class="sc">$</span>sf<span class="sc">$</span><span class="fu">make_background_map</span>(</span>
+<span id="cb189-7"><a href="map.html#cb189-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb189-8"><a href="map.html#cb189-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.14</span></span>
+<span id="cb189-9"><a href="map.html#cb189-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb189-10"><a href="map.html#cb189-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb189-11"><a href="map.html#cb189-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-12"><a href="map.html#cb189-12" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>縣市()</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/gg_taiwan1.png" style="width: 100%"/>
+</div>
+<div class="alert alert-info">
+<p>If you don’t know how much to crop and want to explore different possibilities, you can:</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="map.html#cb190-1" aria-hidden="true" tabindex="-1"></a>sf_taiwan_simplified<span class="sc">$</span>縣市 <span class="sc">|&gt;</span> </span>
+<span id="cb190-2"><a href="map.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  mp<span class="sc">$</span>sf<span class="sc">$</span><span class="fu">gg_crop</span>()</span></code></pre></div>
+</div>
+</div>
+<div id="各鄉鎮區底圖" class="section level3" number="6.6.2">
+<h3><span class="header-section-number">6.6.2</span> 各鄉/鎮/區底圖</h3>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="map.html#cb191-1" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb191-2"><a href="map.html#cb191-2" aria-hidden="true" tabindex="-1"></a>  sf_taiwan_simplified<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮區 <span class="sc">|&gt;</span></span>
+<span id="cb191-3"><a href="map.html#cb191-3" aria-hidden="true" tabindex="-1"></a>    sf<span class="sc">::</span><span class="fu">st_cast</span>(<span class="st">&quot;MULTIPOLYGON&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb191-4"><a href="map.html#cb191-4" aria-hidden="true" tabindex="-1"></a>    mp<span class="sc">$</span>sf<span class="sc">$</span><span class="fu">make_background_map</span>(</span>
+<span id="cb191-5"><a href="map.html#cb191-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb191-6"><a href="map.html#cb191-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.14</span></span>
+<span id="cb191-7"><a href="map.html#cb191-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb191-8"><a href="map.html#cb191-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb191-9"><a href="map.html#cb191-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-10"><a href="map.html#cb191-10" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>鄉鎮()</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/gg_taiwan2.png" style="width: 100%"/>
+</div>
+</div>
+<div id="stamenmap底圖" class="section level3" number="6.6.3">
+<h3><span class="header-section-number">6.6.3</span> stamenmap底圖</h3>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="map.html#cb192-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">left=</span><span class="fl">119.99690</span>,</span>
+<span id="cb192-2"><a href="map.html#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="at">bottom=</span><span class="fl">21.89988</span>,</span>
+<span id="cb192-3"><a href="map.html#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="at">right=</span><span class="fl">122.00000</span>,</span>
+<span id="cb192-4"><a href="map.html#cb192-4" aria-hidden="true" tabindex="-1"></a><span class="at">top=</span><span class="fl">25.29999</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="map.html#cb193-1" aria-hidden="true" tabindex="-1"></a>econDV2<span class="sc">::</span><span class="fu">Object</span>(taiwan_stamen)</span>
+<span id="cb193-2"><a href="map.html#cb193-2" aria-hidden="true" tabindex="-1"></a><span class="co"># toner-lite</span></span>
+<span id="cb193-3"><a href="map.html#cb193-3" aria-hidden="true" tabindex="-1"></a>taiwan_stamen<span class="sc">$</span>tonerlite <span class="ot">&lt;-</span> </span>
+<span id="cb193-4"><a href="map.html#cb193-4" aria-hidden="true" tabindex="-1"></a>  ggmap<span class="sc">::</span><span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype=</span><span class="st">&quot;toner-lite&quot;</span>, <span class="at">zoom=</span><span class="dv">9</span>) </span>
+<span id="cb193-5"><a href="map.html#cb193-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-6"><a href="map.html#cb193-6" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>tonerlite <span class="ot">&lt;-</span> </span>
+<span id="cb193-7"><a href="map.html#cb193-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(){</span>
+<span id="cb193-8"><a href="map.html#cb193-8" aria-hidden="true" tabindex="-1"></a>    ggmap<span class="sc">::</span><span class="fu">ggmap</span>(taiwan_stamen<span class="sc">$</span>tonerlite)</span>
+<span id="cb193-9"><a href="map.html#cb193-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb193-10"><a href="map.html#cb193-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-11"><a href="map.html#cb193-11" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span><span class="fu">tonerlite</span>()</span>
+<span id="cb193-12"><a href="map.html#cb193-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-13"><a href="map.html#cb193-13" aria-hidden="true" tabindex="-1"></a><span class="co"># terrain</span></span>
+<span id="cb193-14"><a href="map.html#cb193-14" aria-hidden="true" tabindex="-1"></a>taiwan_stamen<span class="sc">$</span>terrain <span class="ot">&lt;-</span> </span>
+<span id="cb193-15"><a href="map.html#cb193-15" aria-hidden="true" tabindex="-1"></a>  ggmap<span class="sc">::</span><span class="fu">get_stamenmap</span>(bbox, <span class="at">maptype=</span><span class="st">&quot;terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">9</span>)</span>
+<span id="cb193-16"><a href="map.html#cb193-16" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span>terrain <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb193-17"><a href="map.html#cb193-17" aria-hidden="true" tabindex="-1"></a>  ggmap<span class="sc">::</span><span class="fu">ggmap</span>(taiwan_stamen<span class="sc">$</span>terrain,</span>
+<span id="cb193-18"><a href="map.html#cb193-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">darken=</span><span class="fu">c</span>(<span class="st">&quot;0.3&quot;</span>, <span class="st">&quot;white&quot;</span>))</span>
+<span id="cb193-19"><a href="map.html#cb193-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb193-20"><a href="map.html#cb193-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb193-21"><a href="map.html#cb193-21" aria-hidden="true" tabindex="-1"></a>background<span class="sc">$</span>台灣本島<span class="sc">$</span><span class="fu">terrain</span>()</span></code></pre></div>
+</div>
+<div id="毒品破獲" class="section level3" number="6.6.4">
+<h3><span class="header-section-number">6.6.4</span> 毒品破獲</h3>
+<ol style="list-style-type: decimal">
+<li><p>創立帶有geometry column的sf毒品資料</p></li>
+<li><p>繪製面量圖</p></li>
+</ol>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="map.html#cb194-1" aria-hidden="true" tabindex="-1"></a>econDV2<span class="sc">::</span><span class="fu">Object</span>(drug)</span>
+<span id="cb194-2"><a href="map.html#cb194-2" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>data <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="st">&quot;https://www.dropbox.com/s/dry3nvahkmcmqoi/drug.json?dl=1&quot;</span>)</span>
+<span id="cb194-3"><a href="map.html#cb194-3" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>data <span class="ot">&lt;-</span> drug<span class="sc">$</span>data <span class="sc">|&gt;</span></span>
+<span id="cb194-4"><a href="map.html#cb194-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(發生西元年<span class="sc">==</span><span class="st">&quot;2018&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="map.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 計算不同發生地點的案件破獲次數 </span></span>
+<span id="cb195-2"><a href="map.html#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb195-3"><a href="map.html#cb195-3" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>data <span class="sc">|&gt;</span></span>
+<span id="cb195-4"><a href="map.html#cb195-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(發生地點) <span class="sc">|&gt;</span></span>
+<span id="cb195-5"><a href="map.html#cb195-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb195-6"><a href="map.html#cb195-6" aria-hidden="true" tabindex="-1"></a>    案件次數<span class="ot">=</span><span class="fu">n</span>(),</span>
+<span id="cb195-7"><a href="map.html#cb195-7" aria-hidden="true" tabindex="-1"></a>    案件次數2<span class="ot">=</span><span class="fu">cut</span>(案件次數, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb195-8"><a href="map.html#cb195-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="ot">-&gt;</span> drug<span class="sc">$</span>data_frequency</span></code></pre></div>
+<div id="create-sf-econ-social-data" class="section level4" number="6.6.4.1">
+<h4><span class="header-section-number">6.6.4.1</span> create sf econ-social data</h4>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="map.html#cb196-1" aria-hidden="true" tabindex="-1"></a>left_data <span class="ot">&lt;-</span></span>
+<span id="cb196-2"><a href="map.html#cb196-2" aria-hidden="true" tabindex="-1"></a>  sf_taiwan_simplified<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span>鄉鎮區</span>
+<span id="cb196-3"><a href="map.html#cb196-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-4"><a href="map.html#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf) <span class="co"># You need this for dplyr join functions to work with sf class data frame</span></span>
+<span id="cb196-5"><a href="map.html#cb196-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-6"><a href="map.html#cb196-6" aria-hidden="true" tabindex="-1"></a>right_data <span class="ot">&lt;-</span> </span>
+<span id="cb196-7"><a href="map.html#cb196-7" aria-hidden="true" tabindex="-1"></a>  drug<span class="sc">$</span>data_frequency <span class="sc">|&gt;</span></span>
+<span id="cb196-8"><a href="map.html#cb196-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb196-9"><a href="map.html#cb196-9" aria-hidden="true" tabindex="-1"></a>    發生地點<span class="ot">=</span></span>
+<span id="cb196-10"><a href="map.html#cb196-10" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_replace</span>(發生地點, <span class="st">&#39;台&#39;</span>, <span class="st">&quot;臺&quot;</span>))</span>
+<span id="cb196-11"><a href="map.html#cb196-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-12"><a href="map.html#cb196-12" aria-hidden="true" tabindex="-1"></a><span class="do">## left_join</span></span>
+<span id="cb196-13"><a href="map.html#cb196-13" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>left <span class="ot">&lt;-</span> {</span>
+<span id="cb196-14"><a href="map.html#cb196-14" aria-hidden="true" tabindex="-1"></a>  left_data <span class="sc">|&gt;</span> </span>
+<span id="cb196-15"><a href="map.html#cb196-15" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb196-16"><a href="map.html#cb196-16" aria-hidden="true" tabindex="-1"></a>      right_data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;map_id&quot;</span><span class="ot">=</span><span class="st">&quot;發生地點&quot;</span>)</span>
+<span id="cb196-17"><a href="map.html#cb196-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb196-18"><a href="map.html#cb196-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb196-19"><a href="map.html#cb196-19" aria-hidden="true" tabindex="-1"></a><span class="do">## right_join</span></span>
+<span id="cb196-20"><a href="map.html#cb196-20" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>right <span class="ot">&lt;-</span> {</span>
+<span id="cb196-21"><a href="map.html#cb196-21" aria-hidden="true" tabindex="-1"></a>  left_data <span class="sc">|&gt;</span> </span>
+<span id="cb196-22"><a href="map.html#cb196-22" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">right_join</span>(</span>
+<span id="cb196-23"><a href="map.html#cb196-23" aria-hidden="true" tabindex="-1"></a>      right_data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;map_id&quot;</span><span class="ot">=</span><span class="st">&quot;發生地點&quot;</span>)</span>
+<span id="cb196-24"><a href="map.html#cb196-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb196-25"><a href="map.html#cb196-25" aria-hidden="true" tabindex="-1"></a>}<span class="do">## inner_join</span></span>
+<span id="cb196-26"><a href="map.html#cb196-26" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>inner <span class="ot">&lt;-</span> {</span>
+<span id="cb196-27"><a href="map.html#cb196-27" aria-hidden="true" tabindex="-1"></a>  left_data <span class="sc">|&gt;</span> </span>
+<span id="cb196-28"><a href="map.html#cb196-28" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb196-29"><a href="map.html#cb196-29" aria-hidden="true" tabindex="-1"></a>      right_data, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;map_id&quot;</span><span class="ot">=</span><span class="st">&quot;發生地點&quot;</span>)</span>
+<span id="cb196-30"><a href="map.html#cb196-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb196-31"><a href="map.html#cb196-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="map.html#cb197-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>left <span class="sc">|&gt;</span> <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">geom_sf</span>()</span>
+<span id="cb197-2"><a href="map.html#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="co"># right covers some small island data whose geometry is empty</span></span>
+<span id="cb197-3"><a href="map.html#cb197-3" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>right <span class="sc">|&gt;</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>()</span>
+<span id="cb197-4"><a href="map.html#cb197-4" aria-hidden="true" tabindex="-1"></a><span class="co"># inner like right but no small island data</span></span>
+<span id="cb197-5"><a href="map.html#cb197-5" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>join<span class="sc">$</span>inner <span class="sc">|&gt;</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>()</span>
+<span id="cb197-6"><a href="map.html#cb197-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb197-7"><a href="map.html#cb197-7" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>sf <span class="ot">&lt;-</span> drug<span class="sc">$</span>join<span class="sc">$</span>inner</span></code></pre></div>
+</div>
+<div id="overlay-sf-background" class="section level4" number="6.6.4.2">
+<h4><span class="header-section-number">6.6.4.2</span> overlay sf background</h4>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="map.html#cb198-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>choropleth0 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb198-2"><a href="map.html#cb198-2" aria-hidden="true" tabindex="-1"></a>  background<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span>鄉鎮區() <span class="sc">+</span></span>
+<span id="cb198-3"><a href="map.html#cb198-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(</span>
+<span id="cb198-4"><a href="map.html#cb198-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb198-5"><a href="map.html#cb198-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb198-6"><a href="map.html#cb198-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill=</span>案件次數</span>
+<span id="cb198-7"><a href="map.html#cb198-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb198-8"><a href="map.html#cb198-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb198-9"><a href="map.html#cb198-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.15</span></span>
+<span id="cb198-10"><a href="map.html#cb198-10" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb198-11"><a href="map.html#cb198-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-12"><a href="map.html#cb198-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-13"><a href="map.html#cb198-13" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span><span class="fu">choropleth0</span>()</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/drug_choropleth0.png" style="width: 100%"/>
+</div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="map.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mp$choose_palette()</span></span>
+<span id="cb199-2"><a href="map.html#cb199-2" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>register_palette <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb199-3"><a href="map.html#cb199-3" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">sequential_hcl</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">83</span>, <span class="dv">20</span>), <span class="at">c =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="cn">NA</span>, <span class="dv">18</span>), <span class="at">l =</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">90</span>), <span class="at">power =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">rev =</span> <span class="cn">TRUE</span>, <span class="at">register =</span> <span class="st">&quot;drug&quot;</span>)</span>
+<span id="cb199-4"><a href="map.html#cb199-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb199-5"><a href="map.html#cb199-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb199-6"><a href="map.html#cb199-6" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span><span class="fu">register_palette</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="map.html#cb200-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span><span class="fu">choropleth0</span>() <span class="sc">+</span></span>
+<span id="cb200-2"><a href="map.html#cb200-2" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_continuous_sequential</span>(</span>
+<span id="cb200-3"><a href="map.html#cb200-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb200-4"><a href="map.html#cb200-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#dbd7a8&quot;</span></span>
+<span id="cb200-5"><a href="map.html#cb200-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/drug_choropleth0_b.png" style="width: 100%"/>
+</div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="map.html#cb201-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>choropleth1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb201-2"><a href="map.html#cb201-2" aria-hidden="true" tabindex="-1"></a>  background<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span>鄉鎮區() <span class="sc">+</span></span>
+<span id="cb201-3"><a href="map.html#cb201-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(</span>
+<span id="cb201-4"><a href="map.html#cb201-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb201-5"><a href="map.html#cb201-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb201-6"><a href="map.html#cb201-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill=</span>案件次數2,</span>
+<span id="cb201-7"><a href="map.html#cb201-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">label=</span>map_id</span>
+<span id="cb201-8"><a href="map.html#cb201-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb201-9"><a href="map.html#cb201-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb201-10"><a href="map.html#cb201-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.15</span></span>
+<span id="cb201-11"><a href="map.html#cb201-11" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb201-12"><a href="map.html#cb201-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="map.html#cb202-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span><span class="fu">choropleth1</span>() <span class="sc">+</span></span>
+<span id="cb202-2"><a href="map.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb202-3"><a href="map.html#cb202-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb202-4"><a href="map.html#cb202-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#dbd7a8&quot;</span></span>
+<span id="cb202-5"><a href="map.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb202-6"><a href="map.html#cb202-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="ot">-&gt;</span> drug<span class="sc">$</span>map<span class="sc">$</span>choropleth_final</span>
+<span id="cb202-7"><a href="map.html#cb202-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb202-8"><a href="map.html#cb202-8" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>choropleth_final</span></code></pre></div>
+<a href="https://tpemartin.github.io/economic-data-visualization-2021/img/plotly_drug.html" target="_blank">
+<div style="text-align: center;">
+<img src="img/drug_choropleth_final.png" style="width: 100%"/>
+</div>
+</a>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="map.html#cb203-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(</span>
+<span id="cb203-2"><a href="map.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  drug<span class="sc">$</span>map<span class="sc">$</span>choropleth_final</span>
+<span id="cb203-3"><a href="map.html#cb203-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="alert alert-info">
+<p>If you want to make the entire Taiwan island’s choropleth map down to “縣市” or “鄉鎮區,” you can also use:</p>
+<ul>
+<li><p><code>econDV2::geom_sf_taiwan</code> which only need social-econ data with map_id. It will create sf social-econ data in the background for you.</p></li>
+<li><p><code>econDV2::geom_sf_taiwan</code> default at <code>cast2multipolygon=T</code> to ensure <code>plotly::ggplotly</code> work.</p></li>
+</ul>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="map.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span>  </span>
+<span id="cb204-2"><a href="map.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  econDV2<span class="sc">::</span><span class="fu">geom_sf_taiwan</span>(</span>
+<span id="cb204-3"><a href="map.html#cb204-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>drug<span class="sc">$</span>data_frequency,</span>
+<span id="cb204-4"><a href="map.html#cb204-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb204-5"><a href="map.html#cb204-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>案件次數</span>
+<span id="cb204-6"><a href="map.html#cb204-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb204-7"><a href="map.html#cb204-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">map_id =</span> <span class="st">&quot;發生地點&quot;</span>,</span>
+<span id="cb204-8"><a href="map.html#cb204-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">type=</span><span class="st">&quot;鄉鎮區&quot;</span></span>
+<span id="cb204-9"><a href="map.html#cb204-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb204-10"><a href="map.html#cb204-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb204-11"><a href="map.html#cb204-11" aria-hidden="true" tabindex="-1"></a><span class="fu">last_plot</span>() <span class="sc">+</span></span>
+<span id="cb204-12"><a href="map.html#cb204-12" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_continuous_sequential</span>(</span>
+<span id="cb204-13"><a href="map.html#cb204-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb204-14"><a href="map.html#cb204-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#dbd7a8&quot;</span></span>
+<span id="cb204-15"><a href="map.html#cb204-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb204-16"><a href="map.html#cb204-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb204-17"><a href="map.html#cb204-17" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(<span class="fu">last_plot</span>())</span></code></pre></div>
+<ul>
+<li>background map design change is also possible.</li>
+</ul>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="map.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb205-2"><a href="map.html#cb205-2" aria-hidden="true" tabindex="-1"></a>  econDV2<span class="sc">::</span><span class="fu">geom_sf_taiwan</span>(</span>
+<span id="cb205-3"><a href="map.html#cb205-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>drug<span class="sc">$</span>data_frequency,</span>
+<span id="cb205-4"><a href="map.html#cb205-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb205-5"><a href="map.html#cb205-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>案件次數2</span>
+<span id="cb205-6"><a href="map.html#cb205-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb205-7"><a href="map.html#cb205-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb205-8"><a href="map.html#cb205-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span><span class="fl">0.15</span>,</span>
+<span id="cb205-9"><a href="map.html#cb205-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">map_id =</span> <span class="st">&quot;發生地點&quot;</span>,</span>
+<span id="cb205-10"><a href="map.html#cb205-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">type=</span><span class="st">&quot;鄉鎮區&quot;</span>,</span>
+<span id="cb205-11"><a href="map.html#cb205-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">background.fill =</span> <span class="st">&quot;#ebffd9&quot;</span>,</span>
+<span id="cb205-12"><a href="map.html#cb205-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">background.color =</span> <span class="st">&quot;#d9d9d9&quot;</span>,</span>
+<span id="cb205-13"><a href="map.html#cb205-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">background.size =</span> <span class="fl">0.1</span></span>
+<span id="cb205-14"><a href="map.html#cb205-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb205-15"><a href="map.html#cb205-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-16"><a href="map.html#cb205-16" aria-hidden="true" tabindex="-1"></a><span class="fu">last_plot</span>() <span class="sc">+</span></span>
+<span id="cb205-17"><a href="map.html#cb205-17" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb205-18"><a href="map.html#cb205-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb205-19"><a href="map.html#cb205-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span><span class="st">&quot;#dbd7a8&quot;</span></span>
+<span id="cb205-20"><a href="map.html#cb205-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb205-21"><a href="map.html#cb205-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb205-22"><a href="map.html#cb205-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-23"><a href="map.html#cb205-23" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(<span class="fu">last_plot</span>())</span></code></pre></div>
+<div style="text-align: center;">
+<img src="img/drugecondv2.png" style="width: 70%"/>
+</div>
+</div>
+</div>
+<div id="overlay-stamenmap-background" class="section level4" number="6.6.4.3">
+<h4><span class="header-section-number">6.6.4.3</span> overlay stamenmap background</h4>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="map.html#cb206-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite <span class="ot">&lt;-</span> </span>
+<span id="cb206-2"><a href="map.html#cb206-2" aria-hidden="true" tabindex="-1"></a>  background<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span><span class="fu">tonerlite</span>() <span class="sc">+</span></span>
+<span id="cb206-3"><a href="map.html#cb206-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(</span>
+<span id="cb206-4"><a href="map.html#cb206-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb206-5"><a href="map.html#cb206-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb206-6"><a href="map.html#cb206-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill=</span>案件次數2,</span>
+<span id="cb206-7"><a href="map.html#cb206-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">label=</span>map_id</span>
+<span id="cb206-8"><a href="map.html#cb206-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb206-9"><a href="map.html#cb206-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb206-10"><a href="map.html#cb206-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.15</span>,</span>
+<span id="cb206-11"><a href="map.html#cb206-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha=</span><span class="fl">0.3</span>,</span>
+<span id="cb206-12"><a href="map.html#cb206-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">inherit.aes =</span> F</span>
+<span id="cb206-13"><a href="map.html#cb206-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb206-14"><a href="map.html#cb206-14" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb206-15"><a href="map.html#cb206-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb206-16"><a href="map.html#cb206-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span>ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;#dbd7a8&quot;</span>, <span class="fl">0.1</span>)</span>
+<span id="cb206-17"><a href="map.html#cb206-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb206-18"><a href="map.html#cb206-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-19"><a href="map.html#cb206-19" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="map.html#cb207-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite)</span></code></pre></div>
+<ul>
+<li>The overlay is slightly off due to some bug in ggmap. To fix it, you can use <code>econDV2::ggmap2() + econDV2::geom_sf_overggmap()</code></li>
+</ul>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="map.html#cb208-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite_fixed <span class="ot">&lt;-</span> </span>
+<span id="cb208-2"><a href="map.html#cb208-2" aria-hidden="true" tabindex="-1"></a>  econDV2<span class="sc">::</span><span class="fu">ggmap2</span>(taiwan_stamen<span class="sc">$</span>tonerlite)<span class="sc">+</span></span>
+<span id="cb208-3"><a href="map.html#cb208-3" aria-hidden="true" tabindex="-1"></a>    econDV2<span class="sc">::</span><span class="fu">geom_sf_overggmap</span>(</span>
+<span id="cb208-4"><a href="map.html#cb208-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb208-5"><a href="map.html#cb208-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb208-6"><a href="map.html#cb208-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill=</span>案件次數2,</span>
+<span id="cb208-7"><a href="map.html#cb208-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">label=</span>map_id</span>
+<span id="cb208-8"><a href="map.html#cb208-8" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb208-9"><a href="map.html#cb208-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb208-10"><a href="map.html#cb208-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">size=</span><span class="fl">0.15</span>,</span>
+<span id="cb208-11"><a href="map.html#cb208-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">alpha=</span><span class="fl">0.7</span>,</span>
+<span id="cb208-12"><a href="map.html#cb208-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">inherit.aes =</span> F</span>
+<span id="cb208-13"><a href="map.html#cb208-13" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb208-14"><a href="map.html#cb208-14" aria-hidden="true" tabindex="-1"></a>    colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb208-15"><a href="map.html#cb208-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb208-16"><a href="map.html#cb208-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.value=</span>ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;#dbd7a8&quot;</span>, <span class="fl">0.1</span>)</span>
+<span id="cb208-17"><a href="map.html#cb208-17" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span><span class="fu">theme_void</span>()</span>
+<span id="cb208-18"><a href="map.html#cb208-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-19"><a href="map.html#cb208-19" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite_fixed</span>
+<span id="cb208-20"><a href="map.html#cb208-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-21"><a href="map.html#cb208-21" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_tonerlite_fixed)</span></code></pre></div>
+<a href="taiwan_drug2018_stamen1.html" target="_blank">
+<div style="text-align: center;">
+<img src="img/drug_map_overstament_tonerlite_fixed.png" style="width: 85%"/>
+</div>
+</a>
+<ul>
+<li>There is still some unfit due to the fact that sf geometry is simplified.</li>
+</ul>
+<hr />
+<p>Terrain</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="map.html#cb209-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_terrain <span class="ot">&lt;-</span> </span>
+<span id="cb209-2"><a href="map.html#cb209-2" aria-hidden="true" tabindex="-1"></a>  background<span class="sc">$</span><span class="st">`</span><span class="at">台灣本島</span><span class="st">`</span><span class="sc">$</span><span class="fu">terrain</span>() <span class="sc">+</span></span>
+<span id="cb209-3"><a href="map.html#cb209-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(</span>
+<span id="cb209-4"><a href="map.html#cb209-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb209-5"><a href="map.html#cb209-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb209-6"><a href="map.html#cb209-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill=</span>案件次數2,</span>
+<span id="cb209-7"><a href="map.html#cb209-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">label=</span>map_id</span>
+<span id="cb209-8"><a href="map.html#cb209-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb209-9"><a href="map.html#cb209-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb209-10"><a href="map.html#cb209-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.15</span>,</span>
+<span id="cb209-11"><a href="map.html#cb209-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha=</span><span class="fl">0.7</span>,</span>
+<span id="cb209-12"><a href="map.html#cb209-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">inherit.aes =</span> F</span>
+<span id="cb209-13"><a href="map.html#cb209-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb209-14"><a href="map.html#cb209-14" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb209-15"><a href="map.html#cb209-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb209-16"><a href="map.html#cb209-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span>ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;#dbd7a8&quot;</span>, <span class="fl">0.1</span>)</span>
+<span id="cb209-17"><a href="map.html#cb209-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb209-18"><a href="map.html#cb209-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-19"><a href="map.html#cb209-19" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_terrain</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="map.html#cb210-1" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_terrain_fixed <span class="ot">&lt;-</span> </span>
+<span id="cb210-2"><a href="map.html#cb210-2" aria-hidden="true" tabindex="-1"></a>  econDV2<span class="sc">::</span><span class="fu">ggmap2</span>(taiwan_stamen<span class="sc">$</span>terrain) <span class="sc">+</span></span>
+<span id="cb210-3"><a href="map.html#cb210-3" aria-hidden="true" tabindex="-1"></a>    econDV2<span class="sc">::</span><span class="fu">geom_sf_overggmap</span>(</span>
+<span id="cb210-4"><a href="map.html#cb210-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>drug<span class="sc">$</span>sf,</span>
+<span id="cb210-5"><a href="map.html#cb210-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb210-6"><a href="map.html#cb210-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill=</span>案件次數2,</span>
+<span id="cb210-7"><a href="map.html#cb210-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">label=</span>map_id</span>
+<span id="cb210-8"><a href="map.html#cb210-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb210-9"><a href="map.html#cb210-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb210-10"><a href="map.html#cb210-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="fl">0.15</span>,</span>
+<span id="cb210-11"><a href="map.html#cb210-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha=</span><span class="fl">0.5</span>,</span>
+<span id="cb210-12"><a href="map.html#cb210-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">inherit.aes =</span> F</span>
+<span id="cb210-13"><a href="map.html#cb210-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb210-14"><a href="map.html#cb210-14" aria-hidden="true" tabindex="-1"></a>  colorspace<span class="sc">::</span><span class="fu">scale_fill_discrete_sequential</span>(</span>
+<span id="cb210-15"><a href="map.html#cb210-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette=</span><span class="st">&quot;drug&quot;</span>, </span>
+<span id="cb210-16"><a href="map.html#cb210-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value=</span>ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">&quot;#dbd7a8&quot;</span>, <span class="fl">0.1</span>)</span>
+<span id="cb210-17"><a href="map.html#cb210-17" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span><span class="fu">theme_void</span>()</span>
+<span id="cb210-18"><a href="map.html#cb210-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb210-19"><a href="map.html#cb210-19" aria-hidden="true" tabindex="-1"></a>drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_terrain_fixed</span></code></pre></div>
+<a href="taiwan_drug2018_stamen2.html" target="_blank">
+<div style="text-align: center;">
+<img src="img/drug_map_overstament_terrain_fixed.png" style="width: 85%"/>
+</div>
+</a>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="map.html#cb211-1" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(drug<span class="sc">$</span>map<span class="sc">$</span>overstamen_terrain_fixed)</span></code></pre></div>
+<!--
+## Spatial computation
+
+  * <https://cran.r-project.org/web/packages/sf/vignettes/sf1.html>
+
+## Projection
+
+#### Mercator projection
+
+Standard longitude and latitude system when laid out on the Cartesian plane will be a standard Mercator tanget projection with no rotation with center point the mean of data longitudes and latitudes (roughly `(0,0)`). 
+
+<figure>
+
+```{=html}
+<div style="text-align: center;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Comparison_of_Mercator_projections.svg" style="width: 50%"/>
+</div>
+```
+<figcaption>Mercator projection</figcaption>
+</figure>
+
+To gain more control on projection result, use `coord_map()`:
+
+```r
+world0() + coord_map()
+```
+
+<div class="alert alert-warning">
+By default, `coord_map()` take `xlim=range(world$long)`, range has some round off effect which cuts the true range short, creating the erraneous connection problem. To avoid that, set `xlim=c(-180, 180)` (a little wider than the range rendered).
+
+```r
+world0() + coord_map(xlim=c(-180, 180))
+```
+
+</div>
+
+Set orientation vector:  
+> A vector c(latitude,longitude,rotation) which describes where the "North Pole" should be when computing the projection.
+
+
+```r
+center_longitude = 90 #input$center_longitude
+rotation = 0 #input$rotation
+mapproj::mapproject(
+  world$long,
+  world$lat,
+  projection="mercator",
+  orientation = c(90, center_longitude, rotation)
+) -> longlat_new
+world_new <- data.frame(
+  longlat_new[c("x","y")]
+)
+world_new$group <- world$group
+```
+
+
+```r
+world <- world |> dplyr::filter(region !="Antarctica", is.na(subregion))
+```
+
+
+```r
+center_longitude = 0 #input$center_longitude
+rotation = 0 #input$rotation
+```
+
+
+
+```r
+world = ggplot2::map_data("world")
+world0()+coord_map(
+  # xlim=c(-180, 180),
+  orientation = c(90, 0, rotation),
+  clip="off"
+)+
+  expand_limits(x=range(world$long), y=range(world$lat))
+```
+
+
+```r
+world |> group_by(region) |> 
+  slice(1) -> world_value
+ggplot()+
+  geom_map(
+    data=world_value,
+    aes(map_id=region),
+    fill="white", color="black",
+    map=world
+  ) 
+```
+
+
+
+```r
+gg0+coord_map(
+  clip="off"
+)
+gg0+coord_map(
+  xlim= c(-190, 190)
+)
+(gg0 + coord_map()) |>
+  plotly::ggplotly()
+gg0 + coord_quickmap()
+mean(range(world$long))
+o1 = 90 #input$o1
+o2 = 0 #input$o2
+o3 = 5.1354 #input$o3
+gg0+coord_map(
+  orientation=c(o1, o2, o3)
+)
+gg0 + coord_quickmap(
+  orientation=c(o1, o2, o3)
+)
+last_plot() + coord_map(projection = "sinusoidal")
+last_plot() + coord_map(
+  orientation = 
+)
+```
+
+### Various projection
+
+![cylindrical projection](https://support.esri.com/~/media/Support/GISDictionary/cylindrical-projection.jpg)
+Types of cylindrical map projections you may know include the popular Mercator projection, Cassini, Gauss-Kruger, Miller, Behrmann, Hobo-Dyer, and Gall-Peters.
+
+
+
+
+
+![planar projection](https://support.esri.com/~/media/Support/GISDictionary/planar-projection.jpg)
+
+
+***
+
+You can pull out certain country data via filter on `region`.
+
+  * A country can have many polygons defined by `subregion`, like Taiwan.
+
+
+```r
+world |> 
+  dplyr::filter(
+    stringr::str_detect(region, "Taiwan")
+  ) ->
+  taiwan
+
+taiwan |> 
+  ggplot() + geom_polygon(
+    mapping=aes(
+      x=long, y=lat, group=group
+    )
+  )
+
+last_plot() + coord_map()
+```
+
+  * By default, all geom (except geom_sf) is graphed based on Cartesian coordinate system. You need to `+coord_map()` to do map projection.
+  
+
+```r
+# the default of coord_map
+coord_map(
+  projection = "mercator",
+  ...,
+  parameters = NULL,
+  orientation = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  clip = "on"
+)
+```
+  
+
+  * If multiple coordinate systems are detected, the last coordinate system will be used.
+
+
+## Rotate the projection 
+
+
+
+## Map overlay
+
+
+
+```r
+xfun::download_file("https://www.dropbox.com/s/kvjpd1idvsln41k/20-Mar-2021-sanxiaBikeRoute.gpx?dl=1")
+econDV2::Object(bikeRoute)
+bikeRoute$data$raw <- 
+  plotKML::readGPX(
+    gpx.file="20-Mar-2021-sanxiaBikeRoute.gpx")
+bikeRoute$data$track <-
+  bikeRoute$data$raw$tracks[[1]][[1]]
+```
+
+
+```r
+ggplot() +
+  geom_path(
+    data=bikeRoute$data$track,
+    mapping=
+      aes(
+        x=lon,
+        y=lat
+      )
+  ) + coord_map()
+```
+
+### Raster image
+
+
+```r
+mp$browse$openstreetmap()
+```
+
+
+
+```r
+mp$copy_paste$osm_bbox()
+```
+left=121.3512,
+bottom=24.9435,
+right=121.3849,
+top=24.9615
+
+
+
+```r
+img <- list()
+xfun::download_file("https://www.dropbox.com/s/e2kct9xropvg1h5/map_sanxia.png?dl=1")
+magick::image_read("map_sanxia.png") -> img$raw
+magick::image_resize(
+  img$raw,
+  geometry = magick::geometry_size_percent(width = 50, height = NULL)
+) -> img$resize
+
+magick::image_flatten(
+  img$raw
+) -> img$flatten
+
+magick::image_write(
+  img$resize, path="map_resize.png"
+)
+```
+
+
+```r
+check_size <- function(x){
+  x |> magick::image_raster() |>
+    pryr::object_size()
+}
+```
+
+
+```r
+raster_0 <- magick::image_raster(
+  img$raw
+)
+pryr::object_size(raster_0)
+
+raster_map <- magick::image_raster(img$resize)
+pryr::object_size(raster_map)
+raster_flatmap <- 
+  magick::image_raster(img$flatten)
+pryr::object_size(raster_flatmap)
+
+
+img$raw |> check_size()
+
+img$raw |>
+  magick::image_quantize(colorspace="gray") |> 
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |> #print()
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |>
+  magick::image_resize(
+    geometry = magick::geometry_size_percent(80)
+  ) |> #print()
+  check_size()
+
+img$raw |> 
+  magick::image_quantize(
+    max=30,
+    colorspace = "gray") |>
+  magick::image_resize(
+    geometry = magick::geometry_size_percent(80)
+  ) |>
+  magick::image_raster() -> img$resize_gray
+```
+
+
+```r
+img$resize_gray$col |> unique() -> colorlimit
+ggplot()+
+  geom_raster(
+    data=img$resize_gray,
+    mapping=aes(
+      x=x, y=y, fill=col
+    )
+  )+
+  scale_fill_manual(
+    limits = colorlimit,
+    values = colorlimit
+  )+
+  theme(
+    legend.position = "none"
+  )-> gg1
+
+gg1
+```
+
+
+
+```r
+econDV2::Object(overlay)
+overlay$raster$google <- {
+  ggmap::get_map(
+  c(lon=121.3684249, lat=24.9521791),
+  zoom=15)
+}
+overlay$raster$statmen <- {
+  
+}
+overlay$raster$osm <- {
+  ggmap::get_map(
+    c(left=121.34759,
+bottom=24.94224,
+right=121.38503,
+top=24.96071),
+    source="osm"
+  )
+}
+```
+
+
+
+```r
+attach(bikeRoute$data)
+{
+  track[c("lon", "lat")] |> as.matrix() |> sf::st_linestring() -> track_linestring
+  
+  track_linestring |> sf::st_crs()
+  
+  ggplot()+geom_sf(data=track_linestring, crs=NULL)
+  
+  ggmap::get_map(
+c(lon=121.3684249, lat=24.9521791),
+zoom=15  ) -> raster_ntpu
+  
+  
+  ggmap(raster_ntpu) -> gg_ntpu
+  
+  gg_ntpu |> sf::st_crs()
+  raster_ntpu |> sf::st_crs()
+  track_linestring |> sf::st_crs()
+  
+  gg_ntpu + geom_sf(
+    data=track_linestring,
+    inherit.aes = F
+  )+theme_void()
+
+  # gg_ntpu and geom_sf are two different coordinate systems by concepts. Here both has no crs setting. So the warning is wrong.
+}
+detach(bikeRoute$data)
+```
+
+
+```r
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") |> ggmap() 
+```
+
+
+## Raster map 
+
+
+```r
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+bbox_ntpu <- 
+  c(top=24.94709,
+right=121.37619,
+bottom=24.93842,
+left=121.36230)
+ggmap::get_map(
+  location= c(lon=121.37015,lat=24.94311),
+  source="osm"
+)
+ggmap::get_openstreetmap(
+  bbox=bbox_ntpu
+) -> map_ntpu 
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap()  -> gg0
+```
+
+
+24.94709 (top)
+121.37619 (right)
+24.93842
+121.36230
+
+
+
+
+```r
+magick::image_read("/Users/martinl/Downloads/map_ntpu.png") -> map_ntpu
+magick::image_raster(map_ntpu) -> raster_ntpu
+pryr::object_size(raster_ntpu) # extremely big
+```
+
+  * **Raster** is not an efficient way to store image information. 
+  
+
+```r
+newTaipeiBBox <- c(xmin=121.28263, ymin=24.67316, xmax=122.00640, ymax=25.29974)
+```
+
+
+## open street map (OSM)
+
+  * <https://openstreetmap.org>
+
+
+```r
+browseURL("https://openstreetmap.org")
+```
+
+## ggmap
+
+
+```r
+ggmap::get_openstreetmap(
+  
+)
+```
+
+
+
+```r
+library("ggmap")
+#  Loading required package: ggplot2
+#  Registered S3 methods overwritten by 'ggplot2':
+#    method         from 
+#    [.quosures     rlang
+#    c.quosures     rlang
+#    print.quosures rlang
+#  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+#  Please cite ggmap if you use it! See citation("ggmap") for details.
+
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap()  -> gg0
+gg0 |> class()
+gg0$data
+ggmap |> body() |> clipr::write_clip()
+```
+
+
+
+-->
+
+</div>
+</div>
+</div>
+</div>
+<!--參考答案開關--> 
+<script>
+$(document).ready(function(){
+  $('<button class="flip">More info...</button>').insertBefore(".more");
+  $(".flip").click(function(){
+    $(this).next().slideToggle();
+  });
+})
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- 2. Include library -->
+<script src="js/clipboard.min.js"></script>
+
+<!-- 3. Instantiate clipboard by passing a string selector -->
+
+<script>
+var clipboard = new Clipboard('.btn');
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+</script>
+
+<script>
+  var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+
+copyTextareaBtn.addEventListener('click', function(event) {
+  var copyTextarea = document.querySelector('.js-copytextarea');
+  copyTextarea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+});
+</script>
+
+<script>
+  function CopyToClipboard(containerid) {
+if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select().createTextRange();
+    document.execCommand("copy");
+
+} else if (window.getSelection) {
+    var range = document.createRange();
+     range.selectNode(document.getElementById(containerid));
+     window.getSelection().addRange(range);
+     document.execCommand("copy");
+     alert("text copied")
+}}
+</script>
+
+<script>
+  $( document ).ready(function() {
+    addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('left', 'top', 'auto', '1', 'Copy code', 'Copied!');
+});
+</script>
+<!--
+<script>
+  $(document).ready(function() {
+  var codes = document.querySelectorAll('pre:not([class])');
+  var code, i, d, s, p;
+  for (i = 0; i < codes.length; i++) {
+    code = codes[i];
+    p = code.parentNode;
+    d = document.createElement('details');
+    s = document.createElement('summary');
+    s.innerText = 'Details';
+    // <details><summary>Details</summary></details>
+    d.appendChild(s);
+    // move the code into <details>
+    p.replaceChild(d, code);
+    d.appendChild(code);
+  }
+});
+</script>
+-->
+<!--
+<script>
+  ((window.gitter = {}).chat = {}).options = {
+    room: 'https://gitter.im/NTPU-Econ/Econometrics'
+  };
+</script>
+
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+-->
+<script src="js/documentReady.js"></script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="scale.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="color.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"theme": "united"
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Page not found | Economic Data Visualization</title>
+  <meta name="description" content="Page not found | Economic Data Visualization" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Page not found | Economic Data Visualization" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Page not found | Economic Data Visualization" />
+  
+  
+  
+
+<meta name="author" content="Dr. Lin, Mau-Ting" />
+
+
+<meta name="date" content="2021-01-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104915016-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-104915016-7');
+
+  // ga('set', 'userId', 'USER_ID'); // Set the user ID using signed-in user_id.
+</script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">經濟資料視覺化處理</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.1</b> Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#start-a-project"><i class="fa fa-check"></i><b>1.2</b> Start a project</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#rprofile"><i class="fa fa-check"></i><b>1.3</b> .Rprofile</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#otherSoftware"><i class="fa fa-check"></i><b>1.4</b> 其他</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html"><i class="fa fa-check"></i><b>2</b> Geometries and Aesthetics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#an-example"><i class="fa fa-check"></i><b>2.1</b> An Example</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#econdv2ggdash"><i class="fa fa-check"></i><b>2.1.1</b> econDV2::ggdash</a></li>
+<li class="chapter" data-level="2.1.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#script-saving"><i class="fa fa-check"></i><b>2.1.2</b> Script saving</a></li>
+<li class="chapter" data-level="2.1.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#graph-output"><i class="fa fa-check"></i><b>2.1.3</b> Graph output</a></li>
+<li class="chapter" data-level="2.1.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#ggdash-more"><i class="fa fa-check"></i><b>2.1.4</b> ggdash more</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#inheritance"><i class="fa fa-check"></i><b>2.2</b> Inheritance</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#data"><i class="fa fa-check"></i><b>2.2.1</b> Data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#aesthetics"><i class="fa fa-check"></i><b>2.2.2</b> Aesthetics</a></li>
+<li class="chapter" data-level="2.2.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#stop-data-inheritance"><i class="fa fa-check"></i><b>2.2.3</b> Stop data inheritance</a></li>
+<li class="chapter" data-level="2.2.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#finish-panel"><i class="fa fa-check"></i><b>2.2.4</b> Finish panel</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#graph-export"><i class="fa fa-check"></i><b>2.3</b> Graph export</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="layers.html"><a href="layers.html"><i class="fa fa-check"></i><b>3</b> Layers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="layers.html"><a href="layers.html#time-series-data"><i class="fa fa-check"></i><b>3.1</b> Time series data</a></li>
+<li class="chapter" data-level="3.2" data-path="layers.html"><a href="layers.html#aesthetics-inheritance"><i class="fa fa-check"></i><b>3.2</b> Aesthetics inheritance</a></li>
+<li class="chapter" data-level="3.3" data-path="layers.html"><a href="layers.html#sequence-of-layers"><i class="fa fa-check"></i><b>3.3</b> Sequence of layers</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="layers.html"><a href="layers.html#line-stroke"><i class="fa fa-check"></i><b>3.3.1</b> Line stroke</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="layers.html"><a href="layers.html#create-your-first-geom"><i class="fa fa-check"></i><b>3.4</b> Create your first geom</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="layers.html"><a href="layers.html#layer-adding"><i class="fa fa-check"></i><b>3.4.1</b> Layer adding</a></li>
+<li class="chapter" data-level="3.4.2" data-path="layers.html"><a href="layers.html#new-geom-function"><i class="fa fa-check"></i><b>3.4.2</b> New geom function</a></li>
+<li class="chapter" data-level="3.4.3" data-path="layers.html"><a href="layers.html#dot-dot-dot"><i class="fa fa-check"></i><b>3.4.3</b> dot-dot-dot</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="layers.html"><a href="layers.html#summary"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+<li class="chapter" data-level="3.6" data-path="layers.html"><a href="layers.html#exercise"><i class="fa fa-check"></i><b>3.6</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="categorical-data.html"><a href="categorical-data.html"><i class="fa fa-check"></i><b>4</b> Categorical data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="categorical-data.html"><a href="categorical-data.html#aesthetics-group"><i class="fa fa-check"></i><b>4.1</b> Aesthetics: group</a></li>
+<li class="chapter" data-level="4.2" data-path="categorical-data.html"><a href="categorical-data.html#geom-overlapping"><i class="fa fa-check"></i><b>4.2</b> Geom overlapping</a></li>
+<li class="chapter" data-level="4.3" data-path="categorical-data.html"><a href="categorical-data.html#position-stack"><i class="fa fa-check"></i><b>4.3</b> Position: stack</a></li>
+<li class="chapter" data-level="4.4" data-path="categorical-data.html"><a href="categorical-data.html#factor"><i class="fa fa-check"></i><b>4.4</b> Factor</a></li>
+<li class="chapter" data-level="4.5" data-path="categorical-data.html"><a href="categorical-data.html#proportional-data"><i class="fa fa-check"></i><b>4.5</b> Proportional data</a></li>
+<li class="chapter" data-level="4.6" data-path="categorical-data.html"><a href="categorical-data.html#adding-text"><i class="fa fa-check"></i><b>4.6</b> Adding text</a></li>
+<li class="chapter" data-level="4.7" data-path="categorical-data.html"><a href="categorical-data.html#more-on-position"><i class="fa fa-check"></i><b>4.7</b> More on position</a></li>
+<li class="chapter" data-level="4.8" data-path="categorical-data.html"><a href="categorical-data.html#coordination-flip"><i class="fa fa-check"></i><b>4.8</b> Coordination flip</a></li>
+<li class="chapter" data-level="4.9" data-path="categorical-data.html"><a href="categorical-data.html#summary-1"><i class="fa fa-check"></i><b>4.9</b> Summary</a></li>
+<li class="chapter" data-level="4.10" data-path="categorical-data.html"><a href="categorical-data.html#exercise-1"><i class="fa fa-check"></i><b>4.10</b> Exercise</a>
+<ul>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section"><i class="fa fa-check"></i>1</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-1"><i class="fa fa-check"></i>2</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-2"><i class="fa fa-check"></i>3</a></li>
+<li class="chapter" data-level="" data-path="categorical-data.html"><a href="categorical-data.html#section-3"><i class="fa fa-check"></i>4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="scale.html"><a href="scale.html"><i class="fa fa-check"></i><b>5</b> Scale</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="scale.html"><a href="scale.html#legend"><i class="fa fa-check"></i><b>5.1</b> Legend</a></li>
+<li class="chapter" data-level="5.2" data-path="scale.html"><a href="scale.html#time-axis"><i class="fa fa-check"></i><b>5.2</b> Time axis</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="scale.html"><a href="scale.html#custom-axis-function"><i class="fa fa-check"></i><b>5.2.1</b> Custom axis function</a></li>
+<li class="chapter" data-level="5.2.2" data-path="scale.html"><a href="scale.html#advanced-function"><i class="fa fa-check"></i><b>5.2.2</b> Advanced function</a></li>
+<li class="chapter" data-level="5.2.3" data-path="scale.html"><a href="scale.html#time-period"><i class="fa fa-check"></i><b>5.2.3</b> Time period</a></li>
+<li class="chapter" data-level="5.2.4" data-path="scale.html"><a href="scale.html#dot-dot-dot-1"><i class="fa fa-check"></i><b>5.2.4</b> dot-dot-dot</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="scale.html"><a href="scale.html#xy-axis"><i class="fa fa-check"></i><b>5.3</b> XY axis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="scale.html"><a href="scale.html#expansion-and-out-of-bound"><i class="fa fa-check"></i><b>5.3.1</b> Expansion and out-of-bound</a></li>
+<li class="chapter" data-level="5.3.2" data-path="scale.html"><a href="scale.html#secondary-axis"><i class="fa fa-check"></i><b>5.3.2</b> Secondary axis</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="scale.html"><a href="scale.html#colorfill"><i class="fa fa-check"></i><b>5.4</b> Color/Fill</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="scale.html"><a href="scale.html#discrete"><i class="fa fa-check"></i><b>5.4.1</b> Discrete</a></li>
+<li class="chapter" data-level="5.4.2" data-path="scale.html"><a href="scale.html#continuous"><i class="fa fa-check"></i><b>5.4.2</b> Continuous</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="scale.html"><a href="scale.html#exercise-2"><i class="fa fa-check"></i><b>5.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>6</b> Map</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="map.html"><a href="map.html#geographic-geoms"><i class="fa fa-check"></i><b>6.1</b> Geographic geoms</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="map.html"><a href="map.html#point-line-and-polygon"><i class="fa fa-check"></i><b>6.1.1</b> Point, Line and Polygon</a></li>
+<li class="chapter" data-level="6.1.2" data-path="map.html"><a href="map.html#multipolygons"><i class="fa fa-check"></i><b>6.1.2</b> Multipolygons</a></li>
+<li class="chapter" data-level="6.1.3" data-path="map.html"><a href="map.html#fill-polygons"><i class="fa fa-check"></i><b>6.1.3</b> Fill polygons</a></li>
+<li class="chapter" data-level="6.1.4" data-path="map.html"><a href="map.html#application-to-world-map"><i class="fa fa-check"></i><b>6.1.4</b> Application to world map</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>6.2</b> Choropleth map</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="map.html"><a href="map.html#backgroup-fill-and-borders"><i class="fa fa-check"></i><b>6.2.1</b> Backgroup fill and borders</a></li>
+<li class="chapter" data-level="6.2.2" data-path="map.html"><a href="map.html#choropleth-layer-value-layer"><i class="fa fa-check"></i><b>6.2.2</b> Choropleth layer: value layer</a></li>
+<li class="chapter" data-level="6.2.3" data-path="map.html"><a href="map.html#fill-colors"><i class="fa fa-check"></i><b>6.2.3</b> Fill colors</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="map.html"><a href="map.html#map-tile"><i class="fa fa-check"></i><b>6.3</b> Map tile</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="map.html"><a href="map.html#ggmap"><i class="fa fa-check"></i><b>6.3.1</b> ggmap</a></li>
+<li class="chapter" data-level="6.3.2" data-path="map.html"><a href="map.html#get_googlemap"><i class="fa fa-check"></i><b>6.3.2</b> get_googlemap</a></li>
+<li class="chapter" data-level="6.3.3" data-path="map.html"><a href="map.html#get_stamenmap"><i class="fa fa-check"></i><b>6.3.3</b> get_stamenmap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="map.html"><a href="map.html#simple-feature"><i class="fa fa-check"></i><b>6.4</b> Simple feature</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="map.html"><a href="map.html#define-simple-features"><i class="fa fa-check"></i><b>6.4.1</b> Define simple features</a></li>
+<li class="chapter" data-level="6.4.2" data-path="map.html"><a href="map.html#form-simple-feature-column"><i class="fa fa-check"></i><b>6.4.2</b> Form simple feature column</a></li>
+<li class="chapter" data-level="6.4.3" data-path="map.html"><a href="map.html#form-simple-feature-data-frame"><i class="fa fa-check"></i><b>6.4.3</b> Form simple feature data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="map.html"><a href="map.html#import-simple-feature-data"><i class="fa fa-check"></i><b>6.5</b> Import Simple Feature Data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="map.html"><a href="map.html#from-shp-file"><i class="fa fa-check"></i><b>6.5.1</b> From SHP file</a></li>
+<li class="chapter" data-level="6.5.2" data-path="map.html"><a href="map.html#from-osm"><i class="fa fa-check"></i><b>6.5.2</b> From OSM</a></li>
+<li class="chapter" data-level="6.5.3" data-path="map.html"><a href="map.html#sf-overlay-ggmap"><i class="fa fa-check"></i><b>6.5.3</b> sf overlay ggmap</a></li>
+<li class="chapter" data-level="6.5.4" data-path="map.html"><a href="map.html#data-frame-overlay-ggmap"><i class="fa fa-check"></i><b>6.5.4</b> data frame overlay ggmap</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="map.html"><a href="map.html#taiwan-drug-problem"><i class="fa fa-check"></i><b>6.6</b> Taiwan drug problem</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="map.html"><a href="map.html#縣市底圖"><i class="fa fa-check"></i><b>6.6.1</b> 縣市底圖</a></li>
+<li class="chapter" data-level="6.6.2" data-path="map.html"><a href="map.html#各鄉鎮區底圖"><i class="fa fa-check"></i><b>6.6.2</b> 各鄉/鎮/區底圖</a></li>
+<li class="chapter" data-level="6.6.3" data-path="map.html"><a href="map.html#stamenmap底圖"><i class="fa fa-check"></i><b>6.6.3</b> stamenmap底圖</a></li>
+<li class="chapter" data-level="6.6.4" data-path="map.html"><a href="map.html#毒品破獲"><i class="fa fa-check"></i><b>6.6.4</b> 毒品破獲</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="color.html"><a href="color.html"><i class="fa fa-check"></i><b>7</b> Color</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="color.html"><a href="color.html#group-aesthetics"><i class="fa fa-check"></i><b>7.1</b> Group aesthetics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/tpemartin/110-2-Economic-Data-Visualization" target="blank">Course Github</a></li>
+<li><a href="https://www.ntpu.edu.tw/econ" target="blank">國立臺北大學 經濟學系</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Economic Data Visualization</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="page-not-found" class="section level1">
+<h1>Page not found</h1>
+<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
+<p>You may want to try searching to find the page's new location, or use
+the table of contents to find the page you are looking for.</p>
+</div>
+<!--參考答案開關--> 
+<script>
+$(document).ready(function(){
+  $('<button class="flip">More info...</button>').insertBefore(".more");
+  $(".flip").click(function(){
+    $(this).next().slideToggle();
+  });
+})
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- 2. Include library -->
+<script src="js/clipboard.min.js"></script>
+
+<!-- 3. Instantiate clipboard by passing a string selector -->
+
+<script>
+var clipboard = new Clipboard('.btn');
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+</script>
+
+<script>
+  var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+
+copyTextareaBtn.addEventListener('click', function(event) {
+  var copyTextarea = document.querySelector('.js-copytextarea');
+  copyTextarea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+});
+</script>
+
+<script>
+  function CopyToClipboard(containerid) {
+if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select().createTextRange();
+    document.execCommand("copy");
+
+} else if (window.getSelection) {
+    var range = document.createRange();
+     range.selectNode(document.getElementById(containerid));
+     window.getSelection().addRange(range);
+     document.execCommand("copy");
+     alert("text copied")
+}}
+</script>
+
+<script>
+  $( document ).ready(function() {
+    addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('left', 'top', 'auto', '1', 'Copy code', 'Copied!');
+});
+</script>
+<!--
+<script>
+  $(document).ready(function() {
+  var codes = document.querySelectorAll('pre:not([class])');
+  var code, i, d, s, p;
+  for (i = 0; i < codes.length; i++) {
+    code = codes[i];
+    p = code.parentNode;
+    d = document.createElement('details');
+    s = document.createElement('summary');
+    s.innerText = 'Details';
+    // <details><summary>Details</summary></details>
+    d.appendChild(s);
+    // move the code into <details>
+    p.replaceChild(d, code);
+    d.appendChild(code);
+  }
+});
+</script>
+-->
+<!--
+<script>
+  ((window.gitter = {}).chat = {}).options = {
+    room: 'https://gitter.im/NTPU-Econ/Econometrics'
+  };
+</script>
+
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+-->
+<script src="js/documentReady.js"></script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"theme": "united"
+});
+});
+</script>
+
+</body>
+
+</html>
