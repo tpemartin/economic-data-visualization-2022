@@ -2,7 +2,7 @@ exr:unlabeled-div-1
 prerequisites
 packages
 start-a-project
-rprofile
+setup-environment
 otherSoftware
 geometries-and-aesthetics
 an-example

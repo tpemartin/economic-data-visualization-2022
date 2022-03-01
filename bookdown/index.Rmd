@@ -36,6 +36,18 @@ install.packages(
 remotes::install_github("tpemartin/econDV2", force=T)
 ```
 
+<div class="alert alert-info">
+If your R/RStudio has trouble of installing packages, run the following:
+```{r}
+remotes::install_github("tpemartin/econR2")
+```
+
+Then watch the following video to setup your R/RStudio properly.
+ 
+  * <https://vimeo.com/682432399/a03ed1c806>
+
+</div>
+
 ## Start a project
 
 You should always organize documents with the same purpose inside a unified folder, which is called a **project folder**, and initiate an **R project** with it.
@@ -51,27 +63,27 @@ Initiate a project and setup environment:
 
 </div>
 
-## .Rprofile
+## Setup environment
 
-```{r}
-sysfonts::font_families()
-sysfonts::font_add_google('Noto Sans TC')
-sysfonts::font_families()
-```
+For each project, there are always some tools or packages you want to import each time. The easiest way to set them up is to create a `.Rprofile` file at the project folder (that is why we need to setup a project folder first).  `.Rprofile` can contain any R scripts that you want to run each time your start your project.
 
+For this course, this will be the script you want to run each time:
 ```{r}
 library(ggplot2)
 library(showtext)
 library(econDV2)
+# add google font: Noto Sans TC for chinese characters
 sysfonts::font_add_google('Noto Sans TC')
+# turn on showing chinese text in graph device
 showtext_auto()
+# set our graph theme to use the google font and a classic white back ground
 theme_set(
   theme(
     text=element_text(family = "Noto Sans TC")
   )+
     theme_classic()
 )
-
+# some handy tool to use later through out the class
 gg <- list(
   dash = econDV2::ggdash,
   geom = econDV2::ggbrowse,
@@ -79,6 +91,18 @@ gg <- list(
 )
 
 ```
+
+<div class="alert alert-info">
+```{r}
+sysfonts::font_families()
+```
+can show you what fonts you can use in R. Any font not there but in your operating system can be added to it via:
+```{r}
+sysfonts::font_add("QFangsong", regular="/Users/martinl/Library/Fonts/cwTeXQFangsong-Medium.ttf")
+```
+
+  * cwTeX Chinese Font files can be downloaded from <https://github.com/l10n-tw/cwtex-q-fonts-TTFs/releases>
+</div>
 
 ## 其他{#otherSoftware}
 

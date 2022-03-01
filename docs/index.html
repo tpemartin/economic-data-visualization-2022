@@ -57,6 +57,7 @@
 <link href="libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
 <link href="libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
 <script src="libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link id="img-1-attachment" rel="attachment" href="libs/img-1/"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104915016-7"></script>
@@ -158,7 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.1</b> Packages</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#start-a-project"><i class="fa fa-check"></i><b>1.2</b> Start a project</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#rprofile"><i class="fa fa-check"></i><b>1.3</b> .Rprofile</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#setup-environment"><i class="fa fa-check"></i><b>1.3</b> Setup environment</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#otherSoftware"><i class="fa fa-check"></i><b>1.4</b> 其他</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html"><i class="fa fa-check"></i><b>2</b> Geometries and Aesthetics</a>
@@ -320,6 +321,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>showtext</strong> and <strong>extrafont</strong> are for Chinese characters to show properly in the graph.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;tpemartin/econDV2&quot;</span>, <span class="at">force=</span>T)</span></code></pre></div>
+<div class="alert alert-info">
+<p>If your R/RStudio has trouble of installing packages, run the following:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;tpemartin/econR2&quot;</span>)</span></code></pre></div>
+<p>Then watch the following video to setup your R/RStudio properly.</p>
+<ul>
+<li><a href="https://vimeo.com/682432399/a03ed1c806" class="uri">https://vimeo.com/682432399/a03ed1c806</a></li>
+</ul>
+</div>
 </div>
 <div id="start-a-project" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Start a project</h2>
@@ -333,28 +342,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 </div>
-<div id="rprofile" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> .Rprofile</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_families</span>()</span>
-<span id="cb3-2"><a href="index.html#cb3-2" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_add_google</span>(<span class="st">&#39;Noto Sans TC&#39;</span>)</span>
-<span id="cb3-3"><a href="index.html#cb3-3" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_families</span>()</span></code></pre></div>
+<div id="setup-environment" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Setup environment</h2>
+<p>For each project, there are always some tools or packages you want to import each time. The easiest way to set them up is to create a <code>.Rprofile</code> file at the project folder (that is why we need to setup a project folder first). <code>.Rprofile</code> can contain any R scripts that you want to run each time your start your project.</p>
+<p>For this course, this will be the script you want to run each time:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb4-2"><a href="index.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
 <span id="cb4-3"><a href="index.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(econDV2)</span>
-<span id="cb4-4"><a href="index.html#cb4-4" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_add_google</span>(<span class="st">&#39;Noto Sans TC&#39;</span>)</span>
-<span id="cb4-5"><a href="index.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span>
-<span id="cb4-6"><a href="index.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(</span>
-<span id="cb4-7"><a href="index.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb4-8"><a href="index.html#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">&quot;Noto Sans TC&quot;</span>)</span>
-<span id="cb4-9"><a href="index.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb4-10"><a href="index.html#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span>
-<span id="cb4-11"><a href="index.html#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="index.html#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="index.html#cb4-13" aria-hidden="true" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb4-14"><a href="index.html#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">dash =</span> econDV2<span class="sc">::</span>ggdash,</span>
-<span id="cb4-15"><a href="index.html#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">geom =</span> econDV2<span class="sc">::</span>ggbrowse,</span>
-<span id="cb4-16"><a href="index.html#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">aes =</span> econDV2<span class="sc">::</span>ggaes</span>
-<span id="cb4-17"><a href="index.html#cb4-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb4-4"><a href="index.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add google font: Noto Sans TC for chinese characters</span></span>
+<span id="cb4-5"><a href="index.html#cb4-5" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_add_google</span>(<span class="st">&#39;Noto Sans TC&#39;</span>)</span>
+<span id="cb4-6"><a href="index.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># turn on showing chinese text in graph device</span></span>
+<span id="cb4-7"><a href="index.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span>
+<span id="cb4-8"><a href="index.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set our graph theme to use the google font and a classic white back ground</span></span>
+<span id="cb4-9"><a href="index.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(</span>
+<span id="cb4-10"><a href="index.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-11"><a href="index.html#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">&quot;Noto Sans TC&quot;</span>)</span>
+<span id="cb4-12"><a href="index.html#cb4-12" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb4-13"><a href="index.html#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span>
+<span id="cb4-14"><a href="index.html#cb4-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-15"><a href="index.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># some handy tool to use later through out the class</span></span>
+<span id="cb4-16"><a href="index.html#cb4-16" aria-hidden="true" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-17"><a href="index.html#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">dash =</span> econDV2<span class="sc">::</span>ggdash,</span>
+<span id="cb4-18"><a href="index.html#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">geom =</span> econDV2<span class="sc">::</span>ggbrowse,</span>
+<span id="cb4-19"><a href="index.html#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">aes =</span> econDV2<span class="sc">::</span>ggaes</span>
+<span id="cb4-20"><a href="index.html#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="alert alert-info">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_families</span>()</span></code></pre></div>
+<p>can show you what fonts you can use in R. Any font not there but in your operating system can be added to it via:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" aria-hidden="true" tabindex="-1"></a>sysfonts<span class="sc">::</span><span class="fu">font_add</span>(<span class="st">&quot;QFangsong&quot;</span>, <span class="at">regular=</span><span class="st">&quot;/Users/martinl/Library/Fonts/cwTeXQFangsong-Medium.ttf&quot;</span>)</span></code></pre></div>
+<ul>
+<li>cwTeX Chinese Font files can be downloaded from <a href="https://github.com/l10n-tw/cwtex-q-fonts-TTFs/releases" class="uri">https://github.com/l10n-tw/cwtex-q-fonts-TTFs/releases</a></li>
+</ul>
+</div>
 </div>
 <div id="otherSoftware" class="section level2" number="1.4">
 <h2><span class="header-section-number">1.4</span> 其他</h2>
@@ -363,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>後製軟體： Choose your own image editor, but make sure it support SVG editing. Here I use <a href="https://boxy-svg.com/">Boxy SVG</a>.</p></li>
 <li><p>程式排版：</p></li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;styler&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;styler&quot;</span>)</span></code></pre></div>
 </div>
 
 <script>
