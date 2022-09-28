@@ -76,60 +76,206 @@ teachDS::img_centering("https://www.economist.com/img/b/600/895/90/sites/default
     -   vjust (文字垂直錨點）: between 0 and 1
 
 ```{r}
-# take Colombia, Normway, and Gemany as an example
-data4plot <- list()
-data4plot$point$data <- {
-  data.frame(
-    x=c(52.5, 56, 58.5),
-    y=c(48.6, 54.9, 58)
+if(!require("R6")) install.packages("R6")
+
+```
+
+```{r}
+Action = R6::R6Class("Action",
+  public=list(
+    change=function(data){
+      # print(self$data)
+      data+3
+    }
+  ),
+  lock_objects = F)
+
+Person = R6::R6Class("Person",
+  inherit = Action,
+  public = list(
+    data=NULL,
+    newData=NULL,
+    initialize = function(data){
+      print(data)
+      self$data=data
+      print(self)
+      # invisible(self.data)
+    },
+    changeMyself=function(){
+      print(super)
+      self$newData = Action$public_methods$change(self$data)
+    }
+  ))
+
+p1 = Person$new(22)
+p1$data
+p1$changeMyself()
+p1$newData
+
+Action$public_methods$change <- function(data) data**2
+
+p1$data
+p1$changeMyself()
+p1$newData
+```
+
+
+```{r}
+GG <- R6::R6Class(
+  "GG",
+  public=list(
+    # fields
+    data=NULL,
+    initialize=function(data){
+      self$data = data;
+    },
+    change=function(){
+      self$data+4
+    }
+  ),
+  lock_objects = F
+)
+plot1= GG$new(data=1)
+
+class(GG)
+typeof(GG)
+print(GG)
+typeof(plot1)
+print(plot1)
+parent.env(plot1)
+```
+
+## Environment
+
+```{r globalenv}
+person1 = list(
+  name="Lisa", 
+  greet=function(){"Hi, I am Lisa."})
+person2 = list(
+  name="Bob",
+  greet=function(){"Hi, I am Bob."}
+)
+
+# created two objects in Global environment
+person1
+person2
+
+person1$greet()
+person2$greet()
+```
+
+
+Environment is a special object created via:
+
+```{r newEnv}
+# create an environment
+myEnv = new.env()
+
+# populate the environment
+myEnv$person1 = list(
+  name="Lisa2", 
+  greet=function(){paste("Hi, I am Lisa2.")})
+myEnv$person2 = list(
+  name="Bob2",
+  greet=function(){"Hi, I am Bob2."}
+)
+
+# Get person1/2 from R search path starting from global environment
+person1$greet() 
+person2$greet()  
+
+# Get person1/2 from a specific environment
+myEnv$person1$greet()
+myEnv$person2$greet()
+```
+
+You can also:
+```{r}
+myEnv = new.env()
+with(myEnv,{
+  person1 = list(
+    name="Lisa2", 
+    greet=function(){paste("Hi, I am Lisa2.")})
+  person2 = list(
+    name="Bob2",
+    greet=function(){"Hi, I am Bob2."}
   )
+})
+
+```
+
+###  Mutable
+
+```{r changeEnv1}
+changePerson1 = function(){
+  # search path: exec env -> global env   
+  person1$name="John"
+  person1$greet=function() "Hi I am John"
 }
-data4plot$text$data <- {
-  data.frame(
+# the object called is from the global env, but the object is not modified.
+changePerson1() 
+person1$name
+person1$greet()
+
+```
+
+Anything inside an environment can be changed no matter where the environment is called.
+
+```{r}
+changePerson1 = function(){
+  .GlobalEnv$person1$name="John"
+  .GlobalEnv$person1$greet=function() "Hi I am John"
+}
+
+changePerson1()
+person1
+```
+
+### ggplot application 
+
+  * Source data
+  
+  * Data cleaning
+  
+  * Basic plotting
+  
+  * fine tune
+
+```{r}
+
+plot = new.env()
+plot$data = data.frame(
     x=c(52.5, 56, 58.5),
     y=c(48.6, 54.9, 58),
     label=c("Colombia", "Norway", "Germany")
   )
+plot$graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=plot$data, # accessing to an object within an environment
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
 }
+
+plot$graph()
 ```
 
-```{r}
-myplot <- {
-  ggplot()+
-    geom_point(
-      data=data4plot$point$data,
-      mapping=aes(
-        x=x, y=y
-      ),
-      fill="blue", 
-      shape=21,  
-      color="black",
-      stroke=1,
-      size=1 
-    )+
-    geom_text(
-      data=data4plot$text$data,
-      mapping=aes(
-        x=x, y=y, label=label
-      ),
-      hjust = 1, 
-      size = 1 
-    )
-}
-myplot
+### Flexibility
 
-```
-
-
-  * use `econDV2::ggdash()` to quickly create a shiny app of your ggplot to fine tune your graph.
-
-### econDV2::ggdash
+Environment object is flexible to change any member. 
 
 ```{r}
-myplot <- {
+plot$graph <- function(){
+  require(ggplot2)
   ggplot()+
     geom_point(
-      data=data4plot$point$data,
+      data=plot$data,
       mapping=aes(
         x=x, y=y
       ),
@@ -140,7 +286,7 @@ myplot <- {
       size=1 #input$size_point
     )+
     geom_text(
-      data=data4plot$text$data,
+      data=plot$data,
       mapping=aes(
         x=x, y=y, label=label
       ),
@@ -148,41 +294,191 @@ myplot <- {
       size = 1 #input$size_text
     )
 }
-myplot
 
+
+plot$graph()
 ```
 
+### Plot constructor
+
+```{r}
+Plot = function(.data=NULL, .graph=NULL){
+  self = new.env()
+  self$data = .data
+  self$graph = .graph
+  return(self)
+}
+```
 
 
 ```{r}
-myplot <- {
-  ggplot() +
-    geom_point(
-      data = data4plot$point$data,
-      mapping = aes(
-        x = x, y = y
-      ),
-      fill = "#2fc1d3",
-      shape = 21,
-      color = "black",
-      stroke = 1,
-      size = 12
-    ) +
-    geom_text(
-      data = data4plot$text$data,
-      mapping = aes(
-        x = x, y = y, label = label
-      ),
-      hjust = 0,
-      size = 12
-    )
+plot = Plot()
+plot$data = data.frame(
+    x=c(52.5, 56, 58.5),
+    y=c(48.6, 54.9, 58),
+    label=c("Colombia", "Norway", "Germany")
+  )
+plot$graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=plot$data, # accessing to an object within an environment using self$ or plot$
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
 }
-myplot
+plot$graph()
 ```
 
 
+```{r}
+# change data
+plot$data = data.frame(
+    x=c(52.5, 46, 58.5),
+    y=c(48.6, 54.9, 78),
+    label=c("Colombia", "Norway", "Germany")
+  )
+plot$graph()
+```
 
+```{r}
+# change graph
+plot$graph = function(){
+  require(ggplot2)
+  ggplot()+
+    geom_point(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y
+      ),
+      fill="blue", #input$fill_point
+      shape=21, # default point is a circle without border, you need another type of point
+      color="black", #input$color_point
+      stroke=1, #input$stroke_point
+      size=1 #input$size_point
+    )+
+    geom_text(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y, label=label
+      ),
+      hjust = 1, #input$hjust_text
+      size = 1 #input$size_text
+    )
+}
+plot$graph()
+```
+
+
+### econDV2::ggdash
+
+  * At every aesthetic element to be adjusted, attach `#input${aesthetic_name}` at the end of the line as:
+
+  
+```{r}
+  ggplot()+
+    geom_point(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y
+      ),
+      fill="blue", #input$fill_point
+      shape=21, # default point is a circle without border, you need another type of point
+      color="black", #input$color_point
+      stroke=1, #input$stroke_point
+      size=1 #input$size_point
+    )+
+    geom_text(
+      data=Plot$data,
+      mapping=aes(
+        x=x, y=y, label=label
+      ),
+      hjust = 1, #input$hjust_text
+      size = 1 #input$size_text
+    )
+```
+
+  
+  * Select only the `ggplot()` part of code.
+  
+  * Run `gg$dash()`
+
+
+
+<!--
 ### Script saving
+
+```{r}
+Plot = new.env()
+Plot$data = data.frame(
+    x=c(52.5, 56, 58.5),
+    y=c(48.6, 54.9, 58),
+    label=c("Colombia", "Norway", "Germany")
+  )
+Plot$graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=Plot$data,
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
+}
+
+
+with(Plot, {
+  data=data
+  new = function(data, graph){
+    Plot$data=data
+    Plot$graph=graph
+  }
+  update = function()
+  graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=data,
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
+  }
+})
+
+with(Plot,{
+   data = data.frame(
+    x=c(52.5, 56, 58.5),
+    y=c(48.6, 54.9, 58),
+    label=c("Colombia", "Norway", "Germany")
+  )
+  graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=data,
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
+  }
+})
+
+```
+
 
 If you are happy with your graph, you may want to make it reproducible and easy to use.
 
@@ -268,6 +564,9 @@ ggsave(
 )
 
 ```
+
+
+-->
 
 ### ggdash more
 

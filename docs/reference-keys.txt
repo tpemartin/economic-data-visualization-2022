@@ -6,9 +6,12 @@ setup-environment
 otherSoftware
 geometries-and-aesthetics
 an-example
+environment
+mutable
+ggplot-application
+flexibility
+plot-constructor
 econdv2ggdash
-script-saving
-graph-output
 ggdash-more
 inheritance
 data

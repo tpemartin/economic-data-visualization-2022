@@ -32,3 +32,38 @@ classinfo$vimeo$videos |>
 df_videos$name |> clipr::write_clip()
 ```
 
+```{r}
+library(lubridate)
+
+df_videos$duration[[1]] |> seconds()
+.Last.value / seconds(60)
+#|> lubridate::dminutes()
+df_videos$link[[1]] |> browseURL()
+
+df_videos$created_time |> date() -> df_videos$created_date ->
+  df_videos$week
+df_videos$week |>
+  as.factor() -> df_videos$week
+levels(df_videos$week) <- 
+  paste("week", 1:length(df_videos$week))
+# df_videos$duration_mins = df_videos$duration |>
+#   dminutes()
+
+df_videos$duration |>
+  dseconds() -> df_videos$duration
+df_videos$duration |> seconds_to_period()
+methods(class="Duration")
+df_videos |> 
+  select(
+    week, name, duration
+  ) -> classinfo$vimeo$watchPlan
+classinfo$vimeo$watchPlan |> clipr::write_clip()
+df_videos$week
+View(df_videos)
+levels(df_videos$week)
+library(dplyr)
+
+
+classinfo$vimeo$videos |> View()
+```
+
