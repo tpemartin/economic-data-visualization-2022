@@ -1,0 +1,636 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+```{r eval=T, echo=FALSE}
+klippy::klippy()
+```
+
+
+# Geometries and Aesthetics
+
+-   [Available geometries](https://ggplot2.tidyverse.org/reference/index.html#section-layers)
+
+-   Two steps:
+
+    -   Step 1: What geometries do you see?
+
+    -   Step 2: With a given geometry, what aesthetics do you observe?
+
+------------------------------------------------------------------------
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://i0.wp.com/cmdlinetips.com/wp-content/uploads/2019/11/scatter_plot_with_ggplot_scale_xy_log10_color.png")
+```
+
+-   Geometries?
+
+-   Aesthetics?
+
+------------------------------------------------------------------------
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://belayeth.com/wp-content/uploads/2021/06/Rplot.png")
+```
+
+------------------------------------------------------------------------
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.r-graph-gallery.com/img/graph/50-51-52-scatter-plot-with-ggplot2.png")
+```
+
+------------------------------------------------------------------------
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/1280/755/90/sites/default/files/images/2021/09/articles/main/20210918_woc289.png")
+```
+
+## An Example
+
+```{r , eval=T, echo=F}
+teachDS::img_centering("https://www.economist.com/img/b/600/895/90/sites/default/files/images/2021/09/articles/body/20210918_woc287.png")
+```
+
+-   Geom:\
+    [`geom_point`](https://ggplot2.tidyverse.org/reference/geom_point.html):
+
+    -   x, y：varies with observations
+
+    -   color (線框顏色): constant
+
+    -   stroke (線框粗細): constant
+
+    -   fill (內部塗色): constant
+
+    -   size (點的大小): constant
+
+    [`geom_text`](https://ggplot2.tidyverse.org/reference/geom_text.html#aesthetics):
+
+    -   x, y: varies with observations
+
+    -   label: varies with observations
+
+    -   hjust (文字水平錨點）：between 0 and 1
+
+    -   vjust (文字垂直錨點）: between 0 and 1
+
+```{r}
+if(!require("R6")) install.packages("R6")
+
+```
+
+```{r}
+Action = R6::R6Class("Action",
+  public=list(
+    change=function(data){
+      # print(self$data)
+      data+3
+    }
+  ),
+  lock_objects = F)
+
+Person = R6::R6Class("Person",
+  inherit = Action,
+  public = list(
+    data=NULL,
+    newData=NULL,
+    initialize = function(data){
+      print(data)
+      self$data=data
+      print(self)
+      # invisible(self.data)
+    },
+    changeMyself=function(){
+      print(super)
+      self$newData = Action$public_methods$change(self$data)
+    }
+  ))
+
+p1 = Person$new(22)
+p1$data
+p1$changeMyself()
+p1$newData
+
+Action$public_methods$change <- function(data) data**2
+
+p1$data
+p1$changeMyself()
+p1$newData
+```
+
+
+```{r}
+GG <- R6::R6Class(
+  "GG",
+  public=list(
+    # fields
+    data=NULL,
+    initialize=function(data){
+      self$data = data;
+    },
+    change=function(){
+      self$data+4
+    }
+  ),
+  lock_objects = F
+)
+plot1= GG$new(data=1)
+
+class(GG)
+typeof(GG)
+print(GG)
+typeof(plot1)
+print(plot1)
+parent.env(plot1)
+```
+
+## Environment
+
+```{r globalenv}
+person1 = list(
+  name="Lisa", 
+  greet=function(){"Hi, I am Lisa."})
+person2 = list(
+  name="Bob",
+  greet=function(){"Hi, I am Bob."}
+)
+
+# created two objects in Global environment
+person1
+person2
+
+person1$greet()
+person2$greet()
+```
+
+
+Environment is a special object created via:
+
+```{r newEnv}
+# create an environment
+myEnv = new.env()
+
+# populate the environment
+myEnv$person1 = list(
+  name="Lisa2", 
+  greet=function(){paste("Hi, I am Lisa2.")})
+myEnv$person2 = list(
+  name="Bob2",
+  greet=function(){"Hi, I am Bob2."}
+)
+
+# Get person1/2 from R search path starting from global environment
+person1$greet() 
+person2$greet()  
+
+# Get person1/2 from a specific environment
+myEnv$person1$greet()
+myEnv$person2$greet()
+```
+
+You can also:
+```{r}
+myEnv = new.env()
+with(myEnv,{
+  person1 = list(
+    name="Lisa2", 
+    greet=function(){paste("Hi, I am Lisa2.")})
+  person2 = list(
+    name="Bob2",
+    greet=function(){"Hi, I am Bob2."}
+  )
+})
+
+```
+
+###  Mutable
+
+```{r changeEnv1}
+changePerson1 = function(){
+  # search path: exec env -> global env   
+  person1$name="John"
+  person1$greet=function() "Hi I am John"
+}
+# the object called is from the global env, but the object is not modified.
+changePerson1() 
+person1$name
+person1$greet()
+
+```
+
+Anything inside an environment can be changed no matter where the environment is called.
+
+```{r}
+changePerson1 = function(){
+  .GlobalEnv$person1$name="John"
+  .GlobalEnv$person1$greet=function() "Hi I am John"
+}
+
+changePerson1()
+person1
+```
+
+### ggplot application 
+
+  * Source data
+  
+  * Data cleaning
+  
+  * Basic plotting
+  
+  * fine tune
+
+```{r}
+
+plot = new.env()
+plot$data = data.frame(
+    x=c(52.5, 56, 58.5),
+    y=c(48.6, 54.9, 58),
+    label=c("Colombia", "Norway", "Germany")
+  )
+plot$graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=plot$data, # accessing to an object within an environment
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
+}
+
+plot$graph()
+```
+
+### Flexibility
+
+Environment object is flexible to change any member. 
+
+```{r}
+plot$graph <- function(){
+  require(ggplot2)
+  ggplot()+
+    geom_point(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y
+      ),
+      fill="blue", #input$fill_point
+      shape=21, # default point is a circle without border, you need another type of point
+      color="black", #input$color_point
+      stroke=1, #input$stroke_point
+      size=1 #input$size_point
+    )+
+    geom_text(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y, label=label
+      ),
+      hjust = 1, #input$hjust_text
+      size = 1 #input$size_text
+    )
+}
+
+
+plot$graph()
+```
+
+### Plot constructor
+
+```{r}
+Plot = function(.data=NULL, .graph=NULL){
+  self = new.env()
+  self$data = .data
+  self$graph = .graph
+  return(self)
+}
+```
+
+
+```{r}
+plot = Plot()
+plot$data = data.frame(
+    x=c(52.5, 56, 58.5),
+    y=c(48.6, 54.9, 58),
+    label=c("Colombia", "Norway", "Germany")
+  )
+plot$graph = function(){
+    require(ggplot2)
+    ggplot()+
+      geom_point(data=plot$data, # accessing to an object within an environment using self$ or plot$
+        mapping=aes(
+          x=x, y=y
+        ),
+        fill="blue", 
+        shape=21,  
+        color="black",
+        stroke=1,
+        size=1 )
+}
+plot$graph()
+```
+
+
+```{r}
+# change data
+plot$data = data.frame(
+    x=c(52.5, 46, 58.5),
+    y=c(48.6, 54.9, 78),
+    label=c("Colombia", "Norway", "Germany")
+  )
+plot$graph()
+```
+
+```{r}
+# change graph
+plot$graph = function(){
+  require(ggplot2)
+  ggplot()+
+    geom_point(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y
+      ),
+      fill="blue", #input$fill_point
+      shape=21, # default point is a circle without border, you need another type of point
+      color="black", #input$color_point
+      stroke=1, #input$stroke_point
+      size=1 #input$size_point
+    )+
+    geom_text(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y, label=label
+      ),
+      hjust = 1, #input$hjust_text
+      size = 1 #input$size_text
+    )
+}
+plot$graph()
+```
+
+
+### econDV2::ggdash
+
+  * At every aesthetic element to be adjusted, attach `#input${aesthetic_name}` at the end of the line as:
+
+  
+```{r}
+  ggplot()+
+    geom_point(
+      data=plot$data,
+      mapping=aes(
+        x=x, y=y
+      ),
+      fill="blue", #input$fill_point
+      shape=21, # default point is a circle without border, you need another type of point
+      color="black", #input$color_point
+      stroke=1, #input$stroke_point
+      size=1 #input$size_point
+    )+
+    geom_text(
+      data=Plot$data,
+      mapping=aes(
+        x=x, y=y, label=label
+      ),
+      hjust = 1, #input$hjust_text
+      size = 1 #input$size_text
+    )
+```
+
+  
+  * Select only the `ggplot()` part of code.
+  
+  * Run `gg$dash()`
+
+
+
+
+
+### ggdash more
+
+  * ggdash can control any input within a programming block
+
+```{r}
+myplot2 <- {
+  myshape = 21 #input$shape_point
+  ggplot() +
+    geom_point(
+      data = data4plot$point$data,
+      mapping = aes(
+        x = x, y = y
+      ),
+      fill = "#2fc1d3",
+      shape = myshape,
+      color = "black",
+      stroke = 1,
+      size = 12
+    ) +
+    geom_text(
+      data = data4plot$text$data,
+      mapping = aes(
+        x = x + 
+          0, #input$x_text
+        y = y, label = label
+      ),
+      hjust = 0,
+      size = 12
+    )
+}
+myplot2
+```
+
+## Inheritance
+
+
+### Data
+
+  * Common data source can be put in `ggplot()`:
+  
+    * **ALL** geoms will use the same data to find aes() mapping,
+    
+    * **UNLESS** the geom has its own data supplied.
+
+```{r}
+data = data4plot$text$data
+
+myplot <- {
+  ggplot(data = data,
+) +
+    geom_point(
+      mapping = aes(
+        x = x, y = y
+      ),
+      fill = "#2fc1d3",
+      shape = 21,
+      color = "black",
+      stroke = 1,
+      size = 12
+    ) +
+    geom_text(
+      # data = data4plot$text$data,
+      mapping = aes(
+        x = x, y = y, label = label
+      ),
+      hjust = 0,
+      size = 12
+    )
+}
+
+```
+
+### Aesthetics
+
+```{r}
+myplot <- {
+  ggplot(
+    data = data,
+    mapping = aes(x=x, y=y)
+) +
+    geom_point(
+      fill = "#2fc1d3",
+      shape = 21,
+      color = "black",
+      stroke = 1,
+      size = 12
+    ) +
+    geom_text(
+      mapping = aes(
+        label = label
+      ),
+      hjust = 0,
+      size = 12
+    )
+}
+myplot
+```
+
+```{r}
+plot_hightlightCountries <- function(data) {
+  myplot <- {
+    ggplot(data = data,
+  ) +
+      geom_point(
+        mapping = aes(
+          x = x, y = y
+        ),
+        fill = "#2fc1d3",
+        shape = 21,
+        color = "black",
+        stroke = 1,
+        size = 12
+      ) +
+      geom_text(
+        # data = data4plot$text$data,
+        mapping = aes(
+          x = x, y = y, label = label
+        ),
+        hjust = 0,
+        size = 12
+      )
+  }
+  myplot
+}
+```
+
+### Stop data inheritance
+
+  * When a **geom has its own data supplied**, data inheritance stops.
+
+```{r}
+nonhighlightedCountries <-
+  data.frame(
+    x=c(48, 52, 53),
+    y=c(48, 53, 54)
+  )
+highlightedCountries <- data4plot$text$data
+
+plot_allCountries <- 
+{
+  plot_hightlightCountries(highlightedCountries) +
+    geom_point(
+      data = nonhighlightedCountries,
+      aes(
+        x=x,
+        y=y
+      ),
+      size = 12,
+      color= "#a4dce6"
+    )
+}
+
+plot_allCountries
+```
+
+```{r}
+plot_allCountries <- function(highlightedCountries, nonhighlightedCountries) {
+  plot_hightlightCountries(highlightedCountries) +
+    geom_point(
+      data = nonhighlightedCountries,
+      aes(
+        x=x,
+        y=y
+      ),
+      size = 12,
+      color= "#a4dce6"
+    )
+}
+
+```
+
+### Finish panel
+
+```{r}
+plot_obsessionWithBorders <- {
+  plot_allCountries(
+    hightlightedCountries = highlightedCountries,
+    unhighlightedCountries = unhighlightedCountries
+  )+
+  geom_abline(
+    aes(
+      slope=1,
+      intercept=0
+    ),
+    color = "#549ab6",
+    linetype = 2,
+    size=2
+  )
+}
+plot_obsessionWithBorders
+```
+```{r}
+plot_obsessionWithBorders +
+  geom_abline(
+    aes(
+      slope=1,
+      intercept=0
+    ),
+    color = "#549ab6",
+    linetype = 2,
+    size=2
+  )
+```
+
+```{r}
+hightlightXYequal <- function(plot_obsessionWithBorders) {
+  plot_obsessionWithBorders +
+    geom_abline(
+      aes(
+        slope=1,
+        intercept=0
+      ),
+      color = "#549ab6",
+      linetype = 2,
+      size=2
+    )
+}
+```
+
+## Graph export
+
+The easiest way to export the graph as you see on `gg$dash()` is to right click the image on the shiny dashboard and choose **save image as** to export the image. 
+

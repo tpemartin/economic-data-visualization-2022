@@ -145,490 +145,284 @@ print(plot1)
 parent.env(plot1)
 ```
 
-## Environment
+## Geom layers
 
-```{r globalenv}
-person1 = list(
-  name="Lisa", 
-  greet=function(){"Hi, I am Lisa."})
-person2 = list(
-  name="Bob",
-  greet=function(){"Hi, I am Bob."}
+The construction of geom layers is normally as:
+
+```{r}
+ggplot()+
+  geom_xxx()+geom_yyy()+geom_zzz()
+```
+
+It is also acceptable to use them as:
+```{r}
+ggplot()+
+  list(geom_xxx(), geom_yyy(), geom_zzz())
+```
+
+The format later is more flexible for changing geom layer sequence.
+
+Actually other layer of setting can have both format as well. 
+
+## Encapsulation
+
+At the end of the day we usually want to save certain object and import it later. However, without carefulness of construction, the object's value will depend on some other object in the global environment. When saving objects, both objects (the target one and it dependent objects) must be saved together.
+```{r}
+a=3
+fun=function(){a+4}
+saveRDS(fun, file="myfun.R")
+```
+
+Next day you restart rstudio
+```{r}
+rm(list=ls())
+fun=readRDS("myfun.R")
+fun()
+```
+
+A better target object should be build so that it encapsulates all information it needs.
+
+```{r}
+myFun = list()
+myFun$a=3
+myFun$fun = function(){myFun$a+3}
+
+saveRDS(myFun, file="myFun.Rds")
+```
+
+```{r}
+rm(list=ls())
+myFun = readRDS("myFun.Rds")
+myFun$fun()
+```
+
+## Build a plot object
+
+A plot consists of 
+
+  * Data 
+  
+  * Sequence of geom layers
+  
+  * Scale adjustment
+  
+  * theme setting and others
+
+where geom layers all depends on the data supplied in the plot.
+
+### data 3
+
+```{r}
+library(ggplot2)
+plot$data
+plot$geoms = c()
+```
+
+
+```{r}
+googlesheets4::gs4_deauth()
+googlesheets4::read_sheet(
+  "https://docs.google.com/spreadsheets/d/1lkts4hLkrAFAobONFXiEjgDnuUmXKci6YF--vg1pC1s/edit?usp=sharing",
+  sheet="data 3"
+) -> data3
+```
+
+```{r}
+plot=listnew.env(parent = emptyenv())
+plot$data = data3
+
+plot$ggplot = ggplot2::ggplot(
+  data=data, aes(x=`Total Effect`, y=Characteristic))
+
+plot$data3max =  
+  plot$data |>
+  group_by(Characteristic) |>
+  summarise(
+    maxMisery = max(`Total Effect`)
+  ) |>
+  ungroup()
+
+plot$geomLayers = list(
+  geom_segment(data=plot$data3max, 
+    mapping=aes(x=0, y=Characteristic,
+      xend=maxMisery, yend=Characteristic), alpha=0.7, color='black'),
+  geom_point(shape=20,alpha=0.5,mapping=aes(color=Country,size=Population)),
+  geom_point(mapping=aes(color=Country))
+)
+```
+
+## Properties and Methods
+
+Properties are object attributes that are born to be constant. Like `$data` attribute. All other elements depends on it. It would be wise the keep the dependency so that when `$data` updated, all other elements are updated consequently
+```{r}
+obj = list()
+obj$data=c(2,3)
+obj$data2 = obj$data+c(-1, 2)
+print(obj$data2)
+
+
+obj$data= c(1,1)
+print(obj$data2)
+```
+To keep the dependency, you need to keep the programming block that produces the dependent objects.
+
+```{r}
+obj = list()
+obj$data=c(2,3)
+obj$data2 = function(){ obj$data+c(-1, 2)}
+print(obj$data2())
+
+obj$data=c(1,1)
+print(obj$data2())
+```
+
+We want to build a `plot` object which
+
+  * Encapsulates(封裝) all required information.
+  
+  * Contains source data as its property; and
+  
+  * All other depending elements are consequential as a function.
+
+***
+
+For ggplot, we can set
+
+   * data, ggplot, and the list of geoms as properties
+   
+   * make method that creates the visual look.
+   
+```{r}
+plot=list()
+# retrieve data properties
+plot$data = data.frame(x=c(1,2), y=c(5, -1))
+# ggplot
+plot$ggplot = ggplot(data=plot$data, aes(x=x, y=y))
+# list of geoms
+plot$geoms = list(
+  point=geom_point(), line=geom_line()
+)
+# make method
+plot$make = function(){
+  plot$ggplot+plot$geoms
+}
+
+# you can also put a save method
+plot$save = function(filename){
+  saveRDS(plot, filename)
+  message(paste("The plot is saved at ", filename))
+}
+plot$make()
+plot$save("myplot.Rds")
+```
+
+Or you can create `plot` via:
+```{r}
+plot=list(
+  data = ,
+  ggplot = ggplot(), 
+  geoms = list(...) ,
+  make = function(){
+    plot$ggplot+plot$geoms
+  },
+  save = function(){
+    saveRDS(plot, filename)
+    message(paste("The plot is saved at ", filename))
+  }
+)
+```
+
+## Plot constructor
+
+```{r}
+Plot <- function(data) {
+  plot <- list(
+    data = data,
+    ggplot = NULL,
+    geoms = NULL,
+    make = function() {
+      plot$ggplot + plot$geoms
+    },
+    save = function() {
+      saveRDS(plot, filename)
+      message(paste("The plot is saved at ", filename))
+    }
+  )
+  return(plot)
+}
+```
+
+```{r}
+myTools = new.env()
+myTools$Plot <- Plot
+attach(myTools)
+
+```
+
+<!--
+
+## Object Oriented Programming
+Since we are likely to create plot object with the same properties and methods, we can define a class. Each plot object is generated from the class constructor. 
+```{r}
+Plot = R6::R6Class("Plot",
+  public=list(
+        data = NULL,
+        ggplot = NULL,
+        geoms = NULL ,
+        initialize = function(data){
+          self$data=data
+        },
+        make = function(){
+          self$ggplot+self$geoms
+        },
+        save = function(){
+          saveRDS(plot, filename)
+          message(paste("The plot is saved at ", filename))
+        }
+))
+```
+
+  * construct a class called "Plot"
+  
+  * create (initialize) a Plot class object `Plot$new(...)`
+  
+```{r}
+# create and initiali
+plot = Plot$new(
+  data=data.frame(x=c(1,2), y=c(5, -1)))
+
+# ggplot
+plot$ggplot = ggplot(data=plot$data, aes(x=x, y=y))
+# list of geoms
+plot$geoms = list(
+  point=geom_point(), line=geom_line()
 )
 
-# created two objects in Global environment
-person1
-person2
-
-person1$greet()
-person2$greet()
+plot$make()
 ```
 
 
-Environment is a special object created via:
-
-```{r newEnv}
-# create an environment
-myEnv = new.env()
-
-# populate the environment
-myEnv$person1 = list(
-  name="Lisa2", 
-  greet=function(){paste("Hi, I am Lisa2.")})
-myEnv$person2 = list(
-  name="Bob2",
-  greet=function(){"Hi, I am Bob2."}
-)
-
-# Get person1/2 from R search path starting from global environment
-person1$greet() 
-person2$greet()  
-
-# Get person1/2 from a specific environment
-myEnv$person1$greet()
-myEnv$person2$greet()
-```
-
-You can also:
-```{r}
-myEnv = new.env()
-with(myEnv,{
-  person1 = list(
-    name="Lisa2", 
-    greet=function(){paste("Hi, I am Lisa2.")})
-  person2 = list(
-    name="Bob2",
-    greet=function(){"Hi, I am Bob2."}
-  )
-})
-
-```
-
-###  Mutable
-
-```{r changeEnv1}
-changePerson1 = function(){
-  # search path: exec env -> global env   
-  person1$name="John"
-  person1$greet=function() "Hi I am John"
-}
-# the object called is from the global env, but the object is not modified.
-changePerson1() 
-person1$name
-person1$greet()
-
-```
-
-Anything inside an environment can be changed no matter where the environment is called.
-
-```{r}
-changePerson1 = function(){
-  .GlobalEnv$person1$name="John"
-  .GlobalEnv$person1$greet=function() "Hi I am John"
-}
-
-changePerson1()
-person1
-```
-
-### ggplot application 
-
-  * Source data
-  
-  * Data cleaning
-  
-  * Basic plotting
-  
-  * fine tune
-
-```{r}
-
-plot = new.env()
-plot$data = data.frame(
-    x=c(52.5, 56, 58.5),
-    y=c(48.6, 54.9, 58),
-    label=c("Colombia", "Norway", "Germany")
-  )
-plot$graph = function(){
-    require(ggplot2)
-    ggplot()+
-      geom_point(data=plot$data, # accessing to an object within an environment
-        mapping=aes(
-          x=x, y=y
-        ),
-        fill="blue", 
-        shape=21,  
-        color="black",
-        stroke=1,
-        size=1 )
-}
-
-plot$graph()
-```
-
-### Flexibility
-
-Environment object is flexible to change any member. 
-
-```{r}
-plot$graph <- function(){
-  require(ggplot2)
-  ggplot()+
-    geom_point(
-      data=plot$data,
-      mapping=aes(
-        x=x, y=y
-      ),
-      fill="blue", #input$fill_point
-      shape=21, # default point is a circle without border, you need another type of point
-      color="black", #input$color_point
-      stroke=1, #input$stroke_point
-      size=1 #input$size_point
-    )+
-    geom_text(
-      data=plot$data,
-      mapping=aes(
-        x=x, y=y, label=label
-      ),
-      hjust = 1, #input$hjust_text
-      size = 1 #input$size_text
-    )
-}
-
-
-plot$graph()
-```
-
-### Plot constructor
-
-```{r}
-Plot = function(.data=NULL, .graph=NULL){
-  self = new.env()
-  self$data = .data
-  self$graph = .graph
-  return(self)
-}
-```
-
-
-```{r}
-plot = Plot()
-plot$data = data.frame(
-    x=c(52.5, 56, 58.5),
-    y=c(48.6, 54.9, 58),
-    label=c("Colombia", "Norway", "Germany")
-  )
-plot$graph = function(){
-    require(ggplot2)
-    ggplot()+
-      geom_point(data=plot$data, # accessing to an object within an environment using self$ or plot$
-        mapping=aes(
-          x=x, y=y
-        ),
-        fill="blue", 
-        shape=21,  
-        color="black",
-        stroke=1,
-        size=1 )
-}
-plot$graph()
-```
-
-
-```{r}
-# change data
-plot$data = data.frame(
-    x=c(52.5, 46, 58.5),
-    y=c(48.6, 54.9, 78),
-    label=c("Colombia", "Norway", "Germany")
-  )
-plot$graph()
-```
-
-```{r}
-# change graph
-plot$graph = function(){
-  require(ggplot2)
-  ggplot()+
-    geom_point(
-      data=plot$data,
-      mapping=aes(
-        x=x, y=y
-      ),
-      fill="blue", #input$fill_point
-      shape=21, # default point is a circle without border, you need another type of point
-      color="black", #input$color_point
-      stroke=1, #input$stroke_point
-      size=1 #input$size_point
-    )+
-    geom_text(
-      data=plot$data,
-      mapping=aes(
-        x=x, y=y, label=label
-      ),
-      hjust = 1, #input$hjust_text
-      size = 1 #input$size_text
-    )
-}
-plot$graph()
-```
-
-
+-->
 ### econDV2::ggdash
 
   * At every aesthetic element to be adjusted, attach `#input${aesthetic_name}` at the end of the line as:
 
-  
 ```{r}
-  ggplot()+
-    geom_point(
-      data=plot$data,
-      mapping=aes(
-        x=x, y=y
-      ),
-      fill="blue", #input$fill_point
-      shape=21, # default point is a circle without border, you need another type of point
-      color="black", #input$color_point
-      stroke=1, #input$stroke_point
-      size=1 #input$size_point
-    )+
-    geom_text(
-      data=Plot$data,
-      mapping=aes(
-        x=x, y=y, label=label
-      ),
-      hjust = 1, #input$hjust_text
-      size = 1 #input$size_text
-    )
-```
-
-  
-  * Select only the `ggplot()` part of code.
-  
-  * Run `gg$dash()`
-
-
-
-
-
-### ggdash more
-
-  * ggdash can control any input within a programming block
-
-```{r}
-myplot2 <- {
-  myshape = 21 #input$shape_point
-  ggplot() +
-    geom_point(
-      data = data4plot$point$data,
-      mapping = aes(
-        x = x, y = y
-      ),
-      fill = "#2fc1d3",
-      shape = myshape,
-      color = "black",
-      stroke = 1,
-      size = 12
-    ) +
-    geom_text(
-      data = data4plot$text$data,
-      mapping = aes(
-        x = x + 
-          0, #input$x_text
-        y = y, label = label
-      ),
-      hjust = 0,
-      size = 12
-    )
-}
-myplot2
-```
-
-## Inheritance
-
-
-### Data
-
-  * Common data source can be put in `ggplot()`:
-  
-    * **ALL** geoms will use the same data to find aes() mapping,
-    
-    * **UNLESS** the geom has its own data supplied.
-
-```{r}
-data = data4plot$text$data
-
-myplot <- {
-  ggplot(data = data,
-) +
-    geom_point(
-      mapping = aes(
-        x = x, y = y
-      ),
-      fill = "#2fc1d3",
-      shape = 21,
-      color = "black",
-      stroke = 1,
-      size = 12
-    ) +
-    geom_text(
-      # data = data4plot$text$data,
-      mapping = aes(
-        x = x, y = y, label = label
-      ),
-      hjust = 0,
-      size = 12
-    )
-}
-
-```
-
-### Aesthetics
-
-```{r}
-myplot <- {
-  ggplot(
-    data = data,
-    mapping = aes(x=x, y=y)
-) +
-    geom_point(
-      fill = "#2fc1d3",
-      shape = 21,
-      color = "black",
-      stroke = 1,
-      size = 12
-    ) +
-    geom_text(
-      mapping = aes(
-        label = label
-      ),
-      hjust = 0,
-      size = 12
-    )
-}
-myplot
-```
-
-```{r}
-plot_hightlightCountries <- function(data) {
-  myplot <- {
-    ggplot(data = data,
-  ) +
-      geom_point(
-        mapping = aes(
-          x = x, y = y
-        ),
-        fill = "#2fc1d3",
-        shape = 21,
-        color = "black",
-        stroke = 1,
-        size = 12
-      ) +
-      geom_text(
-        # data = data4plot$text$data,
-        mapping = aes(
-          x = x, y = y, label = label
-        ),
-        hjust = 0,
-        size = 12
-      )
-  }
-  myplot
-}
-```
-
-### Stop data inheritance
-
-  * When a **geom has its own data supplied**, data inheritance stops.
-
-```{r}
-nonhighlightedCountries <-
-  data.frame(
-    x=c(48, 52, 53),
-    y=c(48, 53, 54)
+plot2 = Plot$new(data.frame(x=c(1,2), y=c(5, -1)))
+plot$ggplot=ggplot(data=plot$data)
+plot$geoms= list(
+  geom_point(
+    aes(x=x,y=y),
+    color="red", #input$color
+    size=3 #input$size
+  ),
+  geom_line(
+    aes(x=x,y=y)
   )
-highlightedCountries <- data4plot$text$data
-
-plot_allCountries <- 
-{
-  plot_hightlightCountries(highlightedCountries) +
-    geom_point(
-      data = nonhighlightedCountries,
-      aes(
-        x=x,
-        y=y
-      ),
-      size = 12,
-      color= "#a4dce6"
-    )
-}
-
-plot_allCountries
+)
+plot$make()
 ```
 
-```{r}
-plot_allCountries <- function(highlightedCountries, nonhighlightedCountries) {
-  plot_hightlightCountries(highlightedCountries) +
-    geom_point(
-      data = nonhighlightedCountries,
-      aes(
-        x=x,
-        y=y
-      ),
-      size = 12,
-      color= "#a4dce6"
-    )
-}
-
-```
-
-### Finish panel
-
-```{r}
-plot_obsessionWithBorders <- {
-  plot_allCountries(
-    hightlightedCountries = highlightedCountries,
-    unhighlightedCountries = unhighlightedCountries
-  )+
-  geom_abline(
-    aes(
-      slope=1,
-      intercept=0
-    ),
-    color = "#549ab6",
-    linetype = 2,
-    size=2
-  )
-}
-plot_obsessionWithBorders
-```
-```{r}
-plot_obsessionWithBorders +
-  geom_abline(
-    aes(
-      slope=1,
-      intercept=0
-    ),
-    color = "#549ab6",
-    linetype = 2,
-    size=2
-  )
-```
-
-```{r}
-hightlightXYequal <- function(plot_obsessionWithBorders) {
-  plot_obsessionWithBorders +
-    geom_abline(
-      aes(
-        slope=1,
-        intercept=0
-      ),
-      color = "#549ab6",
-      linetype = 2,
-      size=2
-    )
-}
-```
 
 ## Graph export
 
