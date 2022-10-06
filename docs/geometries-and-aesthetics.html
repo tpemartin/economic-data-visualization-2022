@@ -558,20 +558,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="plot-constructor" class="section level2 hasAnchor" number="2.6">
 <h2><span class="header-section-number">2.6</span> Plot constructor<a href="geometries-and-aesthetics.html#plot-constructor" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="geometries-and-aesthetics.html#cb24-1" aria-hidden="true" tabindex="-1"></a>Plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb24-2"><a href="geometries-and-aesthetics.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb24-3"><a href="geometries-and-aesthetics.html#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data,</span>
-<span id="cb24-4"><a href="geometries-and-aesthetics.html#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ggplot =</span> <span class="cn">NULL</span>,</span>
-<span id="cb24-5"><a href="geometries-and-aesthetics.html#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">geoms =</span> <span class="cn">NULL</span>,</span>
-<span id="cb24-6"><a href="geometries-and-aesthetics.html#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">make =</span> <span class="cf">function</span>() {</span>
-<span id="cb24-7"><a href="geometries-and-aesthetics.html#cb24-7" aria-hidden="true" tabindex="-1"></a>      plot<span class="sc">$</span>ggplot <span class="sc">+</span> plot<span class="sc">$</span>geoms</span>
-<span id="cb24-8"><a href="geometries-and-aesthetics.html#cb24-8" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb24-9"><a href="geometries-and-aesthetics.html#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">save =</span> <span class="cf">function</span>() {</span>
-<span id="cb24-10"><a href="geometries-and-aesthetics.html#cb24-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">saveRDS</span>(plot, filename)</span>
-<span id="cb24-11"><a href="geometries-and-aesthetics.html#cb24-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">&quot;The plot is saved at &quot;</span>, filename))</span>
-<span id="cb24-12"><a href="geometries-and-aesthetics.html#cb24-12" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb24-13"><a href="geometries-and-aesthetics.html#cb24-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb24-14"><a href="geometries-and-aesthetics.html#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(plot)</span>
-<span id="cb24-15"><a href="geometries-and-aesthetics.html#cb24-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb24-2"><a href="geometries-and-aesthetics.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  plot <span class="ot">=</span> <span class="fu">new.env</span>()</span>
+<span id="cb24-3"><a href="geometries-and-aesthetics.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  plot<span class="sc">$</span>data<span class="ot">=</span>data</span>
+<span id="cb24-4"><a href="geometries-and-aesthetics.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  plot<span class="sc">$</span>ggplot<span class="ot">=</span><span class="cn">NULL</span></span>
+<span id="cb24-5"><a href="geometries-and-aesthetics.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  plot<span class="sc">$</span>geoms<span class="ot">=</span><span class="cn">NULL</span></span>
+<span id="cb24-6"><a href="geometries-and-aesthetics.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  plot<span class="sc">$</span>make<span class="ot">=</span><span class="cf">function</span>(){</span>
+<span id="cb24-7"><a href="geometries-and-aesthetics.html#cb24-7" aria-hidden="true" tabindex="-1"></a>    plot<span class="sc">$</span>ggplot<span class="sc">+</span>plot<span class="sc">$</span>geoms</span>
+<span id="cb24-8"><a href="geometries-and-aesthetics.html#cb24-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-9"><a href="geometries-and-aesthetics.html#cb24-9" aria-hidden="true" tabindex="-1"></a>  plot<span class="sc">$</span>save<span class="ot">=</span><span class="cf">function</span>(){</span>
+<span id="cb24-10"><a href="geometries-and-aesthetics.html#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">saveRDS</span>(plot, filename)</span>
+<span id="cb24-11"><a href="geometries-and-aesthetics.html#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">&quot;The plot is saved at &quot;</span>, filename))</span>
+<span id="cb24-12"><a href="geometries-and-aesthetics.html#cb24-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-13"><a href="geometries-and-aesthetics.html#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(plot)</span>
+<span id="cb24-14"><a href="geometries-and-aesthetics.html#cb24-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="geometries-and-aesthetics.html#cb25-1" aria-hidden="true" tabindex="-1"></a>myTools <span class="ot">=</span> <span class="fu">new.env</span>()</span>
 <span id="cb25-2"><a href="geometries-and-aesthetics.html#cb25-2" aria-hidden="true" tabindex="-1"></a>myTools<span class="sc">$</span>Plot <span class="ot">&lt;-</span> Plot</span>
 <span id="cb25-3"><a href="geometries-and-aesthetics.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(myTools)</span></code></pre></div>

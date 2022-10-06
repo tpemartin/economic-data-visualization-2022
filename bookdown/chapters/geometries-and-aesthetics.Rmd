@@ -336,18 +336,17 @@ plot=list(
 
 ```{r}
 Plot <- function(data) {
-  plot <- list(
-    data = data,
-    ggplot = NULL,
-    geoms = NULL,
-    make = function() {
-      plot$ggplot + plot$geoms
-    },
-    save = function() {
-      saveRDS(plot, filename)
-      message(paste("The plot is saved at ", filename))
-    }
-  )
+  plot = new.env()
+  plot$data=data
+  plot$ggplot=NULL
+  plot$geoms=NULL
+  plot$make=function(){
+    plot$ggplot+plot$geoms
+  }
+  plot$save=function(){
+    saveRDS(plot, filename)
+    message(paste("The plot is saved at ", filename))
+  }
   return(plot)
 }
 ```
