@@ -166,10 +166,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#an-example"><i class="fa fa-check"></i><b>2.1</b> An Example</a></li>
 <li class="chapter" data-level="2.2" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#geom-layers"><i class="fa fa-check"></i><b>2.2</b> Geom layers</a></li>
 <li class="chapter" data-level="2.3" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#encapsulation"><i class="fa fa-check"></i><b>2.3</b> Encapsulation</a></li>
-<li class="chapter" data-level="2.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#build-a-plot-object"><i class="fa fa-check"></i><b>2.4</b> Build a plot object</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#data-3"><i class="fa fa-check"></i><b>2.4.1</b> data 3</a></li>
-</ul></li>
+<li class="chapter" data-level="2.4" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#build-a-plot-object"><i class="fa fa-check"></i><b>2.4</b> Build a plot object</a></li>
 <li class="chapter" data-level="2.5" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#properties-and-methods"><i class="fa fa-check"></i><b>2.5</b> Properties and Methods</a></li>
 <li class="chapter" data-level="2.6" data-path="geometries-and-aesthetics.html"><a href="geometries-and-aesthetics.html#plot-constructor"><i class="fa fa-check"></i><b>2.6</b> Plot constructor</a>
 <ul>
@@ -317,149 +314,149 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Aesthetics: x, y, color; size</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="layers.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;support/time-trend.R&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="layers.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;support/time-trend.R&quot;</span>)</span></code></pre></div>
 <div id="time-series-data" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Time series data<a href="layers.html#time-series-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>package: lubridate</li>
 </ul>
 <p>Basic data types do not have <code>time</code> or <code>date</code> type. Time/Date are class that is constructed on top of character data, like</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="layers.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;2020-02-01&quot;</span></span>
-<span id="cb28-2"><a href="layers.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;2020-02-01 13:58:55&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="layers.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;2020-02-01&quot;</span></span>
+<span id="cb27-2"><a href="layers.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;2020-02-01 13:58:55&quot;</span></span></code></pre></div>
 <ul>
 <li>All date/time data sources are normally input as character. It requires parsing for computer to under it is date/time.</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="layers.html#cb29-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="st">&quot;2020-02-01&quot;</span>)</span>
-<span id="cb29-2"><a href="layers.html#cb29-2" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">&quot;2020-02-01 13:58:55&quot;</span>) <span class="co"># UTC time zone by default</span></span>
-<span id="cb29-3"><a href="layers.html#cb29-3" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">&quot;2020-02-01 13:58:55&quot;</span>, <span class="at">tz=</span><span class="st">&quot;Asia/Taipei&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="layers.html#cb30-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">=</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-02-01&quot;</span>, <span class="st">&quot;2020-04-01&quot;</span>,</span>
-<span id="cb30-2"><a href="layers.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;2020-06-01&quot;</span>, <span class="st">&quot;2020-09-01&quot;</span>))</span>
-<span id="cb30-3"><a href="layers.html#cb30-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb30-4"><a href="layers.html#cb30-4" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Britain <span class="ot">&lt;-</span> </span>
-<span id="cb30-5"><a href="layers.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb30-6"><a href="layers.html#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
-<span id="cb30-7"><a href="layers.html#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>)</span>
-<span id="cb30-8"><a href="layers.html#cb30-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-9"><a href="layers.html#cb30-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Spain <span class="ot">&lt;-</span></span>
-<span id="cb30-10"><a href="layers.html#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb30-11"><a href="layers.html#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
-<span id="cb30-12"><a href="layers.html#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">32</span>, <span class="dv">53</span>, <span class="dv">103</span>)</span>
-<span id="cb30-13"><a href="layers.html#cb30-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-14"><a href="layers.html#cb30-14" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Italy <span class="ot">&lt;-</span></span>
-<span id="cb30-15"><a href="layers.html#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb30-16"><a href="layers.html#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
-<span id="cb30-17"><a href="layers.html#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">99</span>)</span>
-<span id="cb30-18"><a href="layers.html#cb30-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="layers.html#cb28-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="st">&quot;2020-02-01&quot;</span>)</span>
+<span id="cb28-2"><a href="layers.html#cb28-2" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">&quot;2020-02-01 13:58:55&quot;</span>) <span class="co"># UTC time zone by default</span></span>
+<span id="cb28-3"><a href="layers.html#cb28-3" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">&quot;2020-02-01 13:58:55&quot;</span>, <span class="at">tz=</span><span class="st">&quot;Asia/Taipei&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="layers.html#cb29-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">=</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">&quot;2020-02-01&quot;</span>, <span class="st">&quot;2020-04-01&quot;</span>,</span>
+<span id="cb29-2"><a href="layers.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;2020-06-01&quot;</span>, <span class="st">&quot;2020-09-01&quot;</span>))</span>
+<span id="cb29-3"><a href="layers.html#cb29-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb29-4"><a href="layers.html#cb29-4" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Britain <span class="ot">&lt;-</span> </span>
+<span id="cb29-5"><a href="layers.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb29-6"><a href="layers.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
+<span id="cb29-7"><a href="layers.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">80</span>, <span class="dv">100</span>)</span>
+<span id="cb29-8"><a href="layers.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-9"><a href="layers.html#cb29-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Spain <span class="ot">&lt;-</span></span>
+<span id="cb29-10"><a href="layers.html#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb29-11"><a href="layers.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
+<span id="cb29-12"><a href="layers.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">32</span>, <span class="dv">53</span>, <span class="dv">103</span>)</span>
+<span id="cb29-13"><a href="layers.html#cb29-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-14"><a href="layers.html#cb29-14" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Italy <span class="ot">&lt;-</span></span>
+<span id="cb29-15"><a href="layers.html#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb29-16"><a href="layers.html#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> date,</span>
+<span id="cb29-17"><a href="layers.html#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">99</span>)</span>
+<span id="cb29-18"><a href="layers.html#cb29-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="layers.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dataAll) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="layers.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb30-3"><a href="layers.html#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb30-4"><a href="layers.html#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb30-5"><a href="layers.html#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb30-6"><a href="layers.html#cb30-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-7"><a href="layers.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="layers.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dataAll) <span class="sc">+</span></span>
 <span id="cb31-2"><a href="layers.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
 <span id="cb31-3"><a href="layers.html#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
 <span id="cb31-4"><a href="layers.html#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb31-5"><a href="layers.html#cb31-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb31-6"><a href="layers.html#cb31-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb31-7"><a href="layers.html#cb31-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="layers.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dataAll) <span class="sc">+</span></span>
-<span id="cb32-2"><a href="layers.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb32-3"><a href="layers.html#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
-<span id="cb32-4"><a href="layers.html#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb32-5"><a href="layers.html#cb32-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y,</span>
-<span id="cb32-6"><a href="layers.html#cb32-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">group=</span>country</span>
-<span id="cb32-7"><a href="layers.html#cb32-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb32-8"><a href="layers.html#cb32-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb31-5"><a href="layers.html#cb31-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y,</span>
+<span id="cb31-6"><a href="layers.html#cb31-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">group=</span>country</span>
+<span id="cb31-7"><a href="layers.html#cb31-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-8"><a href="layers.html#cb31-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="aesthetics-inheritance" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Aesthetics inheritance<a href="layers.html#aesthetics-inheritance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>In the past, we have done <strong>data inheritance</strong> (i.e. data in <code>ggplot()</code>) and both <strong>data/aesthetics inheritance</strong> (i.e, data and mapping in <code>ggplot()</code>). Actually you can do only <strong>aesthetics inheritance</strong> as well.</li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="layers.html#cb33-1" aria-hidden="true" tabindex="-1"></a>sizeInput <span class="ot">=</span> <span class="dv">2</span> <span class="co">#input$sizeInput</span></span>
-<span id="cb33-2"><a href="layers.html#cb33-2" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb33-3"><a href="layers.html#cb33-3" aria-hidden="true" tabindex="-1"></a>plot<span class="sc">$</span>p1 <span class="ot">&lt;-</span> {</span>
-<span id="cb33-4"><a href="layers.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb33-5"><a href="layers.html#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb33-6"><a href="layers.html#cb33-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb33-7"><a href="layers.html#cb33-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb33-8"><a href="layers.html#cb33-8" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb33-9"><a href="layers.html#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb33-10"><a href="layers.html#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb33-11"><a href="layers.html#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb33-12"><a href="layers.html#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb33-13"><a href="layers.html#cb33-13" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb33-14"><a href="layers.html#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb33-15"><a href="layers.html#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
-<span id="cb33-16"><a href="layers.html#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>,</span>
-<span id="cb33-17"><a href="layers.html#cb33-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb33-18"><a href="layers.html#cb33-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb33-19"><a href="layers.html#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb33-20"><a href="layers.html#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
-<span id="cb33-21"><a href="layers.html#cb33-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;#983d4d&quot;</span>,</span>
-<span id="cb33-22"><a href="layers.html#cb33-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb33-23"><a href="layers.html#cb33-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb33-24"><a href="layers.html#cb33-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb33-25"><a href="layers.html#cb33-25" aria-hidden="true" tabindex="-1"></a>plot<span class="sc">$</span>p1</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="layers.html#cb32-1" aria-hidden="true" tabindex="-1"></a>sizeInput <span class="ot">=</span> <span class="dv">2</span> <span class="co">#input$sizeInput</span></span>
+<span id="cb32-2"><a href="layers.html#cb32-2" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb32-3"><a href="layers.html#cb32-3" aria-hidden="true" tabindex="-1"></a>plot<span class="sc">$</span>p1 <span class="ot">&lt;-</span> {</span>
+<span id="cb32-4"><a href="layers.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb32-5"><a href="layers.html#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb32-6"><a href="layers.html#cb32-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb32-7"><a href="layers.html#cb32-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb32-8"><a href="layers.html#cb32-8" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb32-9"><a href="layers.html#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb32-10"><a href="layers.html#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb32-11"><a href="layers.html#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb32-12"><a href="layers.html#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb32-13"><a href="layers.html#cb32-13" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb32-14"><a href="layers.html#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb32-15"><a href="layers.html#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
+<span id="cb32-16"><a href="layers.html#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>,</span>
+<span id="cb32-17"><a href="layers.html#cb32-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb32-18"><a href="layers.html#cb32-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb32-19"><a href="layers.html#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb32-20"><a href="layers.html#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
+<span id="cb32-21"><a href="layers.html#cb32-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;#983d4d&quot;</span>,</span>
+<span id="cb32-22"><a href="layers.html#cb32-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb32-23"><a href="layers.html#cb32-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-24"><a href="layers.html#cb32-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-25"><a href="layers.html#cb32-25" aria-hidden="true" tabindex="-1"></a>plot<span class="sc">$</span>p1</span></code></pre></div>
 </div>
 <div id="sequence-of-layers" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Sequence of layers<a href="layers.html#sequence-of-layers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="line-stroke" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Line stroke<a href="layers.html#line-stroke" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="layers.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb34-2"><a href="layers.html#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb34-3"><a href="layers.html#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb34-4"><a href="layers.html#cb34-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb34-5"><a href="layers.html#cb34-5" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb34-6"><a href="layers.html#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb34-7"><a href="layers.html#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb34-8"><a href="layers.html#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb34-9"><a href="layers.html#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb34-10"><a href="layers.html#cb34-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
-<span id="cb34-11"><a href="layers.html#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb34-12"><a href="layers.html#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb34-13"><a href="layers.html#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb34-14"><a href="layers.html#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb34-15"><a href="layers.html#cb34-15" aria-hidden="true" tabindex="-1"></a>  )  </span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="layers.html#cb35-1" aria-hidden="true" tabindex="-1"></a>prop <span class="ot">=</span> <span class="fl">0.6</span></span>
-<span id="cb35-2"><a href="layers.html#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="layers.html#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb35-4"><a href="layers.html#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb35-5"><a href="layers.html#cb35-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb35-6"><a href="layers.html#cb35-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb35-7"><a href="layers.html#cb35-7" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb35-8"><a href="layers.html#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb35-9"><a href="layers.html#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb35-10"><a href="layers.html#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb35-11"><a href="layers.html#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb35-12"><a href="layers.html#cb35-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>  </span>
-<span id="cb35-13"><a href="layers.html#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb35-14"><a href="layers.html#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb35-15"><a href="layers.html#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb35-16"><a href="layers.html#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb35-17"><a href="layers.html#cb35-17" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="layers.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb33-2"><a href="layers.html#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb33-3"><a href="layers.html#cb33-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb33-4"><a href="layers.html#cb33-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb33-5"><a href="layers.html#cb33-5" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb33-6"><a href="layers.html#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb33-7"><a href="layers.html#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb33-8"><a href="layers.html#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb33-9"><a href="layers.html#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb33-10"><a href="layers.html#cb33-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb33-11"><a href="layers.html#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb33-12"><a href="layers.html#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb33-13"><a href="layers.html#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb33-14"><a href="layers.html#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb33-15"><a href="layers.html#cb33-15" aria-hidden="true" tabindex="-1"></a>  )  </span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="layers.html#cb34-1" aria-hidden="true" tabindex="-1"></a>prop <span class="ot">=</span> <span class="fl">0.6</span></span>
+<span id="cb34-2"><a href="layers.html#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="layers.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb34-4"><a href="layers.html#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb34-5"><a href="layers.html#cb34-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb34-6"><a href="layers.html#cb34-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb34-7"><a href="layers.html#cb34-7" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb34-8"><a href="layers.html#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb34-9"><a href="layers.html#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb34-10"><a href="layers.html#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb34-11"><a href="layers.html#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb34-12"><a href="layers.html#cb34-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>  </span>
+<span id="cb34-13"><a href="layers.html#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb34-14"><a href="layers.html#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb34-15"><a href="layers.html#cb34-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb34-16"><a href="layers.html#cb34-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb34-17"><a href="layers.html#cb34-17" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
 </div>
 </div>
 <div id="create-your-first-geom" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Create your first geom<a href="layers.html#create-your-first-geom" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="layers.html#cb36-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_error <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop) {</span>
-<span id="cb36-2"><a href="layers.html#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb36-3"><a href="layers.html#cb36-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb36-4"><a href="layers.html#cb36-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb36-5"><a href="layers.html#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
-<span id="cb36-6"><a href="layers.html#cb36-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span>  </span>
-<span id="cb36-7"><a href="layers.html#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
-<span id="cb36-8"><a href="layers.html#cb36-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb36-9"><a href="layers.html#cb36-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb36-10"><a href="layers.html#cb36-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb36-11"><a href="layers.html#cb36-11" aria-hidden="true" tabindex="-1"></a>    ) </span>
-<span id="cb36-12"><a href="layers.html#cb36-12" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="layers.html#cb35-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_error <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop) {</span>
+<span id="cb35-2"><a href="layers.html#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb35-3"><a href="layers.html#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb35-4"><a href="layers.html#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb35-5"><a href="layers.html#cb35-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
+<span id="cb35-6"><a href="layers.html#cb35-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span>  </span>
+<span id="cb35-7"><a href="layers.html#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
+<span id="cb35-8"><a href="layers.html#cb35-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb35-9"><a href="layers.html#cb35-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb35-10"><a href="layers.html#cb35-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb35-11"><a href="layers.html#cb35-11" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb35-12"><a href="layers.html#cb35-12" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 <div class="alert alert-info">
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="layers.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(plot<span class="sc">$</span>p1) <span class="co"># ggplot class</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="layers.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(plot<span class="sc">$</span>p1) <span class="co"># ggplot class</span></span></code></pre></div>
 <ul>
 <li>a list of 9 that complete the definitions of a plot</li>
 </ul>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="layers.html#cb38-1" aria-hidden="true" tabindex="-1"></a>gm <span class="ot">&lt;-</span> <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb38-2"><a href="layers.html#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb38-3"><a href="layers.html#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb38-4"><a href="layers.html#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb38-5"><a href="layers.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb38-6"><a href="layers.html#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(gm) <span class="co"># Layer class</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="layers.html#cb37-1" aria-hidden="true" tabindex="-1"></a>gm <span class="ot">&lt;-</span> <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb37-2"><a href="layers.html#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb37-3"><a href="layers.html#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb37-4"><a href="layers.html#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb37-5"><a href="layers.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb37-6"><a href="layers.html#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(gm) <span class="co"># Layer class</span></span></code></pre></div>
 <ul>
 <li><p>an environment that defines only a layer of a specific geometric structure and its aesthetics.</p></li>
 <li><p>part of a ggplot class object.</p></li>
@@ -467,9 +464,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <hr />
 <p><code>+</code> operator must have the preceding object a ggplot object.</p>
 </div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="layers.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_lineWithStroke_error</span>(</span>
-<span id="cb39-2"><a href="layers.html#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>data<span class="sc">$</span>Britain, <span class="at">sizeInput=</span><span class="dv">2</span>, <span class="at">prop=</span>.<span class="dv">6</span></span>
-<span id="cb39-3"><a href="layers.html#cb39-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="layers.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_lineWithStroke_error</span>(</span>
+<span id="cb38-2"><a href="layers.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>data<span class="sc">$</span>Britain, <span class="at">sizeInput=</span><span class="dv">2</span>, <span class="at">prop=</span>.<span class="dv">6</span></span>
+<span id="cb38-3"><a href="layers.html#cb38-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
 <li><p>The error comes from the function body. It uses <code>+</code> on two layer class objects. There is no ggplot object presented.</p></li>
 <li><p><code>ggplot()+...</code> will always return a ggplot object. So all of below are ggplot objects:</p>
@@ -481,179 +478,198 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">3.4.1</span> Layer adding<a href="layers.html#layer-adding" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Instead of using <code>+</code> on each layers (i.e. adding geom one after the other), you can put all geom layers as a list, and use <code>+</code> to add the list all at once.</p>
 <p>Other than the conventional adding:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="layers.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb40-2"><a href="layers.html#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb40-3"><a href="layers.html#cb40-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb40-4"><a href="layers.html#cb40-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb40-5"><a href="layers.html#cb40-5" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb40-6"><a href="layers.html#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( </span>
-<span id="cb40-7"><a href="layers.html#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb40-8"><a href="layers.html#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb40-9"><a href="layers.html#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
-<span id="cb40-10"><a href="layers.html#cb40-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>  </span>
-<span id="cb40-11"><a href="layers.html#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb40-12"><a href="layers.html#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb40-13"><a href="layers.html#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb40-14"><a href="layers.html#cb40-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb40-15"><a href="layers.html#cb40-15" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="layers.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb39-2"><a href="layers.html#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb39-3"><a href="layers.html#cb39-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb39-4"><a href="layers.html#cb39-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb39-5"><a href="layers.html#cb39-5" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb39-6"><a href="layers.html#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( </span>
+<span id="cb39-7"><a href="layers.html#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb39-8"><a href="layers.html#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb39-9"><a href="layers.html#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput</span>
+<span id="cb39-10"><a href="layers.html#cb39-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span>  </span>
+<span id="cb39-11"><a href="layers.html#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb39-12"><a href="layers.html#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb39-13"><a href="layers.html#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb39-14"><a href="layers.html#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb39-15"><a href="layers.html#cb39-15" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
 <p>We can:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="layers.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb41-2"><a href="layers.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb41-3"><a href="layers.html#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span>date,</span>
-<span id="cb41-4"><a href="layers.html#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span>y</span>
-<span id="cb41-5"><a href="layers.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
-<span id="cb41-6"><a href="layers.html#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb41-7"><a href="layers.html#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( </span>
-<span id="cb41-8"><a href="layers.html#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb41-9"><a href="layers.html#cb41-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb41-10"><a href="layers.html#cb41-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
-<span id="cb41-11"><a href="layers.html#cb41-11" aria-hidden="true" tabindex="-1"></a>    ),  </span>
-<span id="cb41-12"><a href="layers.html#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb41-13"><a href="layers.html#cb41-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb41-14"><a href="layers.html#cb41-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb41-15"><a href="layers.html#cb41-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb41-16"><a href="layers.html#cb41-16" aria-hidden="true" tabindex="-1"></a>    ) </span>
-<span id="cb41-17"><a href="layers.html#cb41-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="layers.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb40-2"><a href="layers.html#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb40-3"><a href="layers.html#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span>date,</span>
+<span id="cb40-4"><a href="layers.html#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span>y</span>
+<span id="cb40-5"><a href="layers.html#cb40-5" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="layers.html#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb40-7"><a href="layers.html#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( </span>
+<span id="cb40-8"><a href="layers.html#cb40-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb40-9"><a href="layers.html#cb40-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb40-10"><a href="layers.html#cb40-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
+<span id="cb40-11"><a href="layers.html#cb40-11" aria-hidden="true" tabindex="-1"></a>    ),  </span>
+<span id="cb40-12"><a href="layers.html#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb40-13"><a href="layers.html#cb40-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb40-14"><a href="layers.html#cb40-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb40-15"><a href="layers.html#cb40-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb40-16"><a href="layers.html#cb40-16" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb40-17"><a href="layers.html#cb40-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="new-geom-function" class="section level3 hasAnchor" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> New geom function<a href="layers.html#new-geom-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="alert alert-info">
 <p>A geom function that delivers a mixture of multiple geoms must return the mixture as a list, avoiding using <code>+</code> inside the function body.</p>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="layers.html#cb42-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_prototype <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop) {</span>
-<span id="cb42-2"><a href="layers.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb42-3"><a href="layers.html#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( </span>
-<span id="cb42-4"><a href="layers.html#cb42-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb42-5"><a href="layers.html#cb42-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb42-6"><a href="layers.html#cb42-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
-<span id="cb42-7"><a href="layers.html#cb42-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
-<span id="cb42-8"><a href="layers.html#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb42-9"><a href="layers.html#cb42-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb42-10"><a href="layers.html#cb42-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb42-11"><a href="layers.html#cb42-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb42-12"><a href="layers.html#cb42-12" aria-hidden="true" tabindex="-1"></a>    ) </span>
-<span id="cb42-13"><a href="layers.html#cb42-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb42-14"><a href="layers.html#cb42-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="layers.html#cb43-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb43-2"><a href="layers.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb43-3"><a href="layers.html#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb43-4"><a href="layers.html#cb43-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb43-5"><a href="layers.html#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb43-6"><a href="layers.html#cb43-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb43-7"><a href="layers.html#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
-<span id="cb43-8"><a href="layers.html#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain, sizeInput, prop</span>
-<span id="cb43-9"><a href="layers.html#cb43-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb43-10"><a href="layers.html#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
-<span id="cb43-11"><a href="layers.html#cb43-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain, sizeInput, prop</span>
-<span id="cb43-12"><a href="layers.html#cb43-12" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb43-13"><a href="layers.html#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
-<span id="cb43-14"><a href="layers.html#cb43-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy, sizeInput, prop</span>
-<span id="cb43-15"><a href="layers.html#cb43-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb43-16"><a href="layers.html#cb43-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="layers.html#cb41-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_prototype <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop) {</span>
+<span id="cb41-2"><a href="layers.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb41-3"><a href="layers.html#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( </span>
+<span id="cb41-4"><a href="layers.html#cb41-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb41-5"><a href="layers.html#cb41-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb41-6"><a href="layers.html#cb41-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
+<span id="cb41-7"><a href="layers.html#cb41-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb41-8"><a href="layers.html#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb41-9"><a href="layers.html#cb41-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb41-10"><a href="layers.html#cb41-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb41-11"><a href="layers.html#cb41-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb41-12"><a href="layers.html#cb41-12" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb41-13"><a href="layers.html#cb41-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-14"><a href="layers.html#cb41-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="layers.html#cb42-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb42-2"><a href="layers.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb42-3"><a href="layers.html#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb42-4"><a href="layers.html#cb42-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb42-5"><a href="layers.html#cb42-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb42-6"><a href="layers.html#cb42-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb42-7"><a href="layers.html#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
+<span id="cb42-8"><a href="layers.html#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain, sizeInput, prop</span>
+<span id="cb42-9"><a href="layers.html#cb42-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb42-10"><a href="layers.html#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
+<span id="cb42-11"><a href="layers.html#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain, sizeInput, prop</span>
+<span id="cb42-12"><a href="layers.html#cb42-12" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb42-13"><a href="layers.html#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype</span>(</span>
+<span id="cb42-14"><a href="layers.html#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy, sizeInput, prop</span>
+<span id="cb42-15"><a href="layers.html#cb42-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb42-16"><a href="layers.html#cb42-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="dot-dot-dot" class="section level3 hasAnchor" number="3.4.3">
 <h3><span class="header-section-number">3.4.3</span> dot-dot-dot<a href="layers.html#dot-dot-dot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><a href="https://adv-r.hadley.nz/functions.html?q=dot-#fun-dot-dot-dot" class="uri">https://adv-r.hadley.nz/functions.html?q=dot-#fun-dot-dot-dot</a></li>
 </ul>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="layers.html#cb44-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_prototype2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop, color, stroke, size) {</span>
-<span id="cb44-2"><a href="layers.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb44-3"><a href="layers.html#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
-<span id="cb44-4"><a href="layers.html#cb44-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb44-5"><a href="layers.html#cb44-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>stroke,</span>
-<span id="cb44-6"><a href="layers.html#cb44-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
-<span id="cb44-7"><a href="layers.html#cb44-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
-<span id="cb44-8"><a href="layers.html#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(  <span class="co"># the last geom will be on the top</span></span>
-<span id="cb44-9"><a href="layers.html#cb44-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb44-10"><a href="layers.html#cb44-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>color,</span>
-<span id="cb44-11"><a href="layers.html#cb44-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
-<span id="cb44-12"><a href="layers.html#cb44-12" aria-hidden="true" tabindex="-1"></a>    ) </span>
-<span id="cb44-13"><a href="layers.html#cb44-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb44-14"><a href="layers.html#cb44-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="layers.html#cb45-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb45-2"><a href="layers.html#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb45-3"><a href="layers.html#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb45-4"><a href="layers.html#cb45-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb45-5"><a href="layers.html#cb45-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb45-6"><a href="layers.html#cb45-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb45-7"><a href="layers.html#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
-<span id="cb45-8"><a href="layers.html#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
-<span id="cb45-9"><a href="layers.html#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb45-10"><a href="layers.html#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
-<span id="cb45-11"><a href="layers.html#cb45-11" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb45-12"><a href="layers.html#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
-<span id="cb45-13"><a href="layers.html#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
-<span id="cb45-14"><a href="layers.html#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>,</span>
-<span id="cb45-15"><a href="layers.html#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
-<span id="cb45-16"><a href="layers.html#cb45-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb45-17"><a href="layers.html#cb45-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
-<span id="cb45-18"><a href="layers.html#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
-<span id="cb45-19"><a href="layers.html#cb45-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span>,</span>
-<span id="cb45-20"><a href="layers.html#cb45-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
-<span id="cb45-21"><a href="layers.html#cb45-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb45-22"><a href="layers.html#cb45-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="layers.html#cb43-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke_prototype2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data, sizeInput, prop, color, stroke, size) {</span>
+<span id="cb43-2"><a href="layers.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb43-3"><a href="layers.html#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
+<span id="cb43-4"><a href="layers.html#cb43-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb43-5"><a href="layers.html#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>stroke,</span>
+<span id="cb43-6"><a href="layers.html#cb43-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput</span>
+<span id="cb43-7"><a href="layers.html#cb43-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb43-8"><a href="layers.html#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(  <span class="co"># the last geom will be on the top</span></span>
+<span id="cb43-9"><a href="layers.html#cb43-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb43-10"><a href="layers.html#cb43-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>color,</span>
+<span id="cb43-11"><a href="layers.html#cb43-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> sizeInput<span class="sc">*</span>prop</span>
+<span id="cb43-12"><a href="layers.html#cb43-12" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb43-13"><a href="layers.html#cb43-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb43-14"><a href="layers.html#cb43-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="layers.html#cb44-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb44-2"><a href="layers.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb44-3"><a href="layers.html#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb44-4"><a href="layers.html#cb44-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb44-5"><a href="layers.html#cb44-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb44-6"><a href="layers.html#cb44-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb44-7"><a href="layers.html#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
+<span id="cb44-8"><a href="layers.html#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
+<span id="cb44-9"><a href="layers.html#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb44-10"><a href="layers.html#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
+<span id="cb44-11"><a href="layers.html#cb44-11" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb44-12"><a href="layers.html#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
+<span id="cb44-13"><a href="layers.html#cb44-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
+<span id="cb44-14"><a href="layers.html#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>,</span>
+<span id="cb44-15"><a href="layers.html#cb44-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
+<span id="cb44-16"><a href="layers.html#cb44-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb44-17"><a href="layers.html#cb44-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke_prototype2</span>(</span>
+<span id="cb44-18"><a href="layers.html#cb44-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy, <span class="at">sizeInput=</span>sizeInput, <span class="at">prop=</span>prop,</span>
+<span id="cb44-19"><a href="layers.html#cb44-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span>,</span>
+<span id="cb44-20"><a href="layers.html#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;white&quot;</span></span>
+<span id="cb44-21"><a href="layers.html#cb44-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-22"><a href="layers.html#cb44-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <hr />
 <p><code>geom_lineWithStroke</code> is an extension to an existing <code>geom_line</code> function. It would be better to make the input argument inline with <code>geom_line</code> so as to keep other geom_line options, such as linetype.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="layers.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(geom_line)</span></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="layers.html#cb47-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb47-2"><a href="layers.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="cn">NULL</span>,</span>
-<span id="cb47-3"><a href="layers.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="cn">NULL</span>,</span>
-<span id="cb47-4"><a href="layers.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb47-5"><a href="layers.html#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb47-6"><a href="layers.html#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb47-7"><a href="layers.html#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">orientation =</span> <span class="cn">NA</span>,</span>
-<span id="cb47-8"><a href="layers.html#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.legend =</span> <span class="cn">NA</span>,</span>
-<span id="cb47-9"><a href="layers.html#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">inherit.aes =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb47-10"><a href="layers.html#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set up default makes your function easy to use</span></span>
-<span id="cb47-11"><a href="layers.html#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">stroke =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb47-12"><a href="layers.html#cb47-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prop =</span> <span class="fl">0.9</span>,</span>
-<span id="cb47-13"><a href="layers.html#cb47-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">2</span>, </span>
-<span id="cb47-14"><a href="layers.html#cb47-14" aria-hidden="true" tabindex="-1"></a>  ...){</span>
-<span id="cb47-15"><a href="layers.html#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb47-16"><a href="layers.html#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
-<span id="cb47-17"><a href="layers.html#cb47-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
-<span id="cb47-18"><a href="layers.html#cb47-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>stroke,</span>
-<span id="cb47-19"><a href="layers.html#cb47-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> size</span>
-<span id="cb47-20"><a href="layers.html#cb47-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb47-21"><a href="layers.html#cb47-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
-<span id="cb47-22"><a href="layers.html#cb47-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping =</span> mapping,</span>
-<span id="cb47-23"><a href="layers.html#cb47-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data,</span>
-<span id="cb47-24"><a href="layers.html#cb47-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">stat =</span> stat,</span>
-<span id="cb47-25"><a href="layers.html#cb47-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> position,</span>
-<span id="cb47-26"><a href="layers.html#cb47-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> na.rm,</span>
-<span id="cb47-27"><a href="layers.html#cb47-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> orientation,</span>
-<span id="cb47-28"><a href="layers.html#cb47-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">show.legend =</span> show.legend,</span>
-<span id="cb47-29"><a href="layers.html#cb47-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">inherit.aes =</span> inherit.aes,</span>
-<span id="cb47-30"><a href="layers.html#cb47-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> size<span class="sc">*</span>prop,</span>
-<span id="cb47-31"><a href="layers.html#cb47-31" aria-hidden="true" tabindex="-1"></a>      ...)</span>
-<span id="cb47-32"><a href="layers.html#cb47-32" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb47-33"><a href="layers.html#cb47-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="layers.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(geom_line)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="layers.html#cb46-1" aria-hidden="true" tabindex="-1"></a>geom_lineWithStroke <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb46-2"><a href="layers.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="cn">NULL</span>,</span>
+<span id="cb46-3"><a href="layers.html#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="cn">NULL</span>,</span>
+<span id="cb46-4"><a href="layers.html#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb46-5"><a href="layers.html#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb46-6"><a href="layers.html#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb46-7"><a href="layers.html#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">orientation =</span> <span class="cn">NA</span>,</span>
+<span id="cb46-8"><a href="layers.html#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.legend =</span> <span class="cn">NA</span>,</span>
+<span id="cb46-9"><a href="layers.html#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">inherit.aes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb46-10"><a href="layers.html#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set up default makes your function easy to use</span></span>
+<span id="cb46-11"><a href="layers.html#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">stroke =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb46-12"><a href="layers.html#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prop =</span> <span class="fl">0.9</span>,</span>
+<span id="cb46-13"><a href="layers.html#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">2</span>, </span>
+<span id="cb46-14"><a href="layers.html#cb46-14" aria-hidden="true" tabindex="-1"></a>  ...){</span>
+<span id="cb46-15"><a href="layers.html#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb46-16"><a href="layers.html#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(</span>
+<span id="cb46-17"><a href="layers.html#cb46-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>data,</span>
+<span id="cb46-18"><a href="layers.html#cb46-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span>stroke,</span>
+<span id="cb46-19"><a href="layers.html#cb46-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> size</span>
+<span id="cb46-20"><a href="layers.html#cb46-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb46-21"><a href="layers.html#cb46-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>( <span class="co"># the last geom will be on the top</span></span>
+<span id="cb46-22"><a href="layers.html#cb46-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">mapping =</span> mapping,</span>
+<span id="cb46-23"><a href="layers.html#cb46-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data,</span>
+<span id="cb46-24"><a href="layers.html#cb46-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">stat =</span> stat,</span>
+<span id="cb46-25"><a href="layers.html#cb46-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> position,</span>
+<span id="cb46-26"><a href="layers.html#cb46-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> na.rm,</span>
+<span id="cb46-27"><a href="layers.html#cb46-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> orientation,</span>
+<span id="cb46-28"><a href="layers.html#cb46-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">show.legend =</span> show.legend,</span>
+<span id="cb46-29"><a href="layers.html#cb46-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">inherit.aes =</span> inherit.aes,</span>
+<span id="cb46-30"><a href="layers.html#cb46-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> size<span class="sc">*</span>prop,</span>
+<span id="cb46-31"><a href="layers.html#cb46-31" aria-hidden="true" tabindex="-1"></a>      ...)</span>
+<span id="cb46-32"><a href="layers.html#cb46-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-33"><a href="layers.html#cb46-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="alert alert-info">
 <p><code>...</code> is a special argument for function. It means “whatever input whose input name is not specified in function arguments.</p>
 <ul>
 <li><p>it can be passed directly into other functions who use <code>...</code>.</p></li>
 <li><p>it can be accessed via <code>list()</code>.</p></li>
 </ul>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="layers.html#cb48-1" aria-hidden="true" tabindex="-1"></a>mySum <span class="ot">&lt;-</span> <span class="cf">function</span>(...){</span>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="layers.html#cb47-1" aria-hidden="true" tabindex="-1"></a>mySum <span class="ot">&lt;-</span> <span class="cf">function</span>(...){</span>
+<span id="cb47-2"><a href="layers.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">browser</span>()</span>
+<span id="cb47-3"><a href="layers.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  argList <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
+<span id="cb47-4"><a href="layers.html#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(argList)</span>
+<span id="cb47-5"><a href="layers.html#cb47-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-6"><a href="layers.html#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mySum</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="layers.html#cb48-1" aria-hidden="true" tabindex="-1"></a>greeting <span class="ot">&lt;-</span> <span class="cf">function</span>(name, ...){</span>
 <span id="cb48-2"><a href="layers.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">browser</span>()</span>
-<span id="cb48-3"><a href="layers.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  argList <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
-<span id="cb48-4"><a href="layers.html#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(argList)</span>
-<span id="cb48-5"><a href="layers.html#cb48-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb48-6"><a href="layers.html#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mySum</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="layers.html#cb49-1" aria-hidden="true" tabindex="-1"></a>greeting <span class="ot">&lt;-</span> <span class="cf">function</span>(name, ...){</span>
-<span id="cb49-2"><a href="layers.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">browser</span>()</span>
-<span id="cb49-3"><a href="layers.html#cb49-3" aria-hidden="true" tabindex="-1"></a>  argList <span class="ot">&lt;-</span> <span class="fu">list</span>(...)</span>
-<span id="cb49-4"><a href="layers.html#cb49-4" aria-hidden="true" tabindex="-1"></a>  extraGreeting <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
-<span id="cb49-5"><a href="layers.html#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(argList)<span class="sc">!=</span><span class="dv">0</span>){</span>
-<span id="cb49-6"><a href="layers.html#cb49-6" aria-hidden="true" tabindex="-1"></a>    extraGreeting <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot; Your&quot;</span>, <span class="fu">names</span>(argList), <span class="st">&quot; is &quot;</span>, argList)</span>
-<span id="cb49-7"><a href="layers.html#cb49-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb49-8"><a href="layers.html#cb49-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb49-9"><a href="layers.html#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Hi &quot;</span>, name, <span class="st">&quot;. &quot;</span>, extraGreeting)</span>
-<span id="cb49-10"><a href="layers.html#cb49-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb49-11"><a href="layers.html#cb49-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(xx)</span>
-<span id="cb49-12"><a href="layers.html#cb49-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb49-13"><a href="layers.html#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="fu">greeting</span>(<span class="st">&quot;John&quot;</span>, <span class="at">age=</span><span class="dv">33</span>)</span></code></pre></div>
+<span id="cb48-3"><a href="layers.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  argList <span class="ot">&lt;-</span> <span class="fu">list</span>(...)</span>
+<span id="cb48-4"><a href="layers.html#cb48-4" aria-hidden="true" tabindex="-1"></a>  extraGreeting <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb48-5"><a href="layers.html#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(argList)<span class="sc">!=</span><span class="dv">0</span>){</span>
+<span id="cb48-6"><a href="layers.html#cb48-6" aria-hidden="true" tabindex="-1"></a>    extraGreeting <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot; Your&quot;</span>, <span class="fu">names</span>(argList), <span class="st">&quot; is &quot;</span>, argList)</span>
+<span id="cb48-7"><a href="layers.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb48-8"><a href="layers.html#cb48-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-9"><a href="layers.html#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Hi &quot;</span>, name, <span class="st">&quot;. &quot;</span>, extraGreeting)</span>
+<span id="cb48-10"><a href="layers.html#cb48-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-11"><a href="layers.html#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(xx)</span>
+<span id="cb48-12"><a href="layers.html#cb48-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb48-13"><a href="layers.html#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="fu">greeting</span>(<span class="st">&quot;John&quot;</span>, <span class="at">age=</span><span class="dv">33</span>)</span></code></pre></div>
 </div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="layers.html#cb49-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb49-2"><a href="layers.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb49-3"><a href="layers.html#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
+<span id="cb49-4"><a href="layers.html#cb49-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
+<span id="cb49-5"><a href="layers.html#cb49-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
+<span id="cb49-6"><a href="layers.html#cb49-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
+<span id="cb49-7"><a href="layers.html#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
+<span id="cb49-8"><a href="layers.html#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
+<span id="cb49-9"><a href="layers.html#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span></span>
+<span id="cb49-10"><a href="layers.html#cb49-10" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb49-11"><a href="layers.html#cb49-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
+<span id="cb49-12"><a href="layers.html#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
+<span id="cb49-13"><a href="layers.html#cb49-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span></span>
+<span id="cb49-14"><a href="layers.html#cb49-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb49-15"><a href="layers.html#cb49-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
+<span id="cb49-16"><a href="layers.html#cb49-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
+<span id="cb49-17"><a href="layers.html#cb49-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span></span>
+<span id="cb49-18"><a href="layers.html#cb49-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb49-19"><a href="layers.html#cb49-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="layers.html#cb50-1" aria-hidden="true" tabindex="-1"></a>{</span>
 <span id="cb50-2"><a href="layers.html#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb50-3"><a href="layers.html#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
@@ -662,40 +678,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb50-6"><a href="layers.html#cb50-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
 <span id="cb50-7"><a href="layers.html#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
 <span id="cb50-8"><a href="layers.html#cb50-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb50-9"><a href="layers.html#cb50-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span></span>
-<span id="cb50-10"><a href="layers.html#cb50-10" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb50-11"><a href="layers.html#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
-<span id="cb50-12"><a href="layers.html#cb50-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
-<span id="cb50-13"><a href="layers.html#cb50-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span></span>
-<span id="cb50-14"><a href="layers.html#cb50-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb50-15"><a href="layers.html#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
-<span id="cb50-16"><a href="layers.html#cb50-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
-<span id="cb50-17"><a href="layers.html#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span></span>
-<span id="cb50-18"><a href="layers.html#cb50-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb50-19"><a href="layers.html#cb50-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="layers.html#cb51-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb51-2"><a href="layers.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb51-3"><a href="layers.html#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping=</span><span class="fu">aes</span>(</span>
-<span id="cb51-4"><a href="layers.html#cb51-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>date,</span>
-<span id="cb51-5"><a href="layers.html#cb51-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>y</span>
-<span id="cb51-6"><a href="layers.html#cb51-6" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">+</span></span>
-<span id="cb51-7"><a href="layers.html#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
-<span id="cb51-8"><a href="layers.html#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Britain,</span>
-<span id="cb51-9"><a href="layers.html#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
-<span id="cb51-10"><a href="layers.html#cb51-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype=</span><span class="dv">2</span></span>
-<span id="cb51-11"><a href="layers.html#cb51-11" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb51-12"><a href="layers.html#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
-<span id="cb51-13"><a href="layers.html#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
-<span id="cb51-14"><a href="layers.html#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>, </span>
-<span id="cb51-15"><a href="layers.html#cb51-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype=</span><span class="dv">3</span></span>
-<span id="cb51-16"><a href="layers.html#cb51-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb51-17"><a href="layers.html#cb51-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
-<span id="cb51-18"><a href="layers.html#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
-<span id="cb51-19"><a href="layers.html#cb51-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span>,</span>
-<span id="cb51-20"><a href="layers.html#cb51-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb51-21"><a href="layers.html#cb51-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span><span class="dv">5</span></span>
-<span id="cb51-22"><a href="layers.html#cb51-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb51-23"><a href="layers.html#cb51-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb50-9"><a href="layers.html#cb50-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#096fa1&quot;</span>,</span>
+<span id="cb50-10"><a href="layers.html#cb50-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype=</span><span class="dv">2</span></span>
+<span id="cb50-11"><a href="layers.html#cb50-11" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb50-12"><a href="layers.html#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
+<span id="cb50-13"><a href="layers.html#cb50-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Spain,</span>
+<span id="cb50-14"><a href="layers.html#cb50-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#ad8c97&quot;</span>, </span>
+<span id="cb50-15"><a href="layers.html#cb50-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype=</span><span class="dv">3</span></span>
+<span id="cb50-16"><a href="layers.html#cb50-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb50-17"><a href="layers.html#cb50-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_lineWithStroke</span>(</span>
+<span id="cb50-18"><a href="layers.html#cb50-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>data<span class="sc">$</span>Italy,</span>
+<span id="cb50-19"><a href="layers.html#cb50-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;#983d4d&quot;</span>,</span>
+<span id="cb50-20"><a href="layers.html#cb50-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb50-21"><a href="layers.html#cb50-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size=</span><span class="dv">5</span></span>
+<span id="cb50-22"><a href="layers.html#cb50-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-23"><a href="layers.html#cb50-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 <div id="summary" class="section level2 hasAnchor" number="3.5">

@@ -9,7 +9,6 @@ an-example
 geom-layers
 encapsulation
 build-a-plot-object
-data-3
 properties-and-methods
 plot-constructor
 econdv2ggdash

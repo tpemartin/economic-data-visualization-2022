@@ -75,75 +75,6 @@ teachDS::img_centering("https://www.economist.com/img/b/600/895/90/sites/default
 
     -   vjust (文字垂直錨點）: between 0 and 1
 
-```{r}
-if(!require("R6")) install.packages("R6")
-
-```
-
-```{r}
-Action = R6::R6Class("Action",
-  public=list(
-    change=function(data){
-      # print(self$data)
-      data+3
-    }
-  ),
-  lock_objects = F)
-
-Person = R6::R6Class("Person",
-  inherit = Action,
-  public = list(
-    data=NULL,
-    newData=NULL,
-    initialize = function(data){
-      print(data)
-      self$data=data
-      print(self)
-      # invisible(self.data)
-    },
-    changeMyself=function(){
-      print(super)
-      self$newData = Action$public_methods$change(self$data)
-    }
-  ))
-
-p1 = Person$new(22)
-p1$data
-p1$changeMyself()
-p1$newData
-
-Action$public_methods$change <- function(data) data**2
-
-p1$data
-p1$changeMyself()
-p1$newData
-```
-
-
-```{r}
-GG <- R6::R6Class(
-  "GG",
-  public=list(
-    # fields
-    data=NULL,
-    initialize=function(data){
-      self$data = data;
-    },
-    change=function(){
-      self$data+4
-    }
-  ),
-  lock_objects = F
-)
-plot1= GG$new(data=1)
-
-class(GG)
-typeof(GG)
-print(GG)
-typeof(plot1)
-print(plot1)
-parent.env(plot1)
-```
 
 ## Geom layers
 
@@ -180,7 +111,7 @@ fun=readRDS("myfun.R")
 fun()
 ```
 
-A better target object should be build so that it encapsulates all information it needs.
+A better target object should be built so that it encapsulates all information it needs.
 
 ```{r}
 myFun = list()
@@ -202,7 +133,9 @@ A plot consists of
 
   * Data 
   
-  * Sequence of geom layers
+  * Canvas base (i.e. `ggplot()`)
+  
+  * Sequence of geom layers (i.e. `geom_xxx`)
   
   * Scale adjustment
   
@@ -210,79 +143,21 @@ A plot consists of
 
 where geom layers all depends on the data supplied in the plot.
 
-### data 3
-
+We can build an object called **plot** so that
 ```{r}
-library(ggplot2)
-plot$data
-plot$geoms = c()
+plot$data # reveal its data
+plot$ggplot # reveal its canvas
+plot$geoms # reveal its sequence of geom layers
 ```
 
-
+And whenever we want to visualize our plot model, 
 ```{r}
-googlesheets4::gs4_deauth()
-googlesheets4::read_sheet(
-  "https://docs.google.com/spreadsheets/d/1lkts4hLkrAFAobONFXiEjgDnuUmXKci6YF--vg1pC1s/edit?usp=sharing",
-  sheet="data 3"
-) -> data3
+plot$make()
 ```
 
-```{r}
-plot=listnew.env(parent = emptyenv())
-plot$data = data3
-
-plot$ggplot = ggplot2::ggplot(
-  data=data, aes(x=`Total Effect`, y=Characteristic))
-
-plot$data3max =  
-  plot$data |>
-  group_by(Characteristic) |>
-  summarise(
-    maxMisery = max(`Total Effect`)
-  ) |>
-  ungroup()
-
-plot$geomLayers = list(
-  geom_segment(data=plot$data3max, 
-    mapping=aes(x=0, y=Characteristic,
-      xend=maxMisery, yend=Characteristic), alpha=0.7, color='black'),
-  geom_point(shape=20,alpha=0.5,mapping=aes(color=Country,size=Population)),
-  geom_point(mapping=aes(color=Country))
-)
-```
-
-## Properties and Methods
-
-Properties are object attributes that are born to be constant. Like `$data` attribute. All other elements depends on it. It would be wise the keep the dependency so that when `$data` updated, all other elements are updated consequently
-```{r}
-obj = list()
-obj$data=c(2,3)
-obj$data2 = obj$data+c(-1, 2)
-print(obj$data2)
+In object oriented programming (OOP), `data, ggplot, geoms` are the properties of object `plot`, and `make` is a method belonging to the object.
 
 
-obj$data= c(1,1)
-print(obj$data2)
-```
-To keep the dependency, you need to keep the programming block that produces the dependent objects.
-
-```{r}
-obj = list()
-obj$data=c(2,3)
-obj$data2 = function(){ obj$data+c(-1, 2)}
-print(obj$data2())
-
-obj$data=c(1,1)
-print(obj$data2())
-```
-
-We want to build a `plot` object which
-
-  * Encapsulates(封裝) all required information.
-  
-  * Contains source data as its property; and
-  
-  * All other depending elements are consequential as a function.
 
 ***
 
@@ -293,7 +168,7 @@ For ggplot, we can set
    * make method that creates the visual look.
    
 ```{r}
-plot=list()
+plot=new.env()
 # retrieve data properties
 plot$data = data.frame(x=c(1,2), y=c(5, -1))
 # ggplot
@@ -336,80 +211,40 @@ plot=list(
 
 ```{r}
 Plot <- function(data) {
-  plot = new.env()
-  plot$data=data
-  plot$ggplot=NULL
-  plot$geoms=NULL
-  plot$make=function(){
-    plot$ggplot+plot$geoms
+  self = new.env()
+  self$data=data
+  self$ggplot=NULL
+  self$geoms=NULL
+  self$make=function(){
+    self$ggplot+self$geoms
   }
-  plot$save=function(){
-    saveRDS(plot, filename)
+  self$save=function(){
+    saveRDS(self, filename)
     message(paste("The plot is saved at ", filename))
   }
-  return(plot)
+  return(self)
 }
 ```
 
+
+<div class="alert alert-info">
+To prevent the constructor being removed from the environment accidentally, we can put it in a new environment, say `myTools`, and attach the new environment. 
 ```{r}
 myTools = new.env()
 myTools$Plot <- Plot
 attach(myTools)
 
 ```
+</div>
 
-<!--
-
-## Object Oriented Programming
-Since we are likely to create plot object with the same properties and methods, we can define a class. Each plot object is generated from the class constructor. 
-```{r}
-Plot = R6::R6Class("Plot",
-  public=list(
-        data = NULL,
-        ggplot = NULL,
-        geoms = NULL ,
-        initialize = function(data){
-          self$data=data
-        },
-        make = function(){
-          self$ggplot+self$geoms
-        },
-        save = function(){
-          saveRDS(plot, filename)
-          message(paste("The plot is saved at ", filename))
-        }
-))
-```
-
-  * construct a class called "Plot"
-  
-  * create (initialize) a Plot class object `Plot$new(...)`
-  
-```{r}
-# create and initiali
-plot = Plot$new(
-  data=data.frame(x=c(1,2), y=c(5, -1)))
-
-# ggplot
-plot$ggplot = ggplot(data=plot$data, aes(x=x, y=y))
-# list of geoms
-plot$geoms = list(
-  point=geom_point(), line=geom_line()
-)
-
-plot$make()
-```
-
-
--->
 ### econDV2::ggdash
 
   * At every aesthetic element to be adjusted, attach `#input${aesthetic_name}` at the end of the line as:
 
 ```{r}
-plot2 = Plot$new(data.frame(x=c(1,2), y=c(5, -1)))
-plot$ggplot=ggplot(data=plot$data)
-plot$geoms= list(
+plot2 = Plot(data.frame(x=c(1,2), y=c(5, -1)))
+plot2$ggplot=ggplot(data=plot2$data)
+plot2$geoms= list(
   geom_point(
     aes(x=x,y=y),
     color="red", #input$color
@@ -419,7 +254,7 @@ plot$geoms= list(
     aes(x=x,y=y)
   )
 )
-plot$make()
+plot2$make()
 ```
 
 
